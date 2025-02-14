@@ -1,0 +1,161 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+/**
+ * Set up a decent box model on the root element
+ */
+html {
+	box-sizing: border-box;
+}
+
+body,
+html {
+	font-family: $text-font-stack;
+	font-size: var(--set-default-font-size);
+	line-height: var(--set-default-line-height);
+	letter-spacing: var(--set-default-letter-spacing);
+}
+
+body {
+	background-color: var(--set-body-background-color);
+	color: var(--set-default-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+%heading-font {
+	color: var(--set-default-heading-color);
+	font-family: $heading-font-stack;
+	font-weight: 600;
+	font-style: normal;
+	line-height: var(--set-default-line-height);
+	strong {
+		font-weight: 600;
+	}
+}
+
+/**
+ * Make all elements from the DOM inherit from the parent box-sizing
+ * Since `*` has a specificity of 0, it does not override the `html` value
+ * making all elements inheriting from the root box-sizing value
+ * See: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ */
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+/**
+ * Basic styles for links
+ */
+a {
+	color: var(--set-link-color);
+	text-decoration: none;
+
+	@include on-event {
+		color: var(--set-link-hover-color);
+		text-decoration: none;
+	}
+}
+
+.material-symbols-rounded,
+.material-symbols-outlined,
+.material-symbols-sharp {
+	font-size: var(--set-icon-font-size, 20px);
+	vertical-align: middle;
+}
+
+.btn {
+	border: none;
+	outline: none;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+p {
+	line-height: var(--set-default-paragraph-line-height);
+}
+
+.con {
+	margin-inline: var(--offset-x, 100px);
+	max-width: calc(100% - 2 * var(--offset-x, 100px));
+	&--start {
+		margin-inline-start: var(--offset-x, 100px);
+		max-width: calc(100% - var(--offset-x, 100px));
+	}
+	&--end {
+		margin-inline-end: var(--offset-x, 100px);
+		max-width: calc(100% - var(--offset-x, 100px));
+	}
+	&--lg-start {
+		margin-inline: var(--offset-x, 100px);
+		max-width: calc(100% - var(--offset-x, 100px));
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.con-lg {
+		max-width: calc(100% - 2 * var(--offset-x, 100px));
+
+		&--start {
+			margin-inline-start: var(--offset-x, 100px);
+			max-width: calc(100% - var(--offset-x, 100px));
+
+			.row,
+			.row > *:first-child {
+				margin-inline-start: 0;
+			}
+		}
+		&--end {
+			margin-inline-end: var(--offset-x, 100px);
+			max-width: calc(100% - var(--offset-x, 100px));
+
+			.row,
+			.row > *:last-child {
+				margin-inline-end: 0;
+			}
+		}
+	}
+	.con {
+		margin-inline: var(--offset-x, 100px);
+		max-width: calc(100% - 2 * var(--offset-x, 100px));
+
+		&--start {
+			margin-inline-start: var(--offset-x, 100px);
+			max-width: calc(100% - var(--offset-x, 100px));
+			.row,
+			.row > * {
+				margin-inline-start: 0;
+			}
+		}
+		&--end {
+			margin-inline-end: var(--offset-x, 100px);
+			max-width: calc(100% - var(--offset-x, 100px));
+			.row,
+			.row > *:last-child {
+				margin-inline-end: 0;
+			}
+		}
+	}
+}
+img {
+	max-width: 100%;
+}
+
+.df-image-wrapper {
+	width: 100%;
+	img {
+		width: 100%;
+	}
+}
+
+.anc-full {
+	display: block;
+}

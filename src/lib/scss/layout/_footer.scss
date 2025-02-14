@@ -1,0 +1,82 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the footer of the site/application.
+// -----------------------------------------------------------------------------
+@use '../abstracts/mixins' as *;
+
+.footer {
+	border-top: 1px solid var(--_line-color);
+	position: relative;
+	z-index: 1;
+	&__background {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		z-index: -1;
+	}
+	&__group {
+		position: relative;
+	}
+
+	&__contact {
+		background-image: var(--image-1);
+		background-position: -10% 80%;
+		background-size: 40% auto;
+		background-repeat: no-repeat;
+	}
+	&__main {
+		background-color: var(--set-default-background-color);
+		@include media-x(768px) {
+			padding-block: 3rem;
+		}
+	}
+	&__socials-wrapper {
+		--_width: 2rem;
+		display: flex;
+		gap: 0.5rem;
+		--icon-background: hsl(0 0% 100% / 10%);
+		--icon-hov-background: hsl(0 0% 100% / 20%);
+	}
+	&__list {
+		list-style: none;
+		padding-inline: 0;
+	}
+	&__item {
+		margin-bottom: 0.5rem;
+		@include media(768px) {
+			margin-bottom: 1em;
+		}
+		text-transform: uppercase;
+	}
+	&__link {
+		color: var(--clr-neutral-300);
+	}
+	.address__wrapper--small {
+		a.regular-16 {
+			font-weight: 300;
+			line-height: 1.2em;
+			color: var(--clr-neutral-300);
+
+			&:hover {
+				color: var(--clr-neutral-100);
+			}
+		}
+		.address__line {
+			margin-bottom: 0.5em;
+		}
+	}
+	&__legal {
+		font-size: 0.875rem;
+		border-top: 1px solid var(--_line-color);
+		&,
+		a {
+			color: var(--clr-dark-200);
+		}
+
+		&-links {
+			@include media-x(768px) {
+				margin-top: 0.5em;
+				justify-content: flex-start;
+			}
+		}
+	}
+}

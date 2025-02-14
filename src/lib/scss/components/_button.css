@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+    
+    .adjust-padding{
+        padding-block-end: calc(theme('spacing.3') - 2px) !important;
+    }
+    .negative-padding > span.btn__text{
+        margin-block-end: -2px !important;
+    }
+}
+
+    

@@ -1,0 +1,25 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the main page.
+// -----------------------------------------------------------------------------
+
+div[class^="grid-"] {
+  display: grid;
+}
+
+.grid {
+  &--auto {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+.color-tests {
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1;
+    border-radius: var(--set-border-radius, 0);
+    border: 1px solid #f7f7f7;
+    text-align: center;
+  }
+}

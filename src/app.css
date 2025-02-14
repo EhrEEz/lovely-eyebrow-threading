@@ -1,0 +1,29 @@
+@import "./lib/scss/components/_button.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+
+	:root {
+		--radius: 100dvw;
+		--primary-color: #FAABE5;
+		--primary-foreground-color: #000000;
+		--text-color: hsl(0 0% 0% / 100%);
+		--light-text-color: hsl(0 0% 45% / 100%);
+	}
+	body {
+        overflow-x: hidden;
+    }
+
+
+	h1, h2, h3, h4, h5, h6{
+		font-family: 'Perandory', serif;
+		line-height: 0.8 !important;
+	}
+
+	@font-face {
+		font-family: "Perandory";
+		src: url($lib/assets/fonts/Perandory-Regular.woff) format("woff");
+	}
+
+}

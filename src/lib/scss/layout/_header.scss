@@ -1,0 +1,148 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+
+@use '../abstracts/interfaces' as *;
+@use '../abstracts/mixins' as *;
+
+.nav {
+	&__main {
+		--_height: var(--nav-height, 5rem);
+		@include media(768px) {
+			--nav-height: 75px;
+		}
+		@include media(992px) {
+			--nav-height: 100px;
+		}
+		height: var(--_height);
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		z-index: 10;
+		background: linear-gradient(180deg, hsl(0 0% 0% / 100%) 0%, hsl(0 0% 0% / 0%) 100%);
+		& > .con {
+			height: 100%;
+		}
+		transition: height 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+	&__wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 100%;
+	}
+	&__logo {
+		@include media-x(992px) {
+			padding-inline-start: 1rem;
+		}
+
+		img {
+			width: clamp(8rem, 10vw, 15rem);
+		}
+	}
+	&__list {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		list-style-type: none;
+		&:not(.nav__list--mobile) {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		&--mobile {
+			position: relative;
+			flex-direction: column;
+			width: 100%;
+			padding-inline-start: 0;
+			gap: 0;
+			align-items: flex-start;
+			.nav__link,
+			.nav__item {
+				width: 100%;
+			}
+			.nav__link {
+				padding: 1.5em 1em 1.35em;
+				border-radius: 0;
+				font-size: 1.5rem;
+				font-weight: 200;
+				&:hover {
+					background-color: hsl(0 0% 100% / 5%);
+					color: var(--clr-neutral-100);
+				}
+				&--active {
+					background-color: hsl(0 0% 100% / 10%);
+					color: var(--clr-neutral-100);
+					font-weight: 400;
+					pointer-events: none;
+				}
+			}
+		}
+	}
+
+	&__link {
+		display: flex;
+		padding: 0.75em 1em 0.6em;
+		border-radius: 100vmax;
+		text-transform: uppercase;
+		font-size: 0.875rem;
+		transition: 0.15s ease-out;
+
+		&:hover {
+			background-color: var(--clr-neutral-501);
+			color: var(--clr-neutral-100);
+			transition: 0.15s ease-out;
+		}
+
+		&--active {
+			background-color: var(--clr-neutral-100);
+			color: var(--clr-dark-500);
+
+			&:hover {
+				background-color: var(--clr-neutral-100);
+				color: var(--clr-dark-500);
+			}
+		}
+	}
+	&__cta-wrapper {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	&--active {
+		border-bottom: 1px solid hsl(0 0% 100% / 5%);
+		backdrop-filter: blur(1rem);
+		background: linear-gradient(180deg, hsl(0 0% 5% / 100%) 0%, hsl(0 0% 0% / 0%) 200%);
+		transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+			background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		@include media(768px) {
+			--nav-height: 50px;
+		}
+		@include media(992px) {
+			--nav-height: 75px;
+		}
+	}
+	&:not(.nav--active) {
+		transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+			background 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+}
+.mobile-nav-wrapper {
+	@extend %fc;
+}
+.nav_toggle {
+	--_pad-y: 0;
+	--_pad-x: 1em;
+	.btn__icon {
+		font-size: 2rem;
+	}
+}
+@media only screen and (max-width: 575px) {
+	.nav__main .btn--outline{
+		display: none;
+	}
+}

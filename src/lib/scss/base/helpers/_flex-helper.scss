@@ -1,0 +1,43 @@
+$alignments: (
+	center: center,
+	between: space-between,
+	start: flex-start,
+	end: flex-end,
+	around: space-around,
+	evenly: space-evenly,
+	stretch: stretch
+);
+%flex {
+	display: flex;
+}
+
+.fl {
+	@extend %flex;
+	&-row {
+		@extend %flex;
+		flex-direction: row;
+		&--rev {
+			@extend %flex;
+			flex-direction: row-reverse;
+		}
+	}
+	&-col {
+		@extend %flex;
+		flex-direction: column;
+		&--rev {
+			@extend %flex;
+			flex-direction: column-reverse;
+		}
+	}
+	&-wrap {
+		flex-wrap: wrap;
+	}
+}
+@each $alm, $value in $alignments {
+	.jc-#{$alm} {
+		justify-content: $value;
+	}
+	.al-#{$alm} {
+		align-items: $value;
+	}
+}

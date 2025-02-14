@@ -1,0 +1,33 @@
+@use 'sass:map';
+
+@use '../../definitions/type-defs' as f;
+@use '../../abstracts/mixins' as *;
+
+//font-breakpoint-dispatch
+:root {
+	@each $className, $config in f.$types {
+		$fontSizeValues: map.get($config, 'breakpoints');
+		$fontWeight: map.get($config, 'weight');
+		$fontSize: map.get($fontSizeValues, 0px);
+		--fs-#{$className}: #{$fontSize};
+	}
+}
+
+@each $className, $config in f.$types {
+	$fontSizeValues: map.get($config, 'breakpoints');
+	$fontWeight: map.get($config, 'weight');
+	@each $breakpoint, $size in $fontSizeValues {
+		@if $breakpoint == 0px {
+			.#{$className} {
+				font-weight: $fontWeight;
+				font-size: #{$size};
+			}
+		} @else {
+			.#{$className} {
+				@include media($breakpoint) {
+					font-size: #{$size};
+				}
+			}
+		}
+	}
+}

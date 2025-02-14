@@ -1,0 +1,47 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/interfaces' as *;
+
+.page__tag {
+	--tag-color: var(--clr-neutral-100);
+	--tag-border: var(--clr-neutral-100);
+	--tag-padX: 0.65em;
+	--tag-padY: 0.5em;
+	--tag-background: transparent;
+	--tag-font-size: 0.75em;
+	--tag-radius: var(--set-border-radius);
+	@extend %tag;
+	margin-bottom: 0.75em;
+	text-transform: uppercase;
+}
+
+.tag {
+	&--glass {
+		@extend %tag;
+		--tag-color: var(--clr-neutral-100);
+		--tag-border: transparent;
+		--tag-padX: 0.75em;
+		--tag-padY: 0.5em;
+		--tag-background: hsl(0 0% 100% / 10%);
+		--tag-font-size: 0.75em;
+		--tag-radius: 100vmax;
+		text-transform: uppercase;
+		transition: background-color 0.2s ease-out;
+
+		&.expand {
+			&:hover {
+				--tag-background: hsl(0 0% 100% / 20%);
+			}
+		}
+	}
+	&--outline {
+		@extend %tag;
+		--tag-color: var(--clr-neutral-100);
+		--tag-border: var(--clr-neutral-100);
+		--tag-padX: 0.65em;
+		--tag-padY: 0.5em;
+		--tag-background: transparent;
+		--tag-font-size: 0.75em;
+		--tag-radius: var(--set-border-radius);
+		text-transform: uppercase;
+	}
+}

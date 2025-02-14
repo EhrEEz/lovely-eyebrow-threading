@@ -1,0 +1,113 @@
+$types: (
+	regular-16: (
+		weight: 400,
+		breakpoints: (
+			0px: 1rem
+		)
+	),
+	regular-24: (
+		weight: 400,
+		breakpoints: (
+			0px: 1rem,
+			575px: 1.05rem,
+			768px: 1.1rem,
+			992px: 1.15rem,
+			1200px: 1.25rem,
+			1600px: 1.5rem
+		)
+	),
+
+	med-16: (
+		weight: 500,
+		breakpoints: (
+			0px: 1rem
+		)
+	),
+	med-20: (
+		weight: 500,
+		breakpoints: (
+			0px: 1.1rem,
+			992px: 1.1rem,
+			1600px: 1.25rem
+		)
+	),
+	med-36: (
+		weight: 500,
+		breakpoints: (
+			0: 1.5rem,
+			768px: 1.75rem,
+			992px: 2rem
+		)
+	),
+	heading-4: (
+		weight: 400,
+		breakpoints: (
+			0px: 2rem,
+			575px: 1.75rem,
+			768px: 2.5rem,
+			992px: 3rem,
+			1200px: 3.5rem,
+			1600px: 4rem
+		)
+	),
+	heading-24: (
+		weight: 400,
+		breakpoints: (
+			0px: 1.25rem,
+			575px: 1.25rem,
+			768px: 1.25rem,
+			992px: 1.35rem,
+			1200px: 1.5rem,
+			1600px: 1.5rem
+		)
+	),
+	heading-3: (
+		weight: 400,
+		breakpoints: (
+			0px: 2rem,
+			575px: 2rem,
+			768px: 2.5rem,
+			992px: 2.75rem,
+			1200px: 2.75rem,
+			1600px: 3rem
+		)
+	),
+	heading-2: (
+		weight: 400,
+		breakpoints: (
+			0px: 2rem,
+			575px: 2rem,
+			768px: 2rem,
+			992px: 1.75rem,
+			1200px: 1.8rem,
+			1600px: 2rem
+		)
+	),
+	heading-extreme: (
+		weight: 400,
+		breakpoints: (
+			0px: 8rem,
+			992px: 8rem,
+			1200px: 12rem,
+			1600px: 16rem
+		)
+	),
+	huge-9: (
+		weight: 600,
+		breakpoints: (
+			0px: 4rem,
+			992px: 5.5rem,
+			1200px: 7.5rem,
+			1600px: 9.5rem
+		)
+	),
+	heading-huge: (
+		weight: 700,
+		breakpoints: (
+			0px: 2rem,
+			992px: 6.75rem,
+			1200px: 7rem,
+			1600px: 8rem
+		)
+	)
+);

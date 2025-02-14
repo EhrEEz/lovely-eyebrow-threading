@@ -1,0 +1,22 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+$text-font-stack: 'Overpass', 'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica',
+	'Arial', sans-serif !default;
+$heading-font-stack: 'Bergen Text', 'Overpass', 'Open Sans', 'Helvetica Neue Light',
+	'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !default;
+$code-font-stack: 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace !default;
+$max-width: 1180px !default;
+$breakpoints: (
+	'sm': 320px,
+	'md': 768px,
+	'lg': 1024px
+) !default;
+///   $base-url: 'https://cdn.example.com/assets/';
+$base-url: '/assets/' !default;
+$text-color: rgb(34, 34, 34) !default;
+$brand-color: rgb(229, 0, 80) !default;
+$light-grey: rgb(237, 237, 237) !default;
+$mid-grey: rgb(153, 153, 153) !default;
+$dark-grey: rgb(68, 68, 68) !default;
