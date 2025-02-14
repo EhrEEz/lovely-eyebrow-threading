@@ -1,6 +1,6 @@
 <script>
     // @ts-nocheck
-
+    import * as Article from "$lib/components/cards/article";
     import { fade, fly } from "svelte/transition";
     import Button from "$lib/components/buttons/Button.svelte";
     import Social from "$lib/components/social/Social.svelte";
@@ -155,6 +155,100 @@ We got you covered"
                 </div>
             </div>
         </section>
+        <section class="articles__section pt-48">
+            <div class="container">
+                <h2 class="text-8xl text-center mb-24">Latest Articles</h2>
+
+                <div class="flex justify-center items-center">
+                    <Article.Card size="lg">
+                        <Article.Image src="/images/blogs/article-1.png" />
+                        <Article.Content>
+                            <Article.Head>
+                                <Article.Tag>Festive</Article.Tag>
+                                <Article.Title
+                                    >Do Something beautiful this holi</Article.Title
+                                >
+                                <div
+                                    class="font-medium text-text-light uppercase"
+                                >
+                                    December 01, 2025 | Monday
+                                </div>
+                            </Article.Head>
+                            <Article.Body>
+                                <p class="leading-6">
+                                    "I had single lashes done for a wedding, and
+                                    I’ve never felt more beautiful! They looked
+                                    so natural yet added the perfect touch of
+                                    glam. Amazing work!"
+                                </p>
+                            </Article.Body>
+                            <Article.Link href="/blogs/article-1">
+                                Read Full Article
+                            </Article.Link>
+                        </Article.Content>
+                    </Article.Card>
+                </div>
+                <div class="flex mt-16 justify-center items-stretch gap-16">
+                    <Article.Card>
+                        <Article.Image src="/images/blogs/article-3.png" />
+                        <Article.Content>
+                            <Article.Head>
+                                <Article.Tag>Tutorial</Article.Tag>
+                                <Article.Title
+                                    >Daily eyebrow makeup</Article.Title
+                                >
+                                <div
+                                    class="font-medium text-text-light uppercase"
+                                >
+                                    December 01, 2025 | Monday
+                                </div>
+                            </Article.Head>
+                            <Article.Body>
+                                <p class="leading-6">
+                                    "I had single lashes done for a wedding, and
+                                    I’ve never felt more beautiful! They looked
+                                    so natural yet added the perfect touch of
+                                    glam. Amazing work!"
+                                </p>
+                            </Article.Body>
+                            <Article.Link href="/blogs/article-3">
+                                Read Full Article
+                            </Article.Link>
+                        </Article.Content>
+                    </Article.Card>
+                    <Article.Card>
+                        <Article.Image src="/images/blogs/article-2.png" />
+                        <Article.Content>
+                            <Article.Head>
+                                <Article.Tag>Information</Article.Tag>
+                                <Article.Title
+                                    >Facial health with makeup</Article.Title
+                                >
+                                <div
+                                    class="font-medium text-text-light uppercase"
+                                >
+                                    December 01, 2025 | Monday
+                                </div>
+                            </Article.Head>
+                            <Article.Body>
+                                <p class="leading-6">
+                                    "I had single lashes done for a wedding, and
+                                    I’ve never felt more beautiful! They looked
+                                    so natural yet added the perfect touch of
+                                    glam. Amazing work!"
+                                </p>
+                            </Article.Body>
+                            <Article.Link href="/blogs/article-2">
+                                Read Full Article
+                            </Article.Link>
+                        </Article.Content>
+                    </Article.Card>
+                </div>
+                <div class="flex justify-center mt-24">
+                    <Button variant="link">View All BLogs</Button>
+                </div>
+            </div>
+        </section>
 
         <section class="contact__section pt-48 pb-24">
             <div class="container">
@@ -213,7 +307,7 @@ We got you covered"
     .contact__image::after {
         background-image: linear-gradient(
             180deg,
-            rgba(0, 0, 0, 1) 0%,
+            rgba(0, 0, 0, 0.2) 0%,
             rgba(0, 0, 0, 0) 100%
         );
     }

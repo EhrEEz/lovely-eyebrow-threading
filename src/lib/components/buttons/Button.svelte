@@ -11,9 +11,9 @@
 		variants: {
 			variant: {
 				default:
-					"bg-primary text-primary-foreground hover:bg-primary/90 shadow",
+					"bg-primary text-primary-foreground hover:bg-primary-90 hover:text-white duration-300 transition shadow",
 				destructive:
-					"bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
+					"bg-destructive text-destructive-foreground hover:bg-destructive/90shadow-sm",
 				outline:
 					"border-input bg-background hover:bg-accent hover:text-accent-foreground border shadow-sm",
 				secondary:
@@ -49,7 +49,6 @@
 
 <script lang="ts">
 	import { cn } from "$lib/utils/utils.js";
-	import type { ComponentProps } from "svelte";
 
 	let {
 		children,

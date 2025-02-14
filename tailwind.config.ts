@@ -30,6 +30,7 @@ export default {
 				primary: {
 					DEFAULT: "var(--primary-color)",
 					foreground: "var(--primary-foreground-color)",
+					90: "var(--primary-color-90)",
 				},
 				text: {
 					DEFAULT: "var(--text-color)",
