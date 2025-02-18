@@ -1,6 +1,6 @@
 <script lang="ts">
     type SocialProps = {
-        name: "facebook" | "instagram" | "linkedin" | "x" | "youtube" | "yelp";
+        name: string;
         width?: number | undefined;
         height?: number | undefined;
         color?: string;

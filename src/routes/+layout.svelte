@@ -3,7 +3,6 @@
     import { setContext } from "svelte";
     import "../app.css";
     import Lenis from "lenis";
-    import { fade } from "svelte/transition";
     import Footer from "$lib/components/footer/Footer.svelte";
 
     const { children, data } = $props();

@@ -6,16 +6,20 @@
         AriaAttributes,
     } from "svelte/elements";
 
-    export type ArticleHead = {
+    export type CardFooterProps = {
         ref?: SvelteHTMLElements["div"] | null;
     } & AriaAttributes &
         HTMLAttributes<HTMLDivElement>;
 </script>
 
 <script>
-    const { children, class: className, ...restProps }: ArticleHead = $props();
+    const {
+        children,
+        class: className,
+        ...restProps
+    }: CardFooterProps = $props();
 </script>
 
-<div class={cn("mb-3", className)} {...restProps}>
+<div class={cn(className)} {...restProps}>
     {@render children?.()}
 </div>

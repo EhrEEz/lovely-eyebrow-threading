@@ -1,5 +1,7 @@
 <script>
+    import Generator from "./../lib/components/canvas/Generator.svelte";
     // @ts-nocheck
+    import * as Card from "$lib/components/cards/default";
     import * as Article from "$lib/components/cards/article";
     import { fade, fly } from "svelte/transition";
     import Button from "$lib/components/buttons/Button.svelte";
@@ -10,6 +12,8 @@
     const page = $state(data.page);
 
     const services = $state(data.services);
+    const blogs = $state(data.blogs);
+    const testimonials = $state(data.testimonials);
 
     let ready = $state(false);
 
@@ -83,7 +87,7 @@
                         <li>
                             <a href="/{item.slug}">
                                 <div
-                                    class="card relative rounded-sm overflow-hidden aspect-[11/16] min-w-80"
+                                    class="card relative overflow-hidden aspect-[11/16] min-w-80"
                                 >
                                     <div
                                         class="w-full h-full p-8 flex flex-col justify-end"
@@ -155,97 +159,133 @@ We got you covered"
                 </div>
             </div>
         </section>
+        <section class="gallery__section py-64 relative w-full">
+            <h3
+                class="text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+            >
+                <div class="text-8xl w-full">Your Eyebrows</div>
+                <div class="text-[14rem] w-full">Your Way</div>
+            </h3>
+            <Generator />
+        </section>
+
+        <section class="testimonials__section">
+            <div class="container">
+                <h2 class="text-center text-6xl">{testimonials.title}</h2>
+                <div class="grid grid-cols-3 gap-4 mt-12 justify-items-center">
+                    {#each testimonials.items as testimonial}
+                        <Card.Root>
+                            <Card.Header>
+                                <h3
+                                    class="font-medium uppercase text-center"
+                                    aria-label="Testimonial Author"
+                                >
+                                    {testimonial.author}
+                                </h3>
+                            </Card.Header>
+                            <Card.Body>
+                                <div
+                                    class="text-center leading-6"
+                                    aria-label="testimonial by Cynthia L."
+                                >
+                                    <span class="sans-serif">"</span>
+                                    {testimonial.description}
+                                    <span class="sans-serif">"</span>
+                                </div>
+                            </Card.Body>
+                            <Card.Footer>
+                                <div
+                                    class="flex justify-center align-center gap-1"
+                                    aria-hidden="true"
+                                >
+                                    {#each Array(5) as _}
+                                        <span
+                                            class="font-serif text-xl leading-tight"
+                                            >*</span
+                                        >
+                                    {/each}
+                                </div>
+                            </Card.Footer>
+                        </Card.Root>
+                    {/each}
+                </div>
+            </div>
+        </section>
         <section class="articles__section pt-48">
             <div class="container">
-                <h2 class="text-8xl text-center mb-24">Latest Articles</h2>
-
-                <div class="flex justify-center items-center">
+                <h2 class="text-8xl text-center mb-24">{blogs.title}</h2>
+                <div class="w-10/12 mx-auto">
                     <Article.Card size="lg">
-                        <Article.Image src="/images/blogs/article-1.png" />
+                        <Article.Image
+                            src={blogs.articles[0].image}
+                            alt={blogs.articles[0].title}
+                        />
                         <Article.Content>
                             <Article.Head>
-                                <Article.Tag>Festive</Article.Tag>
+                                <Article.Tag
+                                    >{blogs.articles[0].tag}</Article.Tag
+                                >
                                 <Article.Title
-                                    >Do Something beautiful this holi</Article.Title
+                                    >{blogs.articles[0].title}</Article.Title
                                 >
                                 <div
                                     class="font-medium text-text-light uppercase"
                                 >
-                                    December 01, 2025 | Monday
+                                    {blogs.articles[0].date}
                                 </div>
                             </Article.Head>
                             <Article.Body>
                                 <p class="leading-6">
-                                    "I had single lashes done for a wedding, and
-                                    I’ve never felt more beautiful! They looked
-                                    so natural yet added the perfect touch of
-                                    glam. Amazing work!"
+                                    {blogs.articles[0].short_description}
                                 </p>
                             </Article.Body>
-                            <Article.Link href="/blogs/article-1">
+                            <Article.Link
+                                href={`/blogs/` + blogs.articles[0].slug}
+                            >
                                 Read Full Article
                             </Article.Link>
                         </Article.Content>
                     </Article.Card>
                 </div>
-                <div class="flex mt-16 justify-center items-stretch gap-16">
-                    <Article.Card>
-                        <Article.Image src="/images/blogs/article-3.png" />
-                        <Article.Content>
-                            <Article.Head>
-                                <Article.Tag>Tutorial</Article.Tag>
-                                <Article.Title
-                                    >Daily eyebrow makeup</Article.Title
-                                >
-                                <div
-                                    class="font-medium text-text-light uppercase"
-                                >
-                                    December 01, 2025 | Monday
-                                </div>
-                            </Article.Head>
-                            <Article.Body>
-                                <p class="leading-6">
-                                    "I had single lashes done for a wedding, and
-                                    I’ve never felt more beautiful! They looked
-                                    so natural yet added the perfect touch of
-                                    glam. Amazing work!"
-                                </p>
-                            </Article.Body>
-                            <Article.Link href="/blogs/article-3">
-                                Read Full Article
-                            </Article.Link>
-                        </Article.Content>
-                    </Article.Card>
-                    <Article.Card>
-                        <Article.Image src="/images/blogs/article-2.png" />
-                        <Article.Content>
-                            <Article.Head>
-                                <Article.Tag>Information</Article.Tag>
-                                <Article.Title
-                                    >Facial health with makeup</Article.Title
-                                >
-                                <div
-                                    class="font-medium text-text-light uppercase"
-                                >
-                                    December 01, 2025 | Monday
-                                </div>
-                            </Article.Head>
-                            <Article.Body>
-                                <p class="leading-6">
-                                    "I had single lashes done for a wedding, and
-                                    I’ve never felt more beautiful! They looked
-                                    so natural yet added the perfect touch of
-                                    glam. Amazing work!"
-                                </p>
-                            </Article.Body>
-                            <Article.Link href="/blogs/article-2">
-                                Read Full Article
-                            </Article.Link>
-                        </Article.Content>
-                    </Article.Card>
+                <div
+                    class="grid grid-cols-2 mt-16 justify-center items-stretch gap-16"
+                >
+                    {#each blogs.articles as article, index}
+                        {#if index !== 0}
+                            <Article.Card>
+                                <Article.Image
+                                    src={article.image}
+                                    alt={article.title}
+                                />
+                                <Article.Content>
+                                    <Article.Head>
+                                        <Article.Tag>{article.tag}</Article.Tag>
+                                        <Article.Title
+                                            >{article.title}</Article.Title
+                                        >
+                                        <div
+                                            class="font-medium text-text-light uppercase"
+                                        >
+                                            {article.date}
+                                        </div>
+                                    </Article.Head>
+                                    <Article.Body>
+                                        <p class="leading-6">
+                                            {article.short_description}
+                                        </p>
+                                    </Article.Body>
+                                    <Article.Link
+                                        href={"/blogs/" + article.slug}
+                                    >
+                                        Read Full Article
+                                    </Article.Link>
+                                </Article.Content>
+                            </Article.Card>
+                        {/if}
+                    {/each}
                 </div>
                 <div class="flex justify-center mt-24">
-                    <Button variant="link">View All BLogs</Button>
+                    <Button variant="link" href="/blogs">View All BLogs</Button>
                 </div>
             </div>
         </section>

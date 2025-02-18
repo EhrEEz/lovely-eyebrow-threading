@@ -12,7 +12,6 @@
     // biome-ignore lint/suspicious/noExplicitAny: will only change at the end of project completion taking into account every changes later made
     const data: any = getContext("site-settings");
 
-    console.log(data);
     const { navScroll } = $props();
     const mini = $state(data.header_mini);
 
