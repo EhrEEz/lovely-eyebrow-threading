@@ -14,6 +14,8 @@
             width: width,
             height: height,
         });
+
+        $inspect(Generator);
     });
 </script>
 

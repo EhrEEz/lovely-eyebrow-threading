@@ -87,7 +87,7 @@
                         <li>
                             <a href="/{item.slug}">
                                 <div
-                                    class="card relative overflow-hidden aspect-[11/16] min-w-80"
+                                    class="card relative overflow-hidden aspect-[11/16] min-w-80 rounded-sm"
                                 >
                                     <div
                                         class="w-full h-full p-8 flex flex-col justify-end"
@@ -159,7 +159,7 @@ We got you covered"
                 </div>
             </div>
         </section>
-        <section class="gallery__section py-64 relative w-full">
+        <section class="gallery__section py-32 relative w-full">
             <h3
                 class="text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
             >
