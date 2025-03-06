@@ -43,6 +43,7 @@ export default {
 				lg: "3rem",
 				md: "2rem",
 				sm: "1rem",
+				xs: "0.8rem",
 			},
 
 			fontFamily: {

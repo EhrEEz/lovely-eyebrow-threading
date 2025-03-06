@@ -6,8 +6,9 @@
 
 	:root {
 		--radius: 100dvw;
-		--primary-color: #FAABE5;
+		--primary-color: hsl(316, 89%, 83%);
 		--primary-color-90: hsl(316, 89%, 73%);
+		--primary-color-20: hsl(316, 89%, 83%, 40%);
 		--primary-foreground-color: #000000;
 		--text-color: hsl(0 0% 0% / 100%);
 		--light-text-color: hsl(0 0% 45% / 100%);

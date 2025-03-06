@@ -1,11 +1,19 @@
-<script>
-    import Generator from "./../lib/components/canvas/Generator.svelte";
-    // @ts-nocheck
+<script lang="ts">
+    import { fade, fly } from "svelte/transition";
+    // Embla Imports
+    import emblaCarouselSvelte from "embla-carousel-svelte";
+    import type {
+        EmblaCarouselType,
+        EmblaEventType,
+        EmblaOptionsType,
+    } from "embla-carousel";
+    import AutoScroll from "embla-carousel-auto-scroll";
+
     import * as Card from "$lib/components/cards/default";
     import * as Article from "$lib/components/cards/article";
-    import { fade, fly } from "svelte/transition";
     import Button from "$lib/components/buttons/Button.svelte";
     import Social from "$lib/components/social/Social.svelte";
+    import Generator from "$lib/components/canvas/Generator.svelte";
 
     const { data } = $props();
 
@@ -16,7 +24,20 @@
     const testimonials = $state(data.testimonials);
 
     let ready = $state(false);
+    let emblaApi: EmblaCarouselType;
+    const embla_options: EmblaOptionsType = { loop: true };
 
+    function onInit(event: { detail: EmblaCarouselType }) {
+        emblaApi = event.detail;
+        console.log(emblaApi); // Access API
+    }
+    const embla_plugins = [
+        AutoScroll({
+            stopOnMouseEnter: true,
+            stopOnInteraction: false,
+            startDelay: 0,
+        }),
+    ];
     $effect(() => {
         ready = true;
     });
@@ -79,42 +100,65 @@
         </section>
         <section class="pt-48">
             <div class="container">
-                <h2 class="text-7xl uppercase mb-8">
+                <h2 class="text-7xl uppercase mb-16">
                     {services.title}
                 </h2>
-                <ul class="flex gap-8">
-                    {#each services.items as item, index}
-                        <li>
-                            <a href="/{item.slug}">
-                                <div
-                                    class="card relative overflow-hidden aspect-[11/16] min-w-80 rounded-sm"
-                                >
+                <div
+                    class="embla relative"
+                    use:emblaCarouselSvelte={{
+                        options: embla_options,
+                        plugins: embla_plugins,
+                    }}
+                    onemblaInit={onInit}
+                >
+                    <ul class="flex embla__container">
+                        {#each services.items as item, index}
+                            <li class="embla__slide mr-8">
+                                <a href="/{item.slug}">
                                     <div
-                                        class="w-full h-full p-8 flex flex-col justify-end"
+                                        class="card relative overflow-hidden aspect-[11/16] min-w-80"
                                     >
-                                        <div class="text-md text-primary">
-                                            {index + 1 < 10
-                                                ? `0${index + 1}`
-                                                : index}
+                                        <div
+                                            class="w-full h-full p-8 flex flex-col justify-end"
+                                        >
+                                            <div class="text-md text-primary">
+                                                {index + 1 < 10
+                                                    ? `0${index + 1}`
+                                                    : index}
+                                            </div>
+                                            <h3
+                                                class="text-3xl text-white mb-0"
+                                            >
+                                                {item.name}
+                                            </h3>
                                         </div>
-                                        <h3 class="text-3xl text-white mb-0">
-                                            {item.name}
-                                        </h3>
+                                        <div
+                                            class="card__bg w-full h-full absolute left-0 top-0 -z-10"
+                                        >
+                                            <img
+                                                src="/images/services/{item.image}"
+                                                alt={item.name}
+                                                class="w-full h-full object-cover"
+                                            />
+                                        </div>
                                     </div>
-                                    <div
-                                        class="card__bg w-full h-full absolute left-0 top-0 -z-10"
-                                    >
-                                        <img
-                                            src="/images/services/{item.image}"
-                                            alt={item.name}
-                                            class="w-full h-full object-cover"
-                                        />
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
+                                </a>
+                            </li>
+                        {/each}
+                    </ul>
+                    <div
+                        class="button__wrapper absolute right-2 bottom-0 translate-y-1/2 z-10"
+                    >
+                        <button
+                            class="embla__prev arrow_button"
+                            onclick={() => emblaApi.scrollPrev()}>prev</button
+                        >
+                        <button
+                            class="embla__next arrow_button"
+                            onclick={() => emblaApi.scrollNext()}>next</button
+                        >
+                    </div>
+                </div>
             </div>
         </section>
         <section class="py-48">
@@ -344,6 +388,20 @@ We got you covered"
 {/if}
 
 <style>
+    .arrow_button {
+        --width: 8rem;
+        width: var(--width);
+        height: calc(3 * var(--width) / 4);
+        border-radius: 100%;
+        backdrop-filter: blur(1rem);
+        background-color: hsl(316, 72%, 76%, 50%);
+        rotate: -45deg;
+        color: white;
+    }
+
+    .arrow_button:last-child {
+        translate: -35% 0;
+    }
     .contact__image::after {
         background-image: linear-gradient(
             180deg,

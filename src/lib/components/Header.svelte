@@ -46,7 +46,7 @@
 
 <header
     id="topHeader"
-    class="absolute left-0 top-0 right-0 z-40 py-6"
+    class="absolute left-0 top-0 right-0 z-[99] py-6"
     class:nav__bg={navScroll && !menuView}
 >
     <div class="container">

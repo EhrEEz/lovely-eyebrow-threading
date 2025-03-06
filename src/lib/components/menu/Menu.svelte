@@ -158,7 +158,7 @@
         top: -100%;
         block-size: 100dvh;
         inline-size: 100dvw;
-        z-index: 30;
+        z-index: 98;
         transition: top 0.25s ease-in 0.15s;
         background-color: hsl(0 0% 100% /80%);
         backdrop-filter: blur(1rem) saturate(1.7);

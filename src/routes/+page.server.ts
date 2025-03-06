@@ -37,6 +37,16 @@ export function load({ params }) {
 					image: "eyelash-extensions.png",
 					slug: "eyelash-extensions",
 				},
+				{
+					name: "Facial Therapy",
+					image: "facial-therapy.png",
+					slug: "Facial Therapy",
+				},
+				{
+					name: "Eyelash Extensions",
+					image: "eyelash-extensions.png",
+					slug: "eyelash-extensions",
+				},
 			],
 		},
 		testimonials: {

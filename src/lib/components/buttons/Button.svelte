@@ -7,7 +7,7 @@
 	import { type VariantProps, tv } from "tailwind-variants";
 
 	export const buttonVariants = tv({
-		base: "focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 uppercase",
+		base: "focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 uppercase cursor-pointer",
 		variants: {
 			variant: {
 				default:
@@ -20,11 +20,14 @@
 					"bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm",
 				ghost: "hover:bg-accent hover:text-accent-foreground",
 				link: "text-primary-foreground underline-offset-4 !rounded-none border-b-2 border-primary-foreground !px-0",
+				overlay:
+					"bg-[#ffffff22] backdrop-blur-sm  normal-case font-normal rounded-xs text-white hover:bg-[#ffffff40] duration-300 transition",
 			},
 			size: {
 				default: "h-9 px-4 py-3 rounded-xl adjust-padding",
 				sm: "h-8 rounded-xl px-3 text-xs negative-padding",
 				lg: "h-10 rounded-xl px-8 negative-padding",
+				overlay: "h-9 px-4 py-1 rounded-xs small-padding",
 				icon: "h-9 w-9",
 			},
 		},
