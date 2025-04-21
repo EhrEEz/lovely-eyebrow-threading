@@ -2,5 +2,10 @@
     "files.associations": {
         "*.css": "tailwindcss"
     },
-    "tailwindCSS.emmetCompletions": true
+    "tailwindCSS.emmetCompletions": true,
+		"[javascript]": {
+			"editor.defaultFormatter": "biomejs.biome"
+		},
+		"editor.defaultFormatter": "biomejs.biome",
+		"editor.formatOnPaste": false
 }

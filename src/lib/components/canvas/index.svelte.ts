@@ -83,14 +83,12 @@ class Generator {
 		const ctx = this.ctx;
 		const element = config.element;
 
+
 		const height = Math.floor(
 			element.size.min +
-				(element.size.max - element.size.min + 1) * Math.random(),
+			(element.size.max - element.size.min + 1) * Math.random(),
 		);
-		const width = Math.floor(
-			element.size.min +
-				(element.size.max - element.size.min + 1) * Math.random(),
-		);
+		const width = height * 15 / 8;
 
 		const position = {
 			x: Math.floor(Math.random() * config.width),
