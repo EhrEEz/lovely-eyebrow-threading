@@ -7,13 +7,14 @@
         EmblaEventType,
         EmblaOptionsType,
     } from "embla-carousel";
-    import AutoScroll from "embla-carousel-auto-scroll";
+    import AutoPlay from "embla-carousel-autoplay";
 
     import * as Card from "$lib/components/cards/default";
     import * as Article from "$lib/components/cards/article";
     import Button from "$lib/components/buttons/Button.svelte";
     import Social from "$lib/components/social/Social.svelte";
     import Generator from "$lib/components/canvas/Generator.svelte";
+    import { Marquee } from "@selemondev/svelte-marquee";
 
     const { data } = $props();
 
@@ -25,17 +26,14 @@
 
     let ready = $state(false);
     let emblaApi: EmblaCarouselType;
-    const embla_options: EmblaOptionsType = { loop: true };
+    const embla_options: EmblaOptionsType = { loop: false };
 
     function onInit(event: { detail: EmblaCarouselType }) {
         emblaApi = event.detail;
-        console.log(emblaApi); // Access API
     }
     const embla_plugins = [
-        AutoScroll({
+        AutoPlay({
             stopOnMouseEnter: true,
-            stopOnInteraction: false,
-            startDelay: 0,
         }),
     ];
     $effect(() => {
@@ -161,12 +159,16 @@
                 </div>
             </div>
         </section>
-        <section class="py-48">
-            <div class="marquee flex items-center gap-12">
-                <h3 class="text-8xl shrink-0">Own your brows</h3>
-                <div class="text-9xl font-serif">-</div>
-                <h3 class="text-8xl shrink-0">Own your brows</h3>
-            </div>
+        <section class="pt-48 pb-24">
+            <Marquee
+                class="gap-[3rem] [--duration:10s] [--gap:3rem] "
+                innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
+            >
+                <h3 class="text-8xl !leading-normal">Own your brows</h3>
+                <div class="text-9xl font-serif !leading-tight">-</div>
+                <h3 class="text-8xl !leading-normal">Own your brows</h3>
+                <div class="text-9xl font-serif !leading-tight">-</div>
+            </Marquee>
         </section>
         <section class="featured-service__section">
             <div class="container flex gap-8 items-center">

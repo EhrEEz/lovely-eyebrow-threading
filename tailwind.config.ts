@@ -2,10 +2,14 @@ import containerQueries from "@tailwindcss/container-queries";
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 import { fontFamily } from "tailwindcss/defaultTheme";
+import animate from "tailwindcss-animate";
 import type { Config } from "tailwindcss";
 
 export default {
-	content: ["./src/**/*.{html,js,svelte,ts}"],
+	content: [
+		"./src/**/*.{html,js,svelte,ts}",
+		"./node_modules/@selemondev/svelte-marquee/dist/*.svelte",
+	],
 
 	theme: {
 		container: {
@@ -50,8 +54,22 @@ export default {
 				sans: ["Akshar", ...fontFamily.sans],
 				serif: ["Perandory", ...fontFamily.sans],
 			},
+			keyframes: {
+				"marquee-left": {
+					from: { transform: "translateX(0)" },
+					to: { transform: "translateX(calc(-100% - var(--gap)))" },
+				},
+				"marquee-up": {
+					from: { transform: "translateY(0)" },
+					to: { transform: "translateY(calc(-100% - var(--gap)))" },
+				},
+			},
+			animation: {
+				"marquee-left": "marquee-left var(--duration, 40s) linear infinite",
+				"marquee-up": "marquee-up var(--duration, 40s) linear infinite",
+			},
 		},
 	},
 
-	plugins: [typography, forms, containerQueries],
+	plugins: [typography, forms, containerQueries, animate],
 } satisfies Config;

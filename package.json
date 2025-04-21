@@ -12,6 +12,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
+		"@selemondev/svelte-marquee": "^0.0.3",
 		"@sveltejs/adapter-cloudflare": "^5.0.1",
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
@@ -25,6 +26,7 @@
 		"embla-carousel-svelte": "^8.5.2",
 		"gsap": "^3.12.7",
 		"lenis": "^1.1.20",
+		"pocketbase": "^0.25.2",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"tailwind-merge": "^3.0.1",

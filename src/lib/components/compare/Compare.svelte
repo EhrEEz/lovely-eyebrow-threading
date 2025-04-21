@@ -3,8 +3,11 @@
     import Button from "../buttons/Button.svelte";
 
     type CompareProps = {
-        dir: string;
-        ext: "png" | "webp" | "jpg";
+        config: {
+            after: string;
+            before: string;
+            alt: string;
+        };
         tags: Array<string>;
     };
 
@@ -21,7 +24,8 @@
     const defaultBefore = `${defaultDirectory}/before.png`;
     const defaultAfter = `${defaultDirectory}/after.png`;
 
-    const { dir, ext, tags = [] }: CompareProps = $props();
+    const { config, tags = [] }: CompareProps = $props();
+    console.log(config.after);
 
     let width = $state(0);
     let height = $state(0);
@@ -32,10 +36,6 @@
 
     // biome-ignore lint/style/useConst: <explanation>
     let divider = $state<HTMLElement | undefined>(undefined);
-
-    const beforePath = $state(`${dir}/before.${ext}`);
-    const afterPath = $state(`${dir}/after.${ext}`);
-
     let beforeOverlay: HTMLElement;
 
     const id = crypto.randomUUID();
@@ -72,10 +72,14 @@
     style="--position-x:{positionX.current}px;"
 >
     <div class="before-wrapper bg-black" bind:this={beforeOverlay}>
-        {#await imageExists(beforePath) then}
-            <img src={beforePath} alt={"before image"} class="opacity-80" />
+        {#await imageExists(config.before) then}
+            <img
+                src={config.before}
+                alt="{config.alt} Before Image"
+                class="opacity-80"
+            />
         {:catch}
-            <img src={defaultBefore} alt={"before image"} />
+            <img src={defaultBefore} alt="Not Available" />
         {/await}
     </div>
     <div
@@ -87,17 +91,17 @@
         >
             <span class="btn__text">After</span>
         </div>
-        {#await imageExists(afterPath) then}
+        {#await imageExists(config.after) then}
             <img
-                src={afterPath}
+                src={config.after}
                 style="width: {width}px;height:{height}px;max-width:{width}px"
-                alt={"after image"}
+                alt="{config.alt} After Image"
                 onload={initialize}
             />
         {:catch}
             <img
                 src={defaultAfter}
-                alt={"after image"}
+                alt="Not Available"
                 style="width: {width}px;height:{height}px;max-width:{width}px"
                 onload={initialize}
             />
