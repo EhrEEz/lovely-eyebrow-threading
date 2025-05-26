@@ -89,6 +89,20 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 					},
 				},
 			},
+			about_section: {
+				fields: ["title", "description", "hook"],
+				populate: {
+					cover: {
+						fields: ["alt"],
+						populate: {
+							media: {
+								fields: ["url", "alternativeText", "formats"],
+								populate: "*",
+							},
+						},
+					},
+				},
+			},
 		},
 	});
 

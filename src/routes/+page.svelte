@@ -15,7 +15,7 @@
 	const gallery_section = $state(home_data.gallery_section);
 	const services = $state(home_data.services_section.services);
 	const contact_section = $state(home_data.contact_section);
-	console.log(home_data);
+	const about_section = $state(home_data.about_section);
 	const articles = $state(home_data.articles);
 	const media_url = $state(data.media_url);
 	const testimonials = $state(home_data.testimonial_section.testimonials);
@@ -121,27 +121,38 @@
 		<section class="featured-service__section py-24">
 			<div class="container flex gap-8 items-center">
 				<div class="w-1/2 pe-20">
-					<h2 class="font-sans font-normal text-2xl mb-6 uppercase">Tinted Eyebrows</h2>
-					<p class="text-lg leading-9">
-						Thanks to modern innovation, achieving full, beautiful brows—even if you weren’t genetically blessed with
-						them—is now very attainable: From high-performance brow pencils to brow-growing serums that yield impressive
-						results, there are plenty of options for getting thicker brows in just a few swipes or strokes. However, if
-						you prefer a fix that doesn’t involve using numerous brow products or filling them in on a daily basis,
-						consider giving eyebrow tinting a try.
-					</p>
+					{#if about_section.title}
+						<h2 class="font-sans font-normal text-2xl mb-6 uppercase">{about_section?.title}</h2>
+					{/if}
+					{#if about_section.description}
+						<p class="text-lg leading-9">
+							Thanks to modern innovation, achieving full, beautiful brows—even if you weren’t genetically blessed with
+							them—is now very attainable: From high-performance brow pencils to brow-growing serums that yield
+							impressive results, there are plenty of options for getting thicker brows in just a few swipes or strokes.
+							However, if you prefer a fix that doesn’t involve using numerous brow products or filling them in on a
+							daily basis, consider giving eyebrow tinting a try.
+						</p>
+					{/if}
 				</div>
 				<div class="w-1/2">
 					<div class="rounded-xxl overflow-hidden relative">
 						<h4
 							class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white px-3 py-3 w-full text-5xl !leading-[1em]"
 						>
-							Whatever type your eyebrows are, We got you covered
+							{about_section.hook}
 						</h4>
 						<img
-							src="/images/eyebrow.png"
-							class="w-full"
-							alt="Whatever type your eyebrows are,
-We got you covered"
+							loading="lazy"
+							src={media_url + about_section.cover.media.url}
+							srcset="
+			{about_section.cover.media.formats.thumbnail
+								? `${media_url + about_section.cover.media.formats.thumbnail.url} 234w,`
+								: ''}
+			{about_section.cover.media.formats.small ? `${media_url + about_section.cover.media.formats.small.url} 500w,` : ''}
+			{about_section.cover.media.formats.medium ? `${media_url + about_section.cover.media.formats.medium.url} 750w,` : ''}
+			{about_section.cover.media.formats.large ? `${media_url + about_section.cover.media.formats.large.url} 1000w,` : ''}"
+							style="width: 100%; height: auto;"
+							alt={about_section.cover.alt ?? about_section.cover.media.alternativeText ?? `About Section`}
 						/>
 					</div>
 				</div>
@@ -182,7 +193,6 @@ We got you covered"
 			{gallery_section.image_bottom_right.formats.large
 							? `${media_url + gallery_section.image_bottom_right.formats.large.url} 1000w,`
 							: ''}"
-						style="width: 100%; height: auto;"
 						alt={gallery_section.image_bottom_right.alternativeText ?? `Example of Service 1`}
 					/>
 				</div>
@@ -205,7 +215,6 @@ We got you covered"
 			{gallery_section.image_top_left.formats.large
 							? `${media_url + gallery_section.image_top_left.formats.large.url} 1000w,`
 							: ''}"
-						style="width: 100%; height: auto;"
 						alt={gallery_section.image_top_left.alternativeText ?? `Example of Service 1`}
 					/>
 				</div>
@@ -228,7 +237,6 @@ We got you covered"
 			{gallery_section.image_bottom_left.formats.large
 							? `${media_url + gallery_section.image_bottom_left.formats.large.url} 1000w,`
 							: ''}"
-						style="width: 100%; height: auto;"
 						alt={gallery_section.image_bottom_left.alternativeText ?? `Example of Service 1`}
 					/>
 				</div>
@@ -251,7 +259,6 @@ We got you covered"
 			{gallery_section.image_top_right.formats.large
 							? `${media_url + gallery_section.image_top_right.formats.large.url} 1000w,`
 							: ''}"
-						style="width: 100%; height: auto;"
 						alt={gallery_section.image_top_right.alternativeText ?? `Example of Service 1`}
 					/>
 				</div>
@@ -282,7 +289,6 @@ We got you covered"
 			{testimonial.author_avatar.formats.small ? `${media_url + testimonial.author_avatar.formats.small.url} 500w,` : ''}
 			{testimonial.author_avatar.formats.medium ? `${media_url + testimonial.author_avatar.formats.medium.url} 750w,` : ''}
 			{testimonial.author_avatar.formats.large ? `${media_url + testimonial.author_avatar.formats.large.url} 1000w,` : ''}"
-												style="width: 100%; height: auto;"
 												alt="Cover of {testimonial.author_avatar.alternativeText ?? testimonial.author_name}"
 											/>
 										</div>
@@ -369,7 +375,6 @@ We got you covered"
 			{contact_section.main_image.formats.small ? `${media_url + contact_section.main_image.formats.small.url} 500w,` : ''}
 			{contact_section.main_image.formats.medium ? `${media_url + contact_section.main_image.formats.medium.url} 750w,` : ''}
 			{contact_section.main_image.formats.large ? `${media_url + contact_section.main_image.formats.large.url} 1000w,` : ''}"
-								style="width: 100%; height: auto;"
 								alt="Cover of {contact_section.main_image.alternativeText ?? `Store Chair`}"
 							/>
 						</div>
