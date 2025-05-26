@@ -1,10 +1,24 @@
-import PocketBase from "pocketbase";
-
-export const handle = async ({ event, resolve }) => {
-	const url = "http://127.0.0.1:8090";
-	event.locals.pb = new PocketBase(url);
-
-	const response = await resolve(event);
-
-	return response;
+import { SECRET_API_TOKEN, SECRET_API_URL } from "$env/static/private";
+export const handleFetch = async ({ request, event, fetch }) => {
+	const token = SECRET_API_TOKEN;
+	let url = request.url;
+	const isLocal = url.startsWith(event.url.origin);
+	const { pathname, search } = new URL(url);
+	const newPathName = isLocal ? pathname : url;
+	if (newPathName.startsWith("/api/")) {
+		const newURL = newPathName.replace("/api/", SECRET_API_URL);
+		const modifiedRequest: Request = new Request(`${newURL}${search}`, {
+			method: request.method,
+			headers: new Headers({
+				...Object.fromEntries(request.headers),
+				Authorization: `Bearer ${token}`,
+			}),
+			body: request.body,
+			signal: request.signal,
+			//@ts-expect-error
+			duplex: request.duplex,
+		});
+		return fetch(modifiedRequest);
+	}
+	return fetch(request);
 };

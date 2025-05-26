@@ -30,3 +30,9 @@ export type Gallery = {
 	is_enabled: boolean;
 	label: string;
 } & CollectionInterface;
+
+export type CTAItem = {
+	id: string;
+	name: string;
+	href: string;
+};

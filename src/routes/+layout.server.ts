@@ -1,45 +1,55 @@
-export function load() {
-	return {
-		status: 200,
-		settings: {
-			name: "Lovely Eyebrow Threading",
-			socials: [
-				{
-					name: "Facebook",
-					url: "https://www.facebook.com/lovelyeyebrowthreading",
-					icon: "facebook",
-				},
-				{
-					name: "Instagram",
-					url: "https://www.instagram.com/lovelyeyebrowthreading",
-					icon: "instagram",
-				},
-				{
-					name: "Yelp",
-					url: "https://www.yelp.com/biz/lovely-eyebrow-threading-houston",
-					icon: "yelp",
-				},
-			],
-			header_mini: true,
-			cta: "contact-us",
-			address: {
-				address_1: "1260 Woodforest Blvd Ste 110",
-				address_2: "Houston, TX 77015",
-				map_link: "https://maps.app.goo.gl/K3VEFbNLu16DTe8Y8",
-			},
+import type { LayoutServerLoad } from "./$types";
+
+import { PUBLIC_MEDIA_URL } from "$env/static/public";
+import { error } from "@sveltejs/kit";
+import qs from "qs";
+
+export const load: LayoutServerLoad = async ({ fetch }) => {
+	const query = qs.stringify({
+		fields: ["name", "description", "tagline", "booking_link"],
+		populate: {
 			contact: {
-				phone: "281-836-1318",
-				email: "lovelyeyebrowthreading@gmail.com",
-				hours: {
-					weekdays: {
-						timing: "10:00 AM - 7:30 PM",
-						days: "Mondays - Saturdays",
+				populate: {
+					address: {
+						fields: ["street", "city", "state", "zip_code", "state_code"],
 					},
-					weekends: { timing: "11:00 AM - 5:00 PM", days: "Sundays" },
+					phone_numbers: {
+						fields: ["phone_number"],
+					},
+					emails: {
+						fields: ["email"],
+					},
 				},
 			},
-			description:
-				"We specialize in threading, waxing, and henna. We also offer eyelash extensions and facials. We are located in the Woodforest Shopping Center.",
+			global_seo: {
+				fields: ["site_name", "title_suffix", "default_title", "default_keywords"],
+				populate: {
+					default_og_image: {
+						fields: ["formats"],
+					},
+				},
+			},
+			opening_hours: {
+				fields: ["day_range", "opening_timing"],
+			},
+			social_media: {
+				fields: ["instagram", "facebook", "linkedin", "x", "tiktok", "yelp", "youtube"],
+			},
+			cta: {
+				fields: ["cta"],
+			},
 		},
-	};
-}
+	});
+
+	const response = await fetch(`/api/site-setting?${query}`);
+	if (response.ok) {
+		const { data } = await response.json();
+		return {
+			media_url: PUBLIC_MEDIA_URL,
+			siteSettings: data,
+		};
+	}
+	error(response.status, {
+		message: response.statusText,
+	});
+};

@@ -1,9 +1,5 @@
 <script lang="ts" module>
-	import type {
-		HTMLAnchorAttributes,
-		HTMLButtonAttributes,
-		SvelteHTMLElements,
-	} from "svelte/elements";
+	import type { HTMLAnchorAttributes, HTMLButtonAttributes, SvelteHTMLElements } from "svelte/elements";
 	import { type VariantProps, tv } from "tailwind-variants";
 
 	export const buttonVariants = tv({
@@ -12,14 +8,11 @@
 			variant: {
 				default:
 					"bg-primary text-primary-foreground hover:bg-primary-90 hover:text-white duration-300 transition shadow",
-				destructive:
-					"bg-destructive text-destructive-foreground hover:bg-destructive/90shadow-sm",
-				outline:
-					"border-input bg-background hover:bg-accent hover:text-accent-foreground border shadow-sm",
-				secondary:
-					"bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm",
+				destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm",
+				outline: "border-input bg-background hover:bg-accent hover:text-accent-foreground border shadow-sm",
+				secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm",
 				ghost: "hover:bg-accent hover:text-accent-foreground",
-				link: "text-primary-foreground underline-offset-4 !rounded-none border-b-2 border-primary-foreground !px-0",
+				link: "text-primary-foreground underline-offset-4 !rounded-none border-b-2 border-primary-foreground !px-0 hover:border-primary transition-[border]",
 				overlay:
 					"bg-[#ffffff22] backdrop-blur-sm  normal-case font-normal rounded-xs text-white hover:bg-[#ffffff40] duration-300 transition",
 			},
@@ -42,10 +35,7 @@
 	export type ButtonProps = {
 		variant?: ButtonVariant;
 		size?: ButtonSize;
-		ref?:
-			| SvelteHTMLElements["button"]
-			| null
-			| SvelteHTMLElements["anchor"];
+		ref?: SvelteHTMLElements["button"] | null | SvelteHTMLElements["anchor"];
 	} & HTMLAnchorAttributes &
 		HTMLButtonAttributes;
 </script>
@@ -66,21 +56,11 @@
 </script>
 
 {#if href}
-	<a
-		bind:this={ref}
-		class={cn(buttonVariants({ variant, size }), className)}
-		{href}
-		{...restProps}
-	>
+	<a bind:this={ref} class={cn(buttonVariants({ variant, size }), className)} {href} {...restProps}>
 		{@render children?.()}
 	</a>
 {:else}
-	<button
-		bind:this={ref}
-		class={cn(buttonVariants({ variant, size }), className)}
-		{type}
-		{...restProps}
-	>
+	<button bind:this={ref} class={cn(buttonVariants({ variant, size }), className)} {type} {...restProps}>
 		{@render children?.()}
 	</button>
 {/if}

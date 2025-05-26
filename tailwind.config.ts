@@ -6,10 +6,7 @@ import animate from "tailwindcss-animate";
 import type { Config } from "tailwindcss";
 
 export default {
-	content: [
-		"./src/**/*.{html,js,svelte,ts}",
-		"./node_modules/@selemondev/svelte-marquee/dist/*.svelte",
-	],
+	content: ["./src/**/*.{html,js,svelte,ts}", "./node_modules/@selemondev/svelte-marquee/dist/*.svelte"],
 
 	theme: {
 		container: {
@@ -35,6 +32,11 @@ export default {
 					DEFAULT: "var(--primary-color)",
 					foreground: "var(--primary-foreground-color)",
 					90: "var(--primary-color-90)",
+				},
+				secondary: {
+					DEFAULT: "var(--secondary-color)",
+					95: "var(--secondary-color-95)",
+					90: "var(--secondary-color-90)",
 				},
 				text: {
 					DEFAULT: "var(--text-color)",

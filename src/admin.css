@@ -1,0 +1,36 @@
+@import "./lib/scss/components/_button.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+
+	:root {
+		--radius: 100dvw;
+		--primary-color: hsl(316, 89%, 83%);
+		--primary-color-90: hsl(316, 89%, 73%);
+		--primary-color-20: hsl(316, 89%, 83%, 40%);
+		--secondary-color: hsl(0 0% 90% / 100%);
+		--primary-foreground-color: #000000;
+		--text-color: hsl(0 0% 0% / 100%);
+		--light-text-color: hsl(0 0% 45% / 100%);
+	}
+	body {
+        overflow-x: hidden;
+    }
+
+
+	h1, h2, h3, h4, h5, h6{
+		font-family: 'Perandory', serif;
+		line-height: 0.8;
+	}
+
+	@font-face {
+		font-family: "Perandory";
+		src: url($lib/assets/fonts/Perandory-Regular.woff) format("woff");
+	}
+
+}
+
+@theme{
+	--color-primary: #FAABE5;
+}

@@ -2,34 +2,80 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@layer base {
 
+@layer base {
 	:root {
 		--radius: 100dvw;
 		--primary-color: hsl(316, 89%, 83%);
 		--primary-color-90: hsl(316, 89%, 73%);
 		--primary-color-20: hsl(316, 89%, 83%, 40%);
+		--secondary-color: hsl(0 0% 90% / 100%);
+		--secondary-color-95: hsl(0 0% 95% / 100%);
+		--secondary-color-200: hsl(0 0% 80% / 100%);
 		--primary-foreground-color: #000000;
 		--text-color: hsl(0 0% 0% / 100%);
 		--light-text-color: hsl(0 0% 45% / 100%);
+		--background-color: hsl(0 0% 100% / 100%);
 	}
 	body {
-        overflow-x: hidden;
-    }
+		overflow-x: hidden;
+	}
 
-
-	h1, h2, h3, h4, h5, h6{
-		font-family: 'Perandory', serif;
-		line-height: 0.8 !important;
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: "Perandory", serif;
+		line-height: 0.8;
 	}
 
 	@font-face {
 		font-family: "Perandory";
 		src: url($lib/assets/fonts/Perandory-Regular.woff) format("woff");
 	}
+	.arrow_button {
+		--width: 8rem;
+		width: var(--width);
+		height: calc(3 * var(--width) / 4);
+		border-radius: 100%;
+		backdrop-filter: blur(1rem);
+		background-color: hsl(316, 72%, 76%, 50%);
+		rotate: -45deg;
+		color: white;
+		position: relative;
+		will-change: scale;
+		transition: scale 0.2s ease-out;
+	}
 
+	.arrow_button svg {
+		position: absolute;
+		inset: 50%;
+		translate: -50% -50%;
+		rotate: 45deg;
+	}
+
+	.arrow_button:not(:disabled):hover {
+		scale: 1.1;
+	}
+
+	.arrow_button.next__button {
+		translate: -35% 0;
+	}
+
+	/* .arrow_button svg {
+		rotate: calc(90deg - 45deg);
+	} */
+
+	.arrow_button:disabled {
+		opacity: 0.2;
+	}
+	.arrow--small {
+		--width: 2rem;
+	}
 }
 
-@theme{
-	--color-primary: #FAABE5;
+@theme {
+	--color-primary: #faabe5;
 }
