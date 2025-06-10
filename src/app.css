@@ -74,6 +74,21 @@
 	.arrow--small {
 		--width: 2rem;
 	}
+	.arrow--medium {
+		--width: 5rem;
+	}
+
+	.swiper-pagination {
+		--swiper-pagination-bullet-width: 2rem;
+		--swiper-pagination-bullet-border-radius: 100vmax;
+		--swiper-pagination-bullet-inactive-color: var(--secondary-color);
+		--swiper-pagination-bullet-inactive-opacity: 1;
+		--swiper-pagination-bottom: 2rem;
+		--swiper-pagination-color: var(--primary-color);
+		left: unset;
+		text-align: right;
+		inline-size: fit-content;
+	}
 }
 
 @theme {

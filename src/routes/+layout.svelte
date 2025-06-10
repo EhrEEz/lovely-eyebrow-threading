@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { navigating } from "$app/stores";
 	import Header from "$lib/components/Header.svelte";
 	import { setContext } from "svelte";
 	import "../app.css";
 	import Lenis from "lenis";
 	import Footer from "$lib/components/footer/Footer.svelte";
-
 	const { children, data } = $props();
 
 	const main = $state(data.siteSettings);
@@ -24,6 +24,10 @@
 				navScroll = false;
 			}
 		});
+
+		if ($navigating) {
+			lenis.scrollTo(0);
+		}
 	});
 </script>
 

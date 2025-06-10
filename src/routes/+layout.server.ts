@@ -11,7 +11,7 @@ export const load: LayoutServerLoad = async ({ fetch }) => {
 			contact: {
 				populate: {
 					address: {
-						fields: ["street", "city", "state", "zip_code", "state_code"],
+						fields: ["street", "city", "state", "zip_code", "state_code", "map_link"],
 					},
 					phone_numbers: {
 						fields: ["phone_number"],

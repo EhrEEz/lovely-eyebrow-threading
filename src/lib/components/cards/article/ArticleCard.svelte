@@ -1,13 +1,13 @@
 <script lang="ts" module>
-	import type { HTMLAttributes, SvelteHTMLElements } from "svelte/elements";
+	import type { HTMLAnchorAttributes, HTMLAttributes } from "svelte/elements";
 	import { tv, type VariantProps } from "tailwind-variants";
 
 	export const articleCardVariants = tv({
-		base: "flex items-stretch gap-12 hover:border-primary border rounded-md border-transparent transition-['border'] duration-500",
+		base: "flex items-stretch gap-12 hover:border-primary border rounded-md border-transparent transition-['border'] duration-500 group",
 		variants: {
 			size: {
-				lg: "group lg-card gap-20",
-				sm: "group sm-card gap-8 items-start",
+				lg: "lg-card gap-20",
+				sm: "sm-card gap-8 items-start",
 			},
 		},
 	});
@@ -15,15 +15,23 @@
 	export type ArticleCardSize = VariantProps<typeof articleCardVariants>["size"];
 	export type ArticleProps = {
 		size?: ArticleCardSize;
-		ref?: SvelteHTMLElements["article"] | null;
-	} & HTMLAttributes<HTMLDivElement>;
+		href?: HTMLAnchorAttributes["href"];
+		children?: () => any;
+		class?: string;
+	} & HTMLAttributes<HTMLElement>;
 </script>
 
 <script lang="ts">
 	import { cn } from "$lib/utils/utils";
-	const { children, size, class: className, ...restProps }: ArticleProps = $props();
+	const { children, size, class: className, href = "", ...restProps }: ArticleProps = $props();
 </script>
 
-<div class={cn(articleCardVariants({ size }), className)} {...restProps}>
-	{@render children?.()}
-</div>
+{#if href}
+	<a {href} class={cn(articleCardVariants({ size }), "flex", className)} {...restProps}>
+		{@render children?.()}
+	</a>
+{:else}
+	<article class={cn(articleCardVariants({ size }), className)} {...restProps}>
+		{@render children?.()}
+	</article>
+{/if}

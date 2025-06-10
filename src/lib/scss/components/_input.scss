@@ -1,8 +1,8 @@
 .form {
 	&-group {
 		--_error-color: hsl(14 100% 50%);
-		--_pad_x: 1.25rem;
-		--_height: 5rem;
+		--_pad_x: 0;
+		--_height: 3.5rem;
 		position: relative;
 		margin-bottom: 1.5rem;
 
@@ -20,20 +20,6 @@
 				transition: opacity 0.2s ease-out;
 			}
 		}
-		&.has--content,
-		&.error {
-			.form {
-				&-label {
-					font-size: 0.875rem;
-					top: 1em;
-					transform: translateY(0);
-					transition: 0.2s ease-out;
-				}
-				&-control {
-					padding: 1.25em var(--_pad_x) 0.25em;
-				}
-			}
-		}
 		&.text-area {
 			.form {
 				&-control {
@@ -46,13 +32,7 @@
 					top: 2rem;
 				}
 			}
-			&.has--content {
-				.form {
-					&-label {
-						top: 1em;
-					}
-				}
-			}
+
 			@for $i from 1 through 10 {
 				&--#{$i} {
 					@extend .text-area;
@@ -60,26 +40,37 @@
 				}
 			}
 		}
+		&.error {
+			.form {
+				&-label {
+					font-size: 0.875rem;
+					top: 0;
+					transform: translateY(0);
+					transition: 0.2s ease-out;
+				}
+				&-control {
+					padding: 1.25em var(--_pad_x) 0.25em;
+				}
+			}
+		}
 	}
 	&-control {
-		padding: 0.75em var(--_pad_x) 0.5em;
-		height: var(--_height);
+		padding: 1.5em var(--_pad_x) 0.5em !important;
 		background-color: hsl(0 0% 100% / 5%);
 		backdrop-filter: blur(0.5rem);
 		border: none;
+		border-bottom: 1.5px solid var(--text-color);
 		outline: none;
-		font-size: 1.5rem;
-		border-radius: 0.75rem;
+		font-size: 1.2rem !important;
 		box-shadow: none !important;
 		color: var(--clr-neutral-100);
 		font-weight: 400;
+		inline-size: 100%;
+		height: var(--_height);
 		&::placeholder {
 			opacity: 0;
 		}
-		&:focus {
-			color: var(--clr-neutral-100);
-			background-color: hsl(0 0% 100% / 10%);
-		}
+
 		&:autofill {
 			border: 1px solid hsl(0 0% 100% / 15%);
 			-webkit-box-shadow: 0 0 0 5rem hsl(0 0% 10% / 100%) inset !important;
@@ -91,6 +82,21 @@
 			-webkit-box-shadow: 0 0 0 5rem hsl(0 0% 10% / 100%) inset !important;
 			-webkit-text-fill-color: white !important;
 		}
+		&:focus {
+			border-color: var(--primary-color) !important;
+		}
+		&:focus,
+		&:focus:not([data-input-value=""]),
+		&:not([data-input-value=""]) {
+			& + .form {
+				&-label {
+					font-size: 0.875rem;
+					top: 0;
+					transform: translateY(0);
+					transition: 0.2s ease-out;
+				}
+			}
+		}
 	}
 	&-label {
 		position: absolute;
@@ -101,7 +107,7 @@
 		z-index: 1;
 		color: var(--clr-neutral-300);
 		font-weight: 400;
-		font-size: 1.5rem;
+		font-size: 1.125rem;
 		transition: 0.2s ease-out;
 		text-transform: uppercase;
 		pointer-events: none;
@@ -116,4 +122,8 @@
 	visibility: hidden;
 	opacity: 0;
 	transition: opacity 0.2s ease-out;
+}
+
+label {
+	display: block;
 }

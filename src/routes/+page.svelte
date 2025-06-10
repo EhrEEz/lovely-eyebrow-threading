@@ -2,7 +2,6 @@
 	import { fade, fly } from "svelte/transition";
 	import * as Article from "$lib/components/cards/article";
 	import Button from "$lib/components/buttons/Button.svelte";
-	import Social from "$lib/components/social/Social.svelte";
 	import Generator from "$lib/components/canvas/Generator.svelte";
 	import { ServiceSlider } from "$lib/components/slider";
 	import { Marquee } from "@selemondev/svelte-marquee";
@@ -24,7 +23,6 @@
 	let testimonialPagination = $state<HTMLElement>();
 	let _testimonial_swiper: Swiper;
 
-	let ready = $state(false);
 	$effect(() => {
 		if (testimonialSlider) {
 			_testimonial_swiper = new Swiper(testimonialSlider, {
@@ -36,88 +34,87 @@
 				},
 			});
 		}
-		ready = true;
 	});
 </script>
 
-{#if ready}
-	<main>
-		<section class="relative">
-			<div class="container">
-				<div class="flex-col flex items-center justify-center min-h-dvh">
-					{#if header_section.display_address && siteSettings.contact.address && siteSettings.contact.address.length > 0}
-						<div class="flex justify-center gap-4">
-							{#each siteSettings.contact.address as address}
-								<address
-									class="flex items-center justify-center gap-4 not-italic mb-5"
-									in:fade={{ duration: 700, delay: 400 }}
-								>
-									<span class="uppercase">{address.street} </span>
-									<span class="uppercase">{address.city}, {address.state_code} {address.zip_code}</span>
-								</address>
-							{/each}
-						</div>
-					{/if}
-					<h2 class="text-9xl" id="title-1" in:fly={{ y: 20, duration: 1000, delay: 100 }}>
-						{header_section.large_text}
-					</h2>
-					<h2 class="text-7xl" id="title-2" in:fly={{ y: -15, duration: 1000, delay: 200 }}>
-						{header_section.small_text}
-					</h2>
-					<div class="flex items-center justify-center gap-6 mt-8" in:fade={{ duration: 300, delay: 600 }}>
-						<Button variant="default" size="lg"><span class="btn__text">Book Now</span></Button>
-						<Button variant="link" size="lg"><span class="btn__text">Contact Us</span></Button>
+<main>
+	<section class="relative">
+		<div class="container">
+			<div class="flex-col flex items-center justify-center min-h-dvh">
+				{#if header_section.display_address && siteSettings.contact.address && siteSettings.contact.address.length > 0}
+					<div class="flex justify-center gap-4">
+						{#each siteSettings.contact.address as address}
+							<address
+								class="flex items-center justify-center gap-4 not-italic mb-5"
+								in:fade={{ duration: 700, delay: 400 }}
+							>
+								<span class="uppercase">{address.street} </span>
+								<span class="uppercase">{address.city}, {address.state_code} {address.zip_code}</span>
+							</address>
+						{/each}
 					</div>
+				{/if}
+				<h2 class="text-9xl" id="title-1" in:fly={{ y: 20, duration: 1000, delay: 100 }}>
+					{header_section.large_text}
+				</h2>
+				<h2 class="text-7xl" id="title-2" in:fly={{ y: -15, duration: 1000, delay: 200 }}>
+					{header_section.small_text}
+				</h2>
+				<div class="flex items-center justify-center gap-6 mt-8" in:fade={{ duration: 300, delay: 600 }}>
+					<Button variant="default" size="lg"><span class="btn__text">Book Now</span></Button>
+					<Button variant="link" size="lg"><span class="btn__text">Contact Us</span></Button>
 				</div>
-				<div class="floating__image image--1" in:fly={{ y: 25, x: -25, duration: 1000, delay: 400 }}>
-					<img
-						loading="lazy"
-						src={media_url + header_section.left_image.formats.thumbnail.url}
-						title={header_section.left_image.name}
-						srcset="
+			</div>
+			<div class="floating__image image--1" in:fly={{ y: 25, x: -25, duration: 1000, delay: 400 }}>
+				<img
+					loading="lazy"
+					src={media_url + header_section.left_image.formats.thumbnail.url}
+					title={header_section.left_image.name}
+					srcset="
 			{header_section.left_image.formats.thumbnail
-							? `${media_url + header_section.left_image.formats.thumbnail.url} 234w,`
-							: ''}
+						? `${media_url + header_section.left_image.formats.thumbnail.url} 234w,`
+						: ''}
 			{header_section.left_image.formats.small ? `${media_url + header_section.left_image.formats.small.url} 500w,` : ''}
 			{header_section.left_image.formats.medium ? `${media_url + header_section.left_image.formats.medium.url} 750w,` : ''}
 			{header_section.left_image.formats.large ? `${media_url + header_section.left_image.formats.large.url} 1000w,` : ''}"
-						alt={header_section.left_image.alternativeText ?? "Header Image 1"}
-					/>
-				</div>
+					alt={header_section.left_image.alternativeText ?? "Header Image 1"}
+				/>
+			</div>
 
-				<div class="floating__image image--2" in:fly={{ y: 25, x: 25, duration: 1000, delay: 450 }}>
-					<img
-						loading="lazy"
-						src={media_url + header_section.right_image.formats.thumbnail.url}
-						title={header_section.right_image.name}
-						srcset="
+			<div class="floating__image image--2" in:fly={{ y: 25, x: 25, duration: 1000, delay: 450 }}>
+				<img
+					loading="lazy"
+					src={media_url + header_section.right_image.formats.thumbnail.url}
+					title={header_section.right_image.name}
+					srcset="
 			{header_section.right_image.formats.thumbnail
-							? `${media_url + header_section.right_image.formats.thumbnail.url} 234w,`
-							: ''}
+						? `${media_url + header_section.right_image.formats.thumbnail.url} 234w,`
+						: ''}
 			{header_section.right_image.formats.small ? `${media_url + header_section.right_image.formats.small.url} 500w,` : ''}
 			{header_section.right_image.formats.medium ? `${media_url + header_section.right_image.formats.medium.url} 750w,` : ''}
 			{header_section.right_image.formats.large ? `${media_url + header_section.right_image.formats.large.url} 1000w,` : ''}"
-						alt={header_section.right_image.alternativeText ?? "Header Image 1"}
-					/>
-				</div>
+					alt={header_section.right_image.alternativeText ?? "Header Image 1"}
+				/>
 			</div>
-		</section>
-		<ServiceSlider {services} {media_url} />
-		<section class="pt-36 pb-36">
-			<Marquee
-				class="gap-[3rem] [--duration:20s] [--gap:3rem] "
-				innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
-			>
-				<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
-				<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-				<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
-				<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-				<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
-				<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-				<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
-				<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			</Marquee>
-		</section>
+		</div>
+	</section>
+	<ServiceSlider {services} {media_url} />
+	<section class="pt-36 pb-36">
+		<Marquee
+			class="gap-[3rem] [--duration:20s] [--gap:3rem] "
+			innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
+		>
+			<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
+			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
+			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
+			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
+			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+		</Marquee>
+	</section>
+	{#if about_section}
 		<section class="featured-service__section py-24">
 			<div class="container flex gap-8 items-center">
 				<div class="w-1/2 pe-20">
@@ -158,6 +155,8 @@
 				</div>
 			</div>
 		</section>
+	{/if}
+	{#if gallery_section}
 		<section class="gallery__section relative w-full flex justify-center py-96 overflow-hidden">
 			<div class="gallery__text-wrapper w-fit relative flex flex-col items-center">
 				<h3 class="text-center">
@@ -264,7 +263,8 @@
 				</div>
 			{/if}
 		</section>
-
+	{/if}
+	{#if testimonials && testimonials.length > 0}
 		<section class="testimonials__section py-48 bg-gray-100">
 			<div class="container">
 				<h2 class="text-center text-6xl sr-only">Testimonials</h2>
@@ -304,11 +304,13 @@
 				</div>
 			</div>
 		</section>
+	{/if}
+	{#if articles && articles.length > 0}
 		<section class="articles__section pt-48">
 			<div class="container">
 				<h2 class="text-8xl text-center mb-24">Latest articles</h2>
 				<div class="w-10/12 mx-auto">
-					<Article.Card size="lg">
+					<Article.Card size="lg" href={`/blogs/` + articles[0].slug}>
 						<Article.Image img={articles[0].cover} />
 						<Article.Content>
 							<Article.Head>
@@ -330,7 +332,7 @@
 				<div class="grid grid-cols-2 mt-16 justify-center items-stretch gap-16">
 					{#each articles as article, index}
 						{#if index !== 0}
-							<Article.Card>
+							<Article.Card href={`/blogs/` + articles[0].slug}>
 								<Article.Image img={article.cover} />
 								<Article.Content>
 									<Article.Head>
@@ -356,7 +358,8 @@
 				</div>
 			</div>
 		</section>
-
+	{/if}
+	{#if contact_section}
 		<section class="contact__section pt-48 pb-24">
 			<div class="container">
 				<div class="flex items-center flex-col gap-20">
@@ -388,21 +391,10 @@
 				</div>
 			</div>
 		</section>
-	</main>
-{/if}
+	{/if}
+</main>
 
 <style>
-	.swiper-pagination {
-		--swiper-pagination-bullet-width: 2rem;
-		--swiper-pagination-bullet-border-radius: 100vmax;
-		--swiper-pagination-bullet-inactive-color: var(--secondary-color);
-		--swiper-pagination-bullet-inactive-opacity: 1;
-		--swiper-pagination-bottom: 2rem;
-		--swiper-pagination-color: var(--primary-color);
-		left: unset;
-		text-align: right;
-		inline-size: fit-content;
-	}
 	.contact__image::after {
 		background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
 	}
@@ -439,13 +431,6 @@
 		scale: 1.2;
 
 		animation: float--2 12s ease-out 1s infinite alternate;
-	}
-
-	.card__bg::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
 	}
 
 	@keyframes float--1 {

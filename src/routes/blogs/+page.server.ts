@@ -40,7 +40,6 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 			articles: data,
 		};
 	}
-	console.log(response);
 	error(response.status, {
 		message: response.statusText,
 	});

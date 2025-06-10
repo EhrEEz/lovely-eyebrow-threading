@@ -12,16 +12,6 @@ export interface CollectionInterface {
 	updated: string; // Or Date if you want to parse it
 }
 
-export type Service = {
-	id: string;
-	banner: string;
-	booking_link: string;
-	name: string;
-	short_description: string;
-	short_quote: string;
-	slug: string;
-} & CollectionInterface;
-
 export type Gallery = {
 	id: string;
 	before: string;

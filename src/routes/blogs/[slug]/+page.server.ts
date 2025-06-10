@@ -67,13 +67,13 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 		if (response.ok) {
 			const { data } = await response.json();
 			if (data.length > 0) {
+				console.log(data[0]);
 				return {
 					media_url: PUBLIC_MEDIA_URL,
 					article: data[0],
 				};
 			}
 		} else {
-			console.log(response);
 			error(response.status, {
 				message: response.statusText,
 			});

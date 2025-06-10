@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Swiper from "swiper";
 	import "swiper/swiper-bundle.css";
-	import type { SvelteComponent } from "svelte";
 	import { Navigation, Autoplay, Thumbs, EffectCreative, Controller } from "swiper/modules";
 	import ServiceImage from "./ServiceImage.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";

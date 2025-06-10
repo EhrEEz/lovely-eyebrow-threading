@@ -19,26 +19,28 @@
 	<div class="container h-full">
 		<div class="flex justify-stretch items-center w-full h-full h-100 py-8">
 			<div class="flex flex-col flex-grow basis-0 gap-16">
-				<div class="group nav__contacts" style="--delay:{0.4}s;">
-					<h3 class="mb-2 underline decoration-2 decoration-primary underline-offset-4">Find us at</h3>
-					{#if addresses && addresses.length > 0}
+				{#if addresses && addresses.length > 0}
+					<div class="group nav__contacts" style="--delay:{0.4}s;">
+						<h3 class="mb-2 underline decoration-2 decoration-primary underline-offset-4">Find us at</h3>
 						{#each addresses as address}
 							<address class="not-italic">
 								{#if address.map_link}
 									<a href={address.map_link} class="text-2xl uppercase">
-										{address.street} <br />{address.city}
+										{address.street}, <br />{address.city},
 										{address.zip_code}
+										{address.state_code}
 									</a>
 								{:else}
 									<div class="text-2xl uppercase">
-										{address.street} <br />{address.city}
+										{address.street}, <br />{address.city},
 										{address.zip_code}
+										{address.state_code}
 									</div>
 								{/if}
 							</address>
 						{/each}
-					{/if}
-				</div>
+					</div>
+				{/if}
 				<div class="group nav__contacts" style="--delay:{0.45}s;">
 					<h3 class="mb-2 underline decoration-2 decoration-primary underline-offset-4">Contact Us</h3>
 					{#if phoneNumbers && phoneNumbers.length > 0}

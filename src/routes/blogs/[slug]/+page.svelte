@@ -5,36 +5,51 @@
 	import Social from "$lib/components/social/Social.svelte";
 	import { Tag } from "$lib/components/cards/article";
 	import moment from "moment";
-	import { marked } from "marked";
-	import "$lib/scss/pages/_blogs.scss";
+	import { marked, type RendererObject } from "marked";
 	import Lenis from "lenis";
 	import Swiper from "swiper";
 	import { Autoplay, Navigation, Pagination } from "swiper/modules";
+	import "$lib/scss/pages/_blogs.scss";
+	import "swiper/swiper-bundle.css";
 	const { data } = $props();
-	const article = $state(data.article);
+	const article = $derived(data.article);
 	const relatedArticles = $derived(article.related_articles.articles);
-	const asset_url = $state(data.media_url);
 
-	let relatedArticlesEmt: HTMLElement;
-	let relatedArticlesNext: HTMLButtonElement;
-	let relatedArticlesPrev: HTMLButtonElement;
-	let relatedArticlesPagination: HTMLElement;
+	const asset_url = $state(data.media_url);
+	let lenis: Lenis = $derived(getContext("lenis"));
+	let relatedArticlesEmt = $state<HTMLElement>();
+	let relatedArticlesNext = $state<HTMLButtonElement>();
+	let relatedArticlesPrev = $state<HTMLButtonElement>();
+	let relatedArticlesPagination = $state<HTMLDivElement>();
 	let _relatedArticlesSlider: Swiper;
 
-	let lenis: Lenis = $derived(getContext("lenis"));
+	const customRenderer: RendererObject = {
+		heading({ tokens, depth }): string {
+			const text = this.parser.parseInline(tokens);
+			return `<h${depth === 1 ? 2 : depth}${depth === 1 ? ` class="heading-1"` : ""}>${text}</h${depth === 1 ? 2 : depth}>`;
+		},
+		link({ tokens, href, title }): string {
+			const text = this.parser.parseInline(tokens);
+			return `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
+		},
+	};
+
+	marked.use({ renderer: customRenderer });
+
 	$effect(() => {
-		lenis.scrollTo(0);
-		_relatedArticlesSlider = new Swiper(relatedArticlesEmt, {
-			modules: [Navigation, Pagination, Autoplay],
-			navigation: {
-				nextEl: relatedArticlesNext,
-				prevEl: relatedArticlesPrev,
-			},
-			pagination: {
-				el: relatedArticlesPagination,
-			},
-		});
-		_relatedArticlesSlider;
+		if (relatedArticlesEmt) {
+			_relatedArticlesSlider = new Swiper(relatedArticlesEmt, {
+				modules: [Navigation, Pagination, Autoplay],
+				navigation: {
+					nextEl: relatedArticlesNext,
+					prevEl: relatedArticlesPrev,
+				},
+				pagination: {
+					el: relatedArticlesPagination,
+					clickable: true,
+				},
+			});
+		}
 	});
 </script>
 
@@ -142,70 +157,85 @@
 							</a>
 						</div>
 					</div>
-					<div class="related-articles__wrapper relative">
-						<div class="swiper" bind:this={relatedArticlesEmt}>
-							<div class="swiper-wrapper">
-								{#each relatedArticles as relatedArticle}
-									<div class="swiper-slide">
-										<Article.Card size="sm">
-											<Article.Image img={relatedArticle.cover} />
-											<Article.Content>
-												<Article.Head>
-													<Article.Tag>{relatedArticle.article_tag?.title}</Article.Tag>
-													<Article.Title>{relatedArticle.title}</Article.Title>
-													<div class="font-medium text-text-light uppercase">
-														{moment(relatedArticle.created).format("MMMM DD, YYYY | dddd")}
-													</div>
-												</Article.Head>
-												<Article.Body>
-													<p class="leading-6">
-														{relatedArticle.description}
-													</p>
-												</Article.Body>
-												<Article.Link href={"/blogs/" + relatedArticle.slug}>Read Full Article</Article.Link>
-											</Article.Content>
-										</Article.Card>
-									</div>
-								{/each}
+					{#if relatedArticles && relatedArticles.length > 0}
+						<div class="related-articles__wrapper relative pb-16">
+							<div class="swiper" bind:this={relatedArticlesEmt}>
+								<div class="swiper-wrapper">
+									{#each relatedArticles as relatedArticle}
+										<div class="swiper-slide">
+											<Article.Card size="sm">
+												<Article.Image img={relatedArticle.cover} />
+												<Article.Content>
+													<Article.Head>
+														<Article.Tag>{relatedArticle.article_tag?.title}</Article.Tag>
+														<Article.Title>{relatedArticle.title}</Article.Title>
+														<div class="font-medium text-text-light uppercase">
+															{moment(relatedArticle.created).format("MMMM DD, YYYY | dddd")}
+														</div>
+													</Article.Head>
+													<Article.Body>
+														<p class="leading-6">
+															{relatedArticle.description}
+														</p>
+													</Article.Body>
+													<Article.Link data-sveltekit-reload href={"/blogs/" + relatedArticle.slug}
+														>Read Full Article</Article.Link
+													>
+												</Article.Content>
+											</Article.Card>
+										</div>
+									{/each}
+								</div>
 							</div>
+							<div class="button__wrapper absolute right-0 bottom-0 translate-y-1/2 z-20">
+								<button
+									class="arrow_button prev__button arrow--medium"
+									bind:this={relatedArticlesPrev}
+									aria-label="Previous Slide"
+								>
+									<svg fill="none" viewBox="0 0 24 24" width="36" xmlns="http://www.w3.org/2000/svg"
+										><g clip-rule="evenodd" fill="rgb(255,255,255)" fill-rule="evenodd"
+											><path d="m3.24951 11.25h17.49979v1.5h-17.49979z"></path><path
+												d="m3.99962 12.75c3.52755 0 6.41008-3.10214 6.41008-6.41005v-.75h-1.50003v.75c0 2.51158-2.24266 4.91005-4.91005 4.91005h-.75011v1.5z"
+											></path><path
+												d="m3.99962 11.25c3.52755 0 6.41008 3.1021 6.41008 6.41v.75h-1.50003v-.75c0-2.5115-2.24266-4.91-4.91005-4.91h-.75011v-1.5z"
+											></path></g
+										>
+									</svg>
+								</button>
+								<button
+									class="arrow_button next__button arrow--medium"
+									bind:this={relatedArticlesNext}
+									aria-label="Next Slide"
+								>
+									<svg width="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path
+											fill-rule="evenodd"
+											clip-rule="evenodd"
+											d="M20.7505 11.25H3.2507V12.75H20.7505V11.25Z"
+											fill="white"
+										/>
+										<path
+											fill-rule="evenodd"
+											clip-rule="evenodd"
+											d="M20.0004 12.75C16.4728 12.75 13.5903 9.64788 13.5903 6.33997V5.58997H15.0903V6.33997C15.0903 8.85155 17.333 11.25 20.0004 11.25H20.7505V12.75H20.0004Z"
+											fill="white"
+										/>
+										<path
+											fill-rule="evenodd"
+											clip-rule="evenodd"
+											d="M20.0004 11.25C16.4728 11.25 13.5903 14.3521 13.5903 17.66V18.41H15.0903V17.66C15.0903 15.1485 17.333 12.75 20.0004 12.75H20.7505V11.25H20.0004Z"
+											fill="white"
+										/>
+									</svg>
+								</button>
+							</div>
+							<div
+								class="swiper-pagination !bottom-0 right-auto left-0 z-10 !text-left"
+								bind:this={relatedArticlesPagination}
+							></div>
 						</div>
-						<div class="button__wrapper absolute right-2 bottom-0 translate-y-1/2 z-10">
-							<button class="arrow_button prev__button" bind:this={relatedArticlesPrev} aria-label="Previous Slide">
-								<svg fill="none" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg"
-									><g clip-rule="evenodd" fill="rgb(255,255,255)" fill-rule="evenodd"
-										><path d="m3.24951 11.25h17.49979v1.5h-17.49979z"></path><path
-											d="m3.99962 12.75c3.52755 0 6.41008-3.10214 6.41008-6.41005v-.75h-1.50003v.75c0 2.51158-2.24266 4.91005-4.91005 4.91005h-.75011v1.5z"
-										></path><path
-											d="m3.99962 11.25c3.52755 0 6.41008 3.1021 6.41008 6.41v.75h-1.50003v-.75c0-2.5115-2.24266-4.91-4.91005-4.91h-.75011v-1.5z"
-										></path></g
-									>
-								</svg>
-							</button>
-							<button class="arrow_button next__button" bind:this={relatedArticlesNext} aria-label="Next Slide">
-								<svg width="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
-										d="M20.7505 11.25H3.2507V12.75H20.7505V11.25Z"
-										fill="white"
-									/>
-									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
-										d="M20.0004 12.75C16.4728 12.75 13.5903 9.64788 13.5903 6.33997V5.58997H15.0903V6.33997C15.0903 8.85155 17.333 11.25 20.0004 11.25H20.7505V12.75H20.0004Z"
-										fill="white"
-									/>
-									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
-										d="M20.0004 11.25C16.4728 11.25 13.5903 14.3521 13.5903 17.66V18.41H15.0903V17.66C15.0903 15.1485 17.333 12.75 20.0004 12.75H20.7505V11.25H20.0004Z"
-										fill="white"
-									/>
-								</svg>
-							</button>
-						</div>
-						<div class="swiper-pagination !bottom-0 right-0 left-auto" bind:this={relatedArticlesPagination}></div>
-					</div>
+					{/if}
 				</div>
 			</aside>
 		</div>

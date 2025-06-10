@@ -2,8 +2,6 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import * as Article from "$lib/components/cards/article";
 
-	import { page as sv_page } from "$app/stores";
-
 	const { data } = $props();
 	let articles: typeof data.articles = $state(data.articles);
 	const meta = $state(data.meta);
@@ -47,7 +45,7 @@
 				<div class="container">
 					<h2 class="text-8xl text-center mb-24">Latest articles</h2>
 					<div class="w-10/12 mx-auto">
-						<Article.Card size="lg">
+						<Article.Card size="lg" href={`/blogs/` + articles[0].slug}>
 							<Article.Image img={articles[0].cover} />
 							<Article.Content>
 								<Article.Head>
@@ -70,7 +68,7 @@
 						<div class="grid grid-cols-2 mt-16 justify-center items-stretch gap-16">
 							{#each articles as article, index}
 								{#if index !== 0}
-									<Article.Card>
+									<Article.Card href={`/blogs/` + articles[0].slug}>
 										<Article.Image img={article.cover} />
 										<Article.Content>
 											<Article.Head>

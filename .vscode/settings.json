@@ -16,5 +16,6 @@
 	},
 	"[tailwindcss]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
+	},
+	"cSpell.words": ["phonecall"]
 }

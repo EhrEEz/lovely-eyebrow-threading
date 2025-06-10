@@ -1,14 +1,14 @@
-import { SECRET_TURNSTILE_KEY } from '$env/static/private';
-async function validateToken(token, secret) {
-	const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-		method: 'POST',
+import { SECRET_TURNSTILE_KEY } from "$env/static/private";
+async function validateToken(token: string, secret: string) {
+	const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+		method: "POST",
 		headers: {
-			'content-type': 'application/json'
+			"content-type": "application/json",
 		},
 		body: JSON.stringify({
 			response: token,
-			secret: secret
-		})
+			secret: secret,
+		}),
 	});
 
 	const data = await response.json();
@@ -18,7 +18,7 @@ async function validateToken(token, secret) {
 		success: data.success,
 
 		// Return the first error if it exists
-		error: data['error-codes']?.length ? data['error-codes'][0] : null
+		error: data["error-codes"]?.length ? data["error-codes"][0] : null,
 	};
 }
 export async function POST({ request, fetch }) {
@@ -30,24 +30,31 @@ export async function POST({ request, fetch }) {
 	if (!success) {
 		return new Response(
 			JSON.stringify({
-				error: error || 'Invalid Captcha',
-				token_error: true
+				error: error || "Invalid Captcha",
+				token_error: true,
 			})
 		);
 	}
 	delete data.token;
-	const res = await fetch(`/api/contact-messages/`, {
-		method: 'post',
+	const res = await fetch(`/api/contacts/`, {
+		method: "post",
 		headers: {
-			'Content-Type': 'application/json'
+			Accept: "application/json",
+			"Content-type": "application/json",
 		},
+		//tsignore
+		// duplex: "half",
 		body: JSON.stringify({
 			data: {
-				...data
-			}
+				...data,
+			},
 		}),
-		duplex: 'half'
 	});
+
+	if (!res.ok) {
+		console.error(res);
+		return res;
+	}
 	const json = await res.json();
 	return new Response(JSON.stringify(json));
 }
