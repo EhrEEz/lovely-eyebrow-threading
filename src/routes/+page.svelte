@@ -6,7 +6,10 @@
 	import { ServiceSlider } from "$lib/components/slider";
 	import { Marquee } from "@selemondev/svelte-marquee";
 	import Swiper from "swiper";
-	import { Pagination } from "swiper/modules";
+	import { Pagination, Autoplay, EffectCreative } from "swiper/modules";
+	import Seo from "$lib/components/seo/SEO.svelte";
+	import { getContext } from "svelte";
+	import type { CTAItem } from "$lib/types/variables.js";
 	const { data } = $props();
 	const home_data = $state(data.home_data);
 	const siteSettings = $state(data.siteSettings);
@@ -23,11 +26,29 @@
 	let testimonialPagination = $state<HTMLElement>();
 	let _testimonial_swiper: Swiper;
 
+	const cta = $state<CTAItem>(getContext("cta"));
+
 	$effect(() => {
 		if (testimonialSlider) {
 			_testimonial_swiper = new Swiper(testimonialSlider, {
 				slidesPerView: 1,
-				modules: [Pagination],
+				spaceBetween: 30,
+				modules: [Pagination, Autoplay, EffectCreative],
+				effect: "creative",
+				creativeEffect: {
+					prev: {
+						shadow: false,
+						translate: [0, 0, -400],
+					},
+					next: {
+						translate: ["100%", 0, 0],
+					},
+				},
+				loop: true,
+				autoplay: {
+					delay: 5000,
+					disableOnInteraction: false,
+				},
 				pagination: {
 					el: testimonialPagination,
 					clickable: true,
@@ -37,10 +58,12 @@
 	});
 </script>
 
+<Seo pageSettings={home_data.page_info} {siteSettings} {media_url} />
+
 <main>
-	<section class="relative">
+	<section class="relative header__section overflow-x-clip">
 		<div class="container">
-			<div class="flex-col flex items-center justify-center min-h-dvh">
+			<div class="flex-col flex items-center justify-center min-h-dvh py-64">
 				{#if header_section.display_address && siteSettings.contact.address && siteSettings.contact.address.length > 0}
 					<div class="flex justify-center gap-4">
 						{#each siteSettings.contact.address as address}
@@ -54,10 +77,10 @@
 						{/each}
 					</div>
 				{/if}
-				<h2 class="text-9xl" id="title-1" in:fly={{ y: 20, duration: 1000, delay: 100 }}>
+				<h2 class="text-7xl md:text-9xl text-center" id="title-1" in:fly={{ y: 20, duration: 1000, delay: 100 }}>
 					{header_section.large_text}
 				</h2>
-				<h2 class="text-7xl" id="title-2" in:fly={{ y: -15, duration: 1000, delay: 200 }}>
+				<h2 class="text-4xl md:text-7xl text-center" id="title-2" in:fly={{ y: -15, duration: 1000, delay: 200 }}>
 					{header_section.small_text}
 				</h2>
 				<div class="flex items-center justify-center gap-6 mt-8" in:fade={{ duration: 300, delay: 600 }}>
@@ -99,7 +122,7 @@
 		</div>
 	</section>
 	<ServiceSlider {services} {media_url} />
-	<section class="pt-36 pb-36">
+	<section class="my-24 md:my-36">
 		<Marquee
 			class="gap-[3rem] [--duration:20s] [--gap:3rem] "
 			innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
@@ -115,26 +138,12 @@
 		</Marquee>
 	</section>
 	{#if about_section}
-		<section class="featured-service__section py-24">
-			<div class="container flex gap-8 items-center">
-				<div class="w-1/2 pe-20">
-					{#if about_section.title}
-						<h2 class="font-sans font-normal text-2xl mb-6 uppercase">{about_section?.title}</h2>
-					{/if}
-					{#if about_section.description}
-						<p class="text-lg leading-9">
-							Thanks to modern innovation, achieving full, beautiful brows—even if you weren’t genetically blessed with
-							them—is now very attainable: From high-performance brow pencils to brow-growing serums that yield
-							impressive results, there are plenty of options for getting thicker brows in just a few swipes or strokes.
-							However, if you prefer a fix that doesn’t involve using numerous brow products or filling them in on a
-							daily basis, consider giving eyebrow tinting a try.
-						</p>
-					{/if}
-				</div>
-				<div class="w-1/2">
+		<section class="featured-service__section my-24">
+			<div class="container lg:flex gap-8 items-center">
+				<div class="lg:w-1/2 order-1 mb-10">
 					<div class="rounded-xxl overflow-hidden relative">
 						<h4
-							class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white px-3 py-3 w-full text-5xl !leading-[1em]"
+							class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white md:px-3 md:py-3 w-full text-4xl md:text-5xl !leading-[1em] px-8"
 						>
 							{about_section.hook}
 						</h4>
@@ -153,17 +162,31 @@
 						/>
 					</div>
 				</div>
+				<div class="lg:w-1/2 lg:pe-20 order-0">
+					{#if about_section.title}
+						<h2 class="font-sans font-normal text-2xl mb-6 uppercase">{about_section?.title}</h2>
+					{/if}
+					{#if about_section.description}
+						<p class="text-lg leading-9">
+							Thanks to modern innovation, achieving full, beautiful brows—even if you weren’t genetically blessed with
+							them—is now very attainable: From high-performance brow pencils to brow-growing serums that yield
+							impressive results, there are plenty of options for getting thicker brows in just a few swipes or strokes.
+							However, if you prefer a fix that doesn’t involve using numerous brow products or filling them in on a
+							daily basis, consider giving eyebrow tinting a try.
+						</p>
+					{/if}
+				</div>
 			</div>
 		</section>
 	{/if}
 	{#if gallery_section}
-		<section class="gallery__section relative w-full flex justify-center py-96 overflow-hidden">
+		<section class="gallery__section relative w-full flex justify-center lg:py-96 py-48 md:py-72 overflow-x-clip">
 			<div class="gallery__text-wrapper w-fit relative flex flex-col items-center">
 				<h3 class="text-center">
-					<div class="text-8xl">Your Eyebrows</div>
-					<div class="text-[14rem]">Your Way</div>
+					<div class="text-5xl lg:text-8xl">Your Eyebrows</div>
+					<div class="text-[8rem] lg:text-[14rem]">Your Way</div>
 				</h3>
-				<p class="text-center max-w-[50%] my-4 text-xl mx-auto">
+				<p class="text-center px-16 lg:px-0 lg:max-w-[50%] my-4 text-xl mx-auto">
 					View a collection of our best work, we’ve ever done at our eyebrow threading shop and compare the before &
 					after pictures of our work.
 				</p>
@@ -265,42 +288,47 @@
 		</section>
 	{/if}
 	{#if testimonials && testimonials.length > 0}
-		<section class="testimonials__section py-48 bg-gray-100">
+		<section class="testimonials__section py-24 md:py-48 bg-gray-100">
 			<div class="container">
 				<h2 class="text-center text-6xl sr-only">Testimonials</h2>
-				<div class="bg-white rounded-lg p-16 relative">
-					<div class="swiper" bind:this={testimonialSlider}>
-						<div class="swiper-wrapper">
+				<div class="relative">
+					<div class="swiper rounded-md md:rounded-lg" bind:this={testimonialSlider}>
+						<div class="swiper-wrapper items-stretch">
 							{#each testimonials as testimonial}
-								<div class="swiper-slide">
-									<p class="text-2xl leading-loose pe-64">
-										{testimonial.testimonial_content}
-									</p>
-									<div class="flex gap-4 items-center mt-12">
-										<div class="avatar aspect-square w-24 rounded-sm overflow-hidden">
-											<img
-												loading="lazy"
-												src={media_url + testimonial.author_avatar.formats.thumbnail.url}
-												title={testimonial.author_avatar.name}
-												srcset="
-			{testimonial.author_avatar.formats.thumbnail
-													? `${media_url + testimonial.author_avatar.formats.thumbnail.url} 234w,`
-													: ''}
-			{testimonial.author_avatar.formats.small ? `${media_url + testimonial.author_avatar.formats.small.url} 500w,` : ''}
-			{testimonial.author_avatar.formats.medium ? `${media_url + testimonial.author_avatar.formats.medium.url} 750w,` : ''}
-			{testimonial.author_avatar.formats.large ? `${media_url + testimonial.author_avatar.formats.large.url} 1000w,` : ''}"
-												alt="Cover of {testimonial.author_avatar.alternativeText ?? testimonial.author_name}"
-											/>
-										</div>
-										<div class="author__name text-xl uppercase font-medium">
-											{testimonial.author_name}
+								<div class="swiper-slide !h-auto">
+									<div class="wrapper !h-full bg-white rounded-md md:rounded-lg p-8 md:p-12 lg:p-16 shadow-sm">
+										<p class="text-xl md:text-2xl leading-loose lg:pe-64">
+											{testimonial.testimonial_content}
+										</p>
+										<div class="flex gap-4 items-center mt-8 md:mt-12">
+											<div class="avatar aspect-square w-24 rounded-sm overflow-hidden">
+												<img
+													loading="lazy"
+													src={media_url + testimonial.author_avatar.formats.thumbnail.url}
+													title={testimonial.author_avatar.name}
+													srcset="
+				{testimonial.author_avatar.formats.thumbnail
+														? `${media_url + testimonial.author_avatar.formats.thumbnail.url} 234w,`
+														: ''}
+				{testimonial.author_avatar.formats.small ? `${media_url + testimonial.author_avatar.formats.small.url} 500w,` : ''}
+				{testimonial.author_avatar.formats.medium ? `${media_url + testimonial.author_avatar.formats.medium.url} 750w,` : ''}
+				{testimonial.author_avatar.formats.large ? `${media_url + testimonial.author_avatar.formats.large.url} 1000w,` : ''}"
+													alt="Cover of {testimonial.author_avatar.alternativeText ?? testimonial.author_name}"
+												/>
+											</div>
+											<div class="author__name text-xl uppercase font-medium">
+												{testimonial.author_name}
+											</div>
 										</div>
 									</div>
 								</div>
 							{/each}
 						</div>
 					</div>
-					<div class="swiper-pagination !bottom-16 right-16 left-auto" bind:this={testimonialPagination}></div>
+					<div
+						class="swiper-pagination !bottom-2 md:!bottom-4 lg:!bottom-16 right-16 left-auto"
+						bind:this={testimonialPagination}
+					></div>
 				</div>
 			</div>
 		</section>
@@ -309,7 +337,7 @@
 		<section class="articles__section pt-48">
 			<div class="container">
 				<h2 class="text-8xl text-center mb-24">Latest articles</h2>
-				<div class="w-10/12 mx-auto">
+				<div class="lg:w-10/12 lg:mx-auto">
 					<Article.Card size="lg" href={`/blogs/` + articles[0].slug}>
 						<Article.Image img={articles[0].cover} />
 						<Article.Content>
@@ -329,7 +357,7 @@
 						</Article.Content>
 					</Article.Card>
 				</div>
-				<div class="grid grid-cols-2 mt-16 justify-center items-stretch gap-16">
+				<div class="grid md:grid-cols-2 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4">
 					{#each articles as article, index}
 						{#if index !== 0}
 							<Article.Card href={`/blogs/` + articles[0].slug}>
@@ -365,7 +393,7 @@
 				<div class="flex items-center flex-col gap-20">
 					<div class="contact__wrapper relative w-3/4 flex justify-center">
 						<div
-							class="contact__image relative !overflow-hidden rounded-xxl after:absolute after:w-full after:block after:left-0 after:top-0 after:h-full w-2/3"
+							class="contact__image relative !overflow-hidden rounded-lg xl:rounded-xxl after:absolute after:w-full after:block after:left-0 after:top-0 after:h-full lg:w-2/3"
 						>
 							<img
 								loading="lazy"
@@ -384,8 +412,12 @@
 						<div
 							class="flex flex-col justify-center items-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
 						>
-							<h2 class="text-8xl text-primary text-center">{contact_section.main_text}</h2>
-							<Button href="/contact" size="lg">Lets Talk</Button>
+							<h2 class="text-6xl md:text-7xl xl:text-8xl text-primary text-center">
+								{contact_section.main_text}
+							</h2>
+							{#await cta then}
+								<Button href={cta.href} size="lg">{cta.name}</Button>
+							{/await}
 						</div>
 					</div>
 				</div>
@@ -396,15 +428,15 @@
 
 <style>
 	.contact__image::after {
-		background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+		background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
 	}
 	.floating__image {
 		position: absolute;
-		inline-size: 25vw;
 		aspect-ratio: 15 /10;
 		border-radius: 50%;
 		overflow: hidden;
-		z-index: -1;
+		z-index: 2;
+		inline-size: clamp(18rem, 25vw, 25rem);
 	}
 
 	.floating__image img {
@@ -429,8 +461,11 @@
 		right: 0;
 		rotate: -12deg;
 		scale: 1.2;
-
 		animation: float--2 12s ease-out 1s infinite alternate;
+
+		@media screen and (max-width: 1400px) {
+			bottom: 10%;
+		}
 	}
 
 	@keyframes float--1 {

@@ -38,6 +38,10 @@
 		--_translate-offset-y: -2rem;
 		--rotation-offset: 272deg;
 		--_speed: 14s;
+
+		@media screen and (max-width: 1440px) {
+			inset-inline-end: 3%;
+		}
 	}
 	&--3 {
 		inline-size: 1.5rem;
@@ -112,6 +116,11 @@
 		inline-size: min(50%, 26rem);
 		--translate: 50% -50%;
 		--rotate: 45deg;
+		@media screen and (max-width: 1440px) {
+			inset-inline-end: 10%;
+			inset-block-start: 15%;
+			inline-size: min(33%, 24rem);
+		}
 	}
 	&:nth-child(4n + 2) {
 		inset-inline-end: 25%;
@@ -119,6 +128,12 @@
 		inline-size: min(40%, 20rem);
 		--translate: 50% 50%;
 		--rotate: -24deg;
+
+		@media screen and (max-width: 1440px) {
+			inset-inline-end: 15%;
+			inset-block-end: 20%;
+			inline-size: min(40%, 20rem);
+		}
 	}
 	&:nth-child(4n + 3) {
 		inset-inline-start: 20%;
@@ -126,6 +141,11 @@
 		inline-size: min(45%, 23rem);
 		--translate: -50% -50%;
 		--rotate: 22deg;
+		@media screen and (max-width: 1440px) {
+			inset-inline-start: 10%;
+			inset-block-start: 12%;
+			inline-size: min(33%, 24rem);
+		}
 	}
 	&:nth-child(4n + 4) {
 		inset-inline-start: 12%;

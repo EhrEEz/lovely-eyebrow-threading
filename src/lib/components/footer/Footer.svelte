@@ -19,7 +19,7 @@
 <footer class="py-4 mt-4">
 	<div class="container">
 		{#if data.social_media}
-			<div class="socials__wrapper flex flex-col items-center gap-3 mb-28">
+			<div class="socials__wrapper flex flex-col items-center gap-3 lg:mb-28 mb-16">
 				<div class="uppercase mb-2">Find us on Social Media</div>
 				<div class="flex gap-12 items-center flex-grow basis-0">
 					{#if data.social_media.instagram}
@@ -115,25 +115,27 @@
 				</div>
 			</div>
 		{/if}
-		<div class="main__line flex items-center justify-between gap-4">
-			<div class="flex flex-col items-center">
+		<div class="main__line flex items-center gap-16 md:gap-24">
+			<div class="flex flex-col items-center mb-8 lg:mb-0 w-2/5">
 				<a href="/" title="Home Page">
-					<div class="logo__wrapper w-72">
+					<div class="logo__wrapper w-42 lg:w-72">
 						<img src={Logo} alt="Lovely Eyebrow Threading Logo" class="mb-3 w-full" />
 					</div>
 				</a>
 				{#if addresses && addresses.length > 0}
 					{#each addresses as address}
-						<address class="uppercase not-italic mt-4">
+						<address class="uppercase not-italic mt-4 text-center">
 							{#if address.map_link}
-								<a href={address.map_link} class="text-lg uppercase">
-									{address.street} &nbsp;&nbsp;&nbsp;&nbsp;{address.city},
+								<a href={address.map_link} class="md:text-lg text-center uppercase">
+									{address.street}
+									{address.city},
 									{address.state_code}
 									{address.zip_code}
 								</a>
 							{:else}
-								<div class="text-lg uppercase">
-									{address.street} &nbsp;&nbsp;&nbsp;&nbsp;{address.city},
+								<div class="md:text-lg text-center uppercase">
+									{address.street}
+									{address.city},
 									{address.state_code}
 									{address.zip_code}
 								</div>
@@ -142,7 +144,7 @@
 					{/each}
 				{/if}
 			</div>
-			<ul class="links__wrapper flex gap-8">
+			<ul class="links__wrapper flex flex-col md:flex-row md:flex-wrap gap-2 md:gap-8 justify-center md:justify-normal">
 				{#each headerLinks as link}
 					{#if link.slug}
 						<li class="footer__link">
@@ -159,18 +161,18 @@
 			</ul>
 		</div>
 		<div class="sr-only">Beauty services that define you and Results that make you smile</div>
-		<div class="legal__links flex items-center justify-center gap-8 mt-32" aria-label="Legal Items">
+		<div class="legal__links flex items-center justify-center gap-8 mt-8 lg:mt-32" aria-label="Legal Items">
 			<a
 				href="/privacy-policy"
-				class="uppercase text-text-light hover:text-text underline transition"
+				class="uppercase text-text-light hover:text-text underline transition flex-shrink-0"
 				title="Privacy Policy">Privacy Policy</a
 			>
-			<div class="uppercase text-text-light">
+			<div class="uppercase text-text-light text-center">
 				Lovely Eyebrow Threading © {currentYear}
 			</div>
 			<a
 				href="/terms-of-service"
-				class="uppercase text-text-light hover:text-text transition underline"
+				class="uppercase text-text-light hover:text-text transition underline flex-shrink-0"
 				title="Terms of Service">Terms of Service</a
 			>
 		</div>

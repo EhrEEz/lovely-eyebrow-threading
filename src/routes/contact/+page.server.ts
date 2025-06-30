@@ -6,15 +6,6 @@ export const load: ServerLoad = async ({ fetch }) => {
 	const query = qs.stringify({
 		fields: ["greeting_text"],
 		populate: {
-			cover: {
-				fields: ["alt"],
-				populate: {
-					media: {
-						fields: ["url", "alternativeText", "formats"],
-						populate: "*",
-					},
-				},
-			},
 			page_info: {
 				fields: ["page_title"],
 				populate: {

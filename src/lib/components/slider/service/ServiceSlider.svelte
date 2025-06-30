@@ -30,6 +30,17 @@
 				nextEl: nextNavSlide,
 				prevEl: prevNavSlide,
 			},
+			breakpoints: {
+				0: {
+					spaceBetween: 15,
+				},
+				600: {
+					spaceBetween: 25,
+				},
+				900: {
+					spaceBetween: 40,
+				},
+			},
 		});
 		swiper_picture = new Swiper(pictureSlider, {
 			modules: [Navigation, Thumbs, EffectCreative, Controller],
@@ -102,8 +113,8 @@
 
 <section>
 	<div class="container">
-		<div class="grid grid-cols-12">
-			<div class="service__image-wrapper col-span-6 content-end">
+		<div class="grid grid-cols-12 content-center items-center gap-8">
+			<div class="service__image-wrapper col-span-12 lg:col-span-6 content-start content-xl-end">
 				<div class="swiper" bind:this={pictureSlider}>
 					<div class="swiper-wrapper">
 						{#each services as service, ind}
@@ -119,9 +130,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="service__text-wrapper col-span-5 col-start-8 grid content-end justify-self-end pb-24 relative">
-				<div class="flex gap-2 items-center">
-					<div class="swiper w-full mb-8" bind:this={navSlider}>
+			<div
+				class="service__text-wrapper col-span-12 justify-self-center md:col-span-11 lg:col-span-6 xl:col-span-5 xl:col-start-8 grid content-end lg:justify-self-end md:pb-24 relative"
+			>
+				<div class="flex gap-2 items-center mb-4 md:mb-8">
+					<div class="swiper w-full" bind:this={navSlider}>
 						<div class="swiper-wrapper">
 							{#each services as service}
 								<div class="swiper-slide cursor-pointer group grow-0 !w-fit">
@@ -181,10 +194,10 @@
 								<p class="text-lg leading-loose">
 									{service.description}
 								</p>
-								<div class="flex row gap-3 items-center mt-8">
-									<Button variant="link" href="/services/{service.slug}">Check out More</Button>
+								<div class="flex row gap-4 items-center mt-8">
+									<Button variant="link" data-sveltekit-reload href="/services/{service.slug}">Check out More</Button>
 									{#if service.cta_link}
-										<Button class="mt-8" href={service.cta_link}>Book Now</Button>
+										<Button href={service.cta_link}>Book Now</Button>
 									{/if}
 								</div>
 							</div>

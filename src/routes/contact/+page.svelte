@@ -7,6 +7,7 @@
 
 	import Button from "$lib/components/buttons/Button.svelte";
 	import Social from "$lib/components/social/Social.svelte";
+	import Seo from "$lib/components/seo/SEO.svelte";
 	const { data } = $props();
 	const siteSettings = $state(data.siteSettings);
 	const page_data = $state(data.page_data);
@@ -23,7 +24,6 @@
 		request_phonecall?: string;
 		message?: string;
 	};
-	$inspect(siteSettings);
 
 	let formLoading = $state(false);
 
@@ -107,14 +107,15 @@
 	};
 </script>
 
+<Seo pageSettings={page_data.page_info} {siteSettings} {media_url} />
 <main>
-	<section class="contact__section pt-64 pb-24">
+	<section class="contact__section pt-48 lg:pt-64 lg:pb-24">
 		<h1 class="sr-only">
 			{page_data.page_info.page_title}
 		</h1>
 		<div class="container">
-			<div class="grid grid-cols-12 gap-32">
-				<div class="message__section col-span-6 xl:pe-24">
+			<div class="lg:grid lg:grid-cols-12 lg:gap-16 2xl:gap-32">
+				<div class="message__section lg:col-span-6 mb-24 lg:mb-0">
 					<h2 class="text-7xl mb-16">
 						{page_data.greeting_text}
 					</h2>
@@ -196,9 +197,9 @@
 						</div>
 					{/if}
 				</div>
-				<div class="details__section col-span-6">
-					<div class="grid grid-cols-2 mb-16">
-						<div class="details__left">
+				<div class="details__section lg:col-span-6">
+					<div class="lg:grid lg:grid-cols-2 gap-4 md:gap-8 lg:gap-0 mb-16">
+						<div class="details__left mb-16 lg:mb-0">
 							<div class="group nav__contacts mb-16">
 								<h3 class="mb-2 underline decoration-2 decoration-primary underline-offset-4">Find us at</h3>
 								{#if addresses && addresses.length > 0}
@@ -268,7 +269,7 @@
 						</div>
 					</div>
 					{#if siteSettings.social_media}
-						<div class="socials__wrapper flex flex-col gap-3 mb-28">
+						<div class="socials__wrapper flex flex-col gap-3 mb-16 lg:mb-28">
 							<div class="uppercase text-xl">Find us on Social Media</div>
 							<div class="flex gap-12 items-center flex-grow basis-0 justify-start">
 								{#if siteSettings.social_media.instagram}
@@ -364,18 +365,17 @@
 							</div>
 						</div>
 					{/if}
-					<div class="contact__image">
-						<img
+					<div class="contact__image w-full">
+						<iframe
+							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9514.944083615488!2d-95.19691652095952!3d29.78877851806751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640a525274086ab%3A0x49da3ffb50c9bb69!2sLovely%20Eyebrow%20Threading!5e0!3m2!1sen!2snp!4v1750850746357!5m2!1sen!2snp"
+							width="100%"
+							height="100%"
+							style="border:0;"
 							loading="lazy"
-							class="rounded-xxl"
-							src={media_url + page_data.cover.media.url}
-							srcset="
-			{page_data.cover.media.formats.thumbnail ? `${media_url + page_data.cover.media.formats.thumbnail.url} 234w,` : ''}
-			{page_data.cover.media.formats.small ? `${media_url + page_data.cover.media.formats.small.url} 500w,` : ''}
-			{page_data.cover.media.formats.medium ? `${media_url + page_data.cover.media.formats.medium.url} 750w,` : ''}
-			{page_data.cover.media.formats.large ? `${media_url + page_data.cover.media.formats.large.url} 1000w,` : ''}"
-							alt={page_data.cover.alt ?? page_data.cover.media.alternativeText ?? `Store Chair`}
-						/>
+							class="aspect-[5/6]"
+							referrerpolicy="no-referrer-when-downgrade"
+							title="Lovely Eyebrow Threading"
+						></iframe>
 					</div>
 				</div>
 			</div>
@@ -385,21 +385,21 @@
 
 <Modal bind:showModal={showSuccessModal}>
 	{#snippet header()}
-		<h5 class="heading-4 pe-lg-4">Message Successfully Sent</h5>
+		<h5 class="heading-4 pe-lg-4 font-sans text-2xl">Message Successfully Sent</h5>
 	{/snippet}
 	{#snippet children()}
-		<div class="regular-20">
+		<div class="text-xl text-text-light">
 			<p>We will get back to you as soon as possible.</p>
 		</div>
 	{/snippet}
 </Modal>
 <Modal bind:showModal={showErrorModal}>
 	{#snippet header()}
-		<h5 class="heading-5 pe-lg-4 error-300">Error Sending Message</h5>
+		<h5 class="heading-5 pe-16 error-300 font-sans text-2xl">Error Sending Message</h5>
 	{/snippet}
 	{#if Object.values(errors).length > 0}
 		{#snippet children()}
-			<div class="regular-20 mb-4">
+			<div class="text-lg mb-4">
 				<p>Please Try again</p>
 			</div>
 			<div class="regular-16 error-300 bg-error-100 py-2 px-3 mt-lg-1 rounded-1">

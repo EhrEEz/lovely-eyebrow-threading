@@ -6,16 +6,16 @@
 	import { Tag } from "$lib/components/cards/article";
 	import moment from "moment";
 	import { marked, type RendererObject } from "marked";
-	import Lenis from "lenis";
+	import type Lenis from "lenis";
 	import Swiper from "swiper";
 	import { Autoplay, Navigation, Pagination } from "swiper/modules";
 	import "$lib/scss/pages/_blogs.scss";
 	import "swiper/swiper-bundle.css";
+	import Seo from "$lib/components/seo/SEO.svelte";
 	const { data } = $props();
 	const article = $derived(data.article);
 	const relatedArticles = $derived(article.related_articles.articles);
-
-	const asset_url = $state(data.media_url);
+	const media_url = $state(data.media_url);
 	let lenis: Lenis = $derived(getContext("lenis"));
 	let relatedArticlesEmt = $state<HTMLElement>();
 	let relatedArticlesNext = $state<HTMLButtonElement>();
@@ -53,10 +53,18 @@
 	});
 </script>
 
-<section class="py-72">
+<Seo
+	{media_url}
+	siteSettings={data.siteSettings}
+	pageSettings={{
+		page_seo: article.seo,
+		page_title: article.title,
+	}}
+/>
+<section class="pt-36 lg:pt-64 xl:py-72">
 	<div class="container">
-		<h1 class="text-8xl max-w-[80%]">{article.title}</h1>
-		<div class="grid grid-cols-2 gap-16">
+		<h1 class="text-6xl lg:text-8xl lg:max-w-[80%]">{article.title}</h1>
+		<div class="lg:grid lg:grid-cols-2 lg:gap-12">
 			<div class="blog__summary">
 				<div class="blog__details flex gap-4 items-center">
 					<Tag class="mb-0">{article.article_tag?.title}</Tag>
@@ -64,9 +72,9 @@
 						{moment(article.created).format("MMMM DD, YYYY | dddd")}
 					</div>
 				</div>
-				<div class="socials__wrapper mt-12">
+				<div class="socials__wrapper mt-4 lg:mt-12">
 					<div class="uppercase text-lg mb-3">Share this article</div>
-					<div class="left-section flex gap-8 items-center flex-grow basis-0">
+					<div class="left-section flex gap-8 items-center justify-between md:justify-normal flex-grow basis-0">
 						<a
 							href="//pinterest.com/pin/create/link/?url=http%3A%2F%2Fwww.flickr.com%2Fphotos%2Fkentbrew%2F6851755809%2F&media=http%3A%2F%2Ffarm8.staticflickr.com%2F7027%2F6851755809_df5b2051c9_z.jpg&description=Next%20stop%3A%20Pinterest"
 							title="pin this article"
@@ -93,9 +101,9 @@
 						</a>
 					</div>
 				</div>
-				<div class="summary_wrapper mt-12 me-24">
+				<div class="summary_wrapper mt-8 md:mt-12 md:me-24">
 					<h2 class="text-primary font-sans uppercase mb-2">Summary</h2>
-					<p class="my-4 text-lg pe-16">
+					<p class="my-4 text-lg md:pe-16">
 						{article.description}
 					</p>
 					<Button
@@ -110,23 +118,23 @@
 			<div class="blog__image overflow-hidden aspect-[4/3] rounded-lg mt-8">
 				<img
 					loading="lazy"
-					src={asset_url + article.cover.media.formats.thumbnail.url}
+					src={media_url + article.cover.media.formats.thumbnail.url}
 					title={article.cover.media.name}
 					srcset="
-			{article.cover.media.formats.thumbnail ? `${asset_url + article.cover.media.formats.thumbnail.url} 234w,` : ''}
-			{article.cover.media.formats.small ? `${asset_url + article.cover.media.formats.small.url} 500w,` : ''}
-			{article.cover.media.formats.medium ? `${asset_url + article.cover.media.formats.medium.url} 750w,` : ''}
-			{article.cover.media.formats.large ? `${asset_url + article.cover.media.formats.large.url} 1000w,` : ''}"
-					style="width: 100%; height: auto;"
+			{article.cover.media.formats.thumbnail ? `${media_url + article.cover.media.formats.thumbnail.url} 234w,` : ''}
+			{article.cover.media.formats.small ? `${media_url + article.cover.media.formats.small.url} 500w,` : ''}
+			{article.cover.media.formats.medium ? `${media_url + article.cover.media.formats.medium.url} 750w,` : ''}
+			{article.cover.media.formats.large ? `${media_url + article.cover.media.formats.large.url} 1000w,` : ''}"
+					class="w-full h-full object-cover"
 					alt="Cover of {article.cover.alt ?? article.cover.media.alternativeText ?? article?.title}"
 				/>
 			</div>
 		</div>
-		<div class="grid grid-cols-12 my-24">
-			<article class="content-wrapper col-span-7" id="contentTop">
+		<div class="lg:grid lg:grid-cols-12 my-24 lg:gap-16">
+			<article class="content-wrapper lg:col-span-8 xl:col-span-7" id="contentTop">
 				{@html marked(article.content)}
 			</article>
-			<aside class="col-span-4 col-start-9">
+			<aside class="md:col-span-4 md:col-start-9">
 				<div class="sticky top-32 bottom-16">
 					<div class="socials__wrapper mb-16">
 						<div class="uppercase text-lg mb-3">Share this article</div>
@@ -163,7 +171,7 @@
 								<div class="swiper-wrapper">
 									{#each relatedArticles as relatedArticle}
 										<div class="swiper-slide">
-											<Article.Card size="sm">
+											<Article.Card size="sm" href={"/blogs/" + relatedArticle.slug}>
 												<Article.Image img={relatedArticle.cover} />
 												<Article.Content>
 													<Article.Head>

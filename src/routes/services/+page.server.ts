@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { PUBLIC_MEDIA_URL } from "$env/static/public";
-import type { PageServerLoad } from "../$types";
+import type { PageServerLoad } from "./$types";
 import qs from "qs";
 
 export const load: PageServerLoad = async ({ fetch }) => {

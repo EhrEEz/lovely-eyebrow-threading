@@ -1,10 +1,13 @@
 <script lang="ts">
 	import Button from "$lib/components/buttons/Button.svelte";
 	import * as Article from "$lib/components/cards/article";
+	import Seo from "$lib/components/seo/SEO.svelte";
 
 	const { data } = $props();
 	let articles: typeof data.articles = $state(data.articles);
 	const meta = $state(data.meta);
+	const page_info = $derived(data.page_info);
+	const media_url = $derived(data.media_url);
 	let page = $state(meta.pagination.page);
 	let pageCount = $state(meta.pagination.pageCount);
 	let loading = $state(false);
@@ -34,6 +37,7 @@
 	});
 </script>
 
+<Seo {media_url} siteSettings={data.siteSettings} pageSettings={page_info.page_info} />
 <main>
 	{#await articles then}
 		{#if articles.length === 0}
@@ -44,7 +48,7 @@
 			<section class="articles__section pt-64 pb-48">
 				<div class="container">
 					<h2 class="text-8xl text-center mb-24">Latest articles</h2>
-					<div class="w-10/12 mx-auto">
+					<div class="lg:w-10/12 lg:mx-auto">
 						<Article.Card size="lg" href={`/blogs/` + articles[0].slug}>
 							<Article.Image img={articles[0].cover} />
 							<Article.Content>
@@ -65,7 +69,9 @@
 						</Article.Card>
 					</div>
 					{#if articles.length > 1}
-						<div class="grid grid-cols-2 mt-16 justify-center items-stretch gap-16">
+						<div
+							class="grid md:grid-cols-2 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4"
+						>
 							{#each articles as article, index}
 								{#if index !== 0}
 									<Article.Card href={`/blogs/` + articles[0].slug}>

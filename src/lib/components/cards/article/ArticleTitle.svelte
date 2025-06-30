@@ -15,7 +15,7 @@
 
 <h3
 	class={cn(
-		"text-3xl uppercase group-[.lg-card]:text-5xl group-[.sm-card]:text-xl leading-none article-card__title",
+		"xl:text-3xl lg:text-2xl text-xl uppercase md:group-[.lg-card]:text-3xl lg:group-[.lg-card]:text-4xl xl:group-[.lg-card]:text-5xl leading-tight xl:leading-none article-card__title",
 		className
 	)}
 	{...restProps}

@@ -9,6 +9,7 @@
 		--primary-color: hsl(316, 89%, 83%);
 		--primary-color-90: hsl(316, 89%, 73%);
 		--primary-color-20: hsl(316, 89%, 83%, 40%);
+		--primary-color-50: hsl(316, 89%, 83%, 50%);
 		--secondary-color: hsl(0 0% 90% / 100%);
 		--secondary-color-95: hsl(0 0% 95% / 100%);
 		--secondary-color-200: hsl(0 0% 80% / 100%);
@@ -47,6 +48,9 @@
 		position: relative;
 		will-change: scale;
 		transition: scale 0.2s ease-out;
+		@media screen and (max-width: 640px) {
+			--width: 5rem;
+		}
 	}
 
 	.arrow_button svg {
@@ -54,6 +58,10 @@
 		inset: 50%;
 		translate: -50% -50%;
 		rotate: 45deg;
+
+		@media screen and (max-width: 640px) {
+			width: 2rem;
+		}
 	}
 
 	.arrow_button:not(:disabled):hover {

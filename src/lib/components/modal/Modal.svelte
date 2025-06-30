@@ -19,9 +19,15 @@
 	}}
 >
 	<div class="dialog__window">
-		<Button size="icon" variant="ghost" aria-label="Close Modal">
-			<svg width="110" height="85" viewBox="0 0 110 85" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path d="M2 3L108 82M108 3L2 82" stroke="black" stroke-width="6" />
+		<Button
+			size="icon"
+			variant="ghost"
+			aria-label="Close Modal"
+			class="absolute right-8 top-8 z-10 "
+			onclick={() => dialog.close()}
+		>
+			<svg width="20" viewBox="0 0 110 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M2 3L108 82M108 3L2 82" stroke="black" stroke-width="10" />
 			</svg>
 		</Button>
 
@@ -36,17 +42,13 @@
 			</div>
 		{/if}
 		<div class="dialog__footer">
-			<div class="fl-row jc-end al-center">
+			<div class="flex justify-end items-center">
 				{@render footer?.()}
-				<Button variant="secondary" onclick={() => dialog.close()}>
-					<span class="btn__wrapper">
-						<span class="btn__icon">
-							<svg width="110" height="85" viewBox="0 0 110 85" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<path d="M2 3L108 82M108 3L2 82" stroke="black" stroke-width="6" />
-							</svg>
-						</span>
-						<span class="btn__text"> Close </span>
-					</span>
+				<Button variant="secondary" onclick={() => dialog.close()} class="gap-2 items-center flex">
+					<span class="btn__text"> Close </span>
+					<svg width="12" viewBox="0 0 110 85" fill="none" xmlns="http://www.w3.org/2000/svg" class="-mt-[2px]">
+						<path d="M2 3L108 82M108 3L2 82" stroke="black" stroke-width="10" />
+					</svg>
 				</Button>
 			</div>
 		</div>
@@ -56,14 +58,15 @@
 
 <style>
 	dialog {
-		min-width: min(90%, 25rem);
+		min-width: min(90%, 40rem);
 		max-width: 40rem;
 		border-radius: 0.2em;
 		border: none;
-		position: absolute;
+		position: fixed;
 		inset-inline-start: 50%;
 		inset-block-start: 50%;
 		translate: -50% -50%;
+		margin: 0;
 	}
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.3);
@@ -71,14 +74,16 @@
 	dialog > .dialog__window {
 		padding: 1em 2em 1em 2em;
 		@media screen and (min-width: 992px) {
-			padding: 3em 3em 2em;
+			padding: 2em 2em 1.5em;
 		}
 	}
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
 
-	.dialog__header,
+	.dialog__header {
+		margin-block-end: 0.5em;
+	}
 	.dialog__children,
 	.dialog__footer {
 		margin-block: 0.5em;
@@ -105,17 +110,6 @@
 		}
 		to {
 			opacity: 1;
-		}
-	}
-	.btn__close {
-		position: absolute;
-		display: block;
-		inset-inline-end: 1em;
-		inset-block-start: 1em;
-		color: var(--clr-neutral-500);
-
-		&:hover {
-			color: var(--clr-dark-500);
 		}
 	}
 </style>

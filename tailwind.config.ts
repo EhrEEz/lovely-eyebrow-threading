@@ -15,8 +15,8 @@ export default {
 			screens: {
 				"2xl": "1440px",
 				xl: "1200px",
-				lg: "960px",
-				md: "720px",
+				lg: "1024px",
+				md: "768px",
 				sm: "640px",
 			},
 		},
@@ -32,6 +32,8 @@ export default {
 					DEFAULT: "var(--primary-color)",
 					foreground: "var(--primary-foreground-color)",
 					90: "var(--primary-color-90)",
+					20: "var(--primary-color-20)",
+					50: "var(--primary-color-50)",
 				},
 				secondary: {
 					DEFAULT: "var(--secondary-color)",

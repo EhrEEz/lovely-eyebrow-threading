@@ -18,7 +18,7 @@
 	const { children, class: className = "", img, ...restProps }: ArticleImage = $props();
 </script>
 
-<div class="bg-black image_wrapper shrink-0 w-2/5 group-[.lg-card]:w-1/2 rounded-md overflow-hidden aspect-square">
+<div class="bg-black image_wrapper shrink-0 w-2/5 md:group-[.lg-card]:w-1/2 rounded-md overflow-hidden aspect-square">
 	<img
 		loading="lazy"
 		src={PUBLIC_MEDIA_URL + img.media.formats.thumbnail.url}

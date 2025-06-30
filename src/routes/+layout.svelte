@@ -7,8 +7,31 @@
 	import Footer from "$lib/components/footer/Footer.svelte";
 	const { children, data } = $props();
 
+	import type { CTAItem, LinkType } from "$lib/types/variables";
+	import { CTA_ITEMS, PRIMARY_LINK_ITEMS } from "$lib/types/constants";
 	const main = $state(data.siteSettings);
+
 	let navScroll = $state<boolean>(false);
+	const ctaLinks = $state<CTAItem[]>(CTA_ITEMS);
+	const default_cta = {
+		name: "Contact Us",
+		href: "/contact",
+		id: "contact",
+	};
+	let cta = $state<CTAItem>(default_cta);
+	$effect(() => {
+		if (!main.cta && !main.cta.cta) {
+			cta = default_cta;
+		} else {
+			const ctaItem = ctaLinks.find((emt) => emt.id === main.cta.cta);
+			if (!ctaItem) {
+				cta = default_cta;
+			} else {
+				cta = ctaItem;
+			}
+		}
+	});
+	setContext("cta", cta);
 	setContext("site-settings", main);
 	let lenis: Lenis;
 	$effect(() => {
