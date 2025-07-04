@@ -15,7 +15,7 @@
 	const { data } = $props();
 	const article = $derived(data.article);
 	const relatedArticles = $derived(article.related_articles.articles);
-	const media_url = $state(data.media_url);
+	const media_url = $derived(data.media_url);
 	let lenis: Lenis = $derived(getContext("lenis"));
 	let relatedArticlesEmt = $state<HTMLElement>();
 	let relatedArticlesNext = $state<HTMLButtonElement>();
