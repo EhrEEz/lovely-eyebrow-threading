@@ -259,8 +259,8 @@
 		transition: 0.3 cubic-bezier(0.25, 0.1, 0, 0.93);
 		padding-block: 1em;
 
-		@media screen and (max-width: 768px) {
-			padding-block: 2em;
+		@media screen and (max-width: 640px) {
+			padding-block: 1em;
 		}
 	}
 </style>

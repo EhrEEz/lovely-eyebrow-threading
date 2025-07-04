@@ -15,7 +15,7 @@
 
 <div
 	class={cn(
-		"flex flex-col justify-center w-3/5 pe-8 pt-4 pb-8 group-[.lg-card]:w-1/2 xl:group-[.lg-card]:pe-8 xl:group-[.lg-card]:py-0 group-[.sm-card]:pe-4 group-[.sm-card]:py-4",
+		"flex flex-col justify-center w-full md:w-3/5 md:pe-8 md:pt-4 md:pb-8 md:group-[.lg-card]:w-1/2 xl:group-[.lg-card]:pe-8 xl:group-[.lg-card]:py-0 group-[.sm-card]:pe-4 group-[.sm-card]:py-4",
 		className
 	)}
 	{...restProps}

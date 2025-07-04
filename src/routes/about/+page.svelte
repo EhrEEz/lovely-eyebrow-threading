@@ -17,14 +17,14 @@
 	<h1 class="sr-only">{page_data.page_info.page_title ?? "About Us Lovely Eyebrow Threading"}</h1>
 	<section class="mt-48 lg:mt-64 lg:mb-24">
 		<div class="container">
-			<h2 class="text-7xl mb-16 lg:w-2/3 xl:max-w-1/2">
+			<h2 class="text-5xl md:text-7xl lg:mb-16 lg:w-2/3 xl:max-w-1/2 break-words">
 				{page_data.hook_line}
 			</h2>
 		</div>
 	</section>
-	<section class="my-24 md:my-36 lg:my-48 four_image-section">
+	<section class="my-8 md:my-36 lg:my-48 four_image-section">
 		<div class="container">
-			<div class="grid grid-cols-2 lg:grid-cols-4 gap-16">
+			<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-16">
 				<div class="image--1">
 					<img
 						loading="lazy"
@@ -85,12 +85,14 @@
 		{#if (ind + 1) % 2 !== 0}
 			<section class="my-24 md:my-36 lg:my-48">
 				<div class="container">
-					<div class="grid grid-cols-12 items-center gap-16">
+					<div class="md:grid md:grid-cols-12 md:items-center w-full md:gap-16">
 						{#if block.image}
-							<div class="content__image col-span-12 lg:col-span-6 xl:col-span-5">
+							<div
+								class="content__image max-w-full w-full md:col-span-12 lg:col-span-6 xl:col-span-5 xl:col-start-2 mb-8 md:mb-0"
+							>
 								<img
 									loading="lazy"
-									class="w-full rounded-md"
+									class="w-full rounded-md aspect-square object-cover md:aspect-auto md:object-auto"
 									src={media_url + block.image.formats.thumbnail.url}
 									srcset="
 					{block.image.formats.thumbnail ? `${media_url + block.image.formats.thumbnail.url} 234w,` : ''}
@@ -121,8 +123,8 @@
 		{:else}
 			<section class="my-24 md:my-36 lg:my-48">
 				<div class="container">
-					<div class="grid grid-cols-12 items-center gap-16">
-						<div class="content__text col-span-12 lg:col-span-6 xl:col-span-5">
+					<div class="md:grid md:grid-cols-12 md:items-center gap-16 w-full">
+						<div class="content__text col-span-12 lg:col-span-6 xl-col-start-2 xl:col-span-5 w-full mb-8 md:mb-0">
 							{#if block.heading_text}
 								<h3 class="text-4xl md:text-5xl lg:text-6xl mb-8">{block.heading_text}</h3>
 							{/if}
@@ -137,10 +139,12 @@
 							{/if}
 						</div>
 						{#if block.image}
-							<div class="content__image col-span-12 lg:col-span-6 xl:col-span-5 lg:gap-24 xl:col-span-5">
+							<div
+								class="content__image md:col-span-12 lg:col-span-6 lg:gap-24 xl:col-span-5 xl:col-start-7 w-full max-w-full"
+							>
 								<img
 									loading="lazy"
-									class="w-full rounded-md"
+									class="w-full rounded-md max-w-full"
 									src={media_url + block.image.formats.thumbnail.url}
 									srcset="
 					{block.image.formats.thumbnail ? `${media_url + block.image.formats.thumbnail.url} 234w,` : ''}
@@ -159,11 +163,11 @@
 	<section
 		class="picture__section relative aspect-[16/6] after:absolute after:w-full after:block after:left-0 after:top-0 after:h-full after:z-2 after:bg-[#00000060]"
 	>
-		<div class="grid absolute z-10 top-40 left-20 lg:w-2/3 2xl:w-1/2">
-			<h2 class="text-6xl md:text-7xl xl:text-8xl text-white">
+		<div class="grid absolute z-10 top-12 md:top-40 left-8 md:left-20 lg:w-2/3 2xl:w-1/2">
+			<h2 class="text-5xl md:text-7xl xl:text-8xl text-white mb-4">
 				{page_data.end_line}
 			</h2>
-			<Button href={cta.href} class="w-fit">{cta.name}</Button>
+			<Button href={cta.href} size="lg" class="w-fit">{cta.name}</Button>
 		</div>
 		<img
 			loading="lazy"

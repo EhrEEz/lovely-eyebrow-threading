@@ -167,15 +167,15 @@
 		>
 			<a
 				href="/privacy-policy"
-				class="uppercase text-text-light hover:text-text underline transition flex-shrink-0"
+				class="uppercase text-text-light hover:text-text underline transition flex-shrink-0 text-sm"
 				title="Privacy Policy">Privacy Policy</a
 			>
-			<div class="uppercase text-text-light text-center">
+			<div class="uppercase text-text-light text-center text-sm">
 				Lovely Eyebrow Threading © {currentYear}
 			</div>
 			<a
 				href="/terms-of-service"
-				class="uppercase text-text-light hover:text-text transition underline flex-shrink-0"
+				class="uppercase text-text-light hover:text-text transition underline flex-shrink-0 text-sm"
 				title="Terms of Service">Terms of Service</a
 			>
 		</div>
@@ -208,8 +208,8 @@
 			background-position: 30% 130%;
 		}
 		@media screen and (max-width: 640px) {
-			background-size: 180%;
-			background-position: 30% 120%;
+			background-size: 200%;
+			background-position: 30% 115%;
 		}
 	}
 </style>

@@ -122,26 +122,26 @@
 		</div>
 	</section>
 	<ServiceSlider {services} {media_url} />
-	<section class="my-24 md:my-36">
+	<section class="mb-24 mt-36 md:my-36">
 		<Marquee
 			class="gap-[3rem] [--duration:20s] [--gap:3rem] "
 			innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
 		>
-			<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
-			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
-			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
-			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-9xl !leading-none">{siteSettings.tagline}</h3>
-			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-8xl md:text-9xl !leading-none">{siteSettings.tagline}</h3>
+			<div class="text-8xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-8xl md:text-9xl !leading-none">{siteSettings.tagline}</h3>
+			<div class="text-8xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-8xl md:text-9xl !leading-none">{siteSettings.tagline}</h3>
+			<div class="text-8xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-8xl md:text-9xl !leading-none">{siteSettings.tagline}</h3>
+			<div class="text-8xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
 		</Marquee>
 	</section>
 	{#if about_section}
 		<section class="featured-service__section my-24">
 			<div class="container lg:flex gap-8 items-center">
 				<div class="lg:w-1/2 order-1 mb-10">
-					<div class="rounded-xxl overflow-hidden relative">
+					<div class="rounded-lg md:rounded-xxl overflow-hidden relative">
 						<h4
 							class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white md:px-3 md:py-3 w-full text-4xl md:text-5xl !leading-[1em] px-8"
 						>
@@ -158,6 +158,7 @@
 			{about_section.cover.media.formats.medium ? `${media_url + about_section.cover.media.formats.medium.url} 750w,` : ''}
 			{about_section.cover.media.formats.large ? `${media_url + about_section.cover.media.formats.large.url} 1000w,` : ''}"
 							style="width: 100%; height: auto;"
+							class="object-cover aspect-[5/6]"
 							alt={about_section.cover.alt ?? about_section.cover.media.alternativeText ?? `About Section`}
 						/>
 					</div>
@@ -184,9 +185,9 @@
 			<div class="gallery__text-wrapper w-fit relative flex flex-col items-center">
 				<h3 class="text-center">
 					<div class="text-5xl lg:text-8xl">Your Eyebrows</div>
-					<div class="text-[8rem] lg:text-[14rem]">Your Way</div>
+					<div class="text-[4.5rem] md:text-[8rem] lg:text-[14rem]">Your Way</div>
 				</h3>
-				<p class="text-center px-16 lg:px-0 lg:max-w-[50%] my-4 text-xl mx-auto">
+				<p class="text-center px-16 lg:px-0 lg:max-w-[50%] my-4 md:text-xl mx-auto">
 					View a collection of our best work, we’ve ever done at our eyebrow threading shop and compare the before &
 					after pictures of our work.
 				</p>
@@ -297,7 +298,7 @@
 							{#each testimonials as testimonial}
 								<div class="swiper-slide !h-auto">
 									<div class="wrapper !h-full bg-white rounded-md md:rounded-lg p-8 md:p-12 lg:p-16 shadow-sm">
-										<p class="text-xl md:text-2xl leading-loose lg:pe-64">
+										<p class="text-lg md:text-2xl leading-loose lg:pe-64">
 											{testimonial.testimonial_content}
 										</p>
 										<div class="flex gap-4 items-center mt-8 md:mt-12">
@@ -334,33 +335,32 @@
 		</section>
 	{/if}
 	{#if articles && articles.length > 0}
-		<section class="articles__section pt-48">
+		<section class="articles__section pt-36 md:pt-48">
 			<div class="container">
-				<h2 class="text-8xl text-center mb-24">Latest articles</h2>
-				<div class="lg:w-10/12 lg:mx-auto">
-					<Article.Card size="lg" href={`/blogs/` + articles[0].slug}>
-						<Article.Image img={articles[0].cover} />
-						<Article.Content>
-							<Article.Head>
-								<Article.Tag>{articles[0]?.article_tag.title}</Article.Tag>
-								<Article.Title>{articles[0].title}</Article.Title>
-								<div class="font-medium text-text-light uppercase">
-									{articles[0].date}
-								</div>
-							</Article.Head>
-							<Article.Body>
-								<p class="leading-6">
-									{articles[0].description}
-								</p>
-							</Article.Body>
-							<Article.Link href={`/blogs/` + articles[0].slug}>Read Full Article</Article.Link>
-						</Article.Content>
-					</Article.Card>
-				</div>
-				<div class="grid md:grid-cols-2 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4">
+				<h2 class="text-6xl md:text-8xl break-words text-center mb-8 md:mb-24">Latest articles</h2>
+				<div class="grid grid-cols-12 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4">
 					{#each articles as article, index}
-						{#if index !== 0}
-							<Article.Card href={`/blogs/` + articles[0].slug}>
+						{#if index == 0}
+							<Article.Card size="lg" href={`/blogs/` + articles[0].slug} class="md:col-span-10 col-span-12 !flex-row">
+								<Article.Image img={articles[0].cover} class="w-1/2" />
+								<Article.Content class="w-1/2">
+									<Article.Head>
+										<Article.Tag>{articles[0]?.article_tag.title}</Article.Tag>
+										<Article.Title>{articles[0].title}</Article.Title>
+										<div class="font-medium text-text-light uppercase">
+											{articles[0].date}
+										</div>
+									</Article.Head>
+									<Article.Body>
+										<p class="leading-6">
+											{articles[0].description}
+										</p>
+									</Article.Body>
+									<Article.Link href={`/blogs/` + articles[0].slug}>Read Article</Article.Link>
+								</Article.Content>
+							</Article.Card>
+						{:else}
+							<Article.Card href={`/blogs/` + articles[0].slug} class="col-span-6">
 								<Article.Image img={article.cover} />
 								<Article.Content>
 									<Article.Head>
@@ -375,28 +375,29 @@
 											{article.description}
 										</p>
 									</Article.Body>
-									<Article.Link href={"/blogs/" + article.slug}>Read Full Article</Article.Link>
+									<Article.Link href={"/blogs/" + article.slug}>Read Article</Article.Link>
 								</Article.Content>
 							</Article.Card>
 						{/if}
 					{/each}
 				</div>
-				<div class="flex justify-center mt-24">
+				<div class="flex justify-center mt-16 md:mt-24">
 					<Button variant="link" href="/blogs">View All BLogs</Button>
 				</div>
 			</div>
 		</section>
 	{/if}
 	{#if contact_section}
-		<section class="contact__section pt-48 pb-24">
+		<section class="contact__section pt-24 md:pt-48 pb-24">
 			<div class="container">
 				<div class="flex items-center flex-col gap-20">
-					<div class="contact__wrapper relative w-3/4 flex justify-center">
+					<div class="contact__wrapper relative w-full md:w-3/4 flex justify-center">
 						<div
-							class="contact__image relative !overflow-hidden rounded-lg xl:rounded-xxl after:absolute after:w-full after:block after:left-0 after:top-0 after:h-full lg:w-2/3"
+							class="contact__image relative !overflow-hidden rounded-lg xl:rounded-xxl after:absolute after:w-full after:block after:left-0 after:top-0 after:h-full lg:w-2/3 w-full md:w-auto"
 						>
 							<img
 								loading="lazy"
+								class="w-full"
 								src={media_url + contact_section.main_image.formats.thumbnail.url}
 								title={contact_section.main_image.name}
 								srcset="
@@ -412,7 +413,7 @@
 						<div
 							class="flex flex-col justify-center items-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
 						>
-							<h2 class="text-6xl md:text-7xl xl:text-8xl text-primary text-center">
+							<h2 class="text-5xl md:text-7xl xl:text-8xl text-primary text-center">
 								{contact_section.main_text}
 							</h2>
 							{#await cta then}
@@ -437,6 +438,10 @@
 		overflow: hidden;
 		z-index: 2;
 		inline-size: clamp(18rem, 25vw, 25rem);
+
+		@media screen and (max-width: 768px) {
+			inline-size: clamp(12rem, 25vh, 18rem);
+		}
 	}
 
 	.floating__image img {

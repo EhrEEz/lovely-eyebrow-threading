@@ -41,17 +41,17 @@
 
 <Seo siteSettings={data.siteSettings} {media_url} pageSettings={page_info} />
 <main class="mt-48 lg:mt-64">
-	<h2 class="text-center text-6xl md:text-7xl lg:text-9xl">Announcements</h2>
+	<h2 class="text-center text-5xl break-words md:text-7xl lg:text-9xl">Announcements</h2>
 
 	<section class="compare__section py-16 md:py-20 lg:py-32" aria-describedby="GalleryDescription">
 		{#await announcements then}
 			<div class="container">
 				{#if announcements_large.length === 0}
 					<section class="pt-64 pb-48">
-						<div class="text-5xl text-center text-text-light font-serif">No Announcements Yet</div>
+						<div class="text-3xl md:text-5xl text-center text-text-light font-serif">No Announcements Yet</div>
 					</section>
 				{:else}
-					<div class="grid lg:grid-cols-2 gap-4">
+					<div class="grid grid-cols-2 gap-4">
 						{#each announcements_large as announcement}
 							<div class="zoom__wrapper relative group/link overflow-hidden rounded-md bg-black aspect-square">
 								<Zoom>

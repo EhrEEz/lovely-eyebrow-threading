@@ -130,11 +130,11 @@
 				/>
 			</div>
 		</div>
-		<div class="lg:grid lg:grid-cols-12 my-24 lg:gap-16">
+		<div class="lg:grid lg:grid-cols-12 my-16 md:my-24 lg:gap-16">
 			<article class="content-wrapper lg:col-span-8 xl:col-span-7" id="contentTop">
 				{@html marked(article.content)}
 			</article>
-			<aside class="md:col-span-4 md:col-start-9">
+			<aside class="md:col-span-4 md:col-start-9 mt-16 md:mt-0">
 				<div class="sticky top-32 bottom-16">
 					<div class="socials__wrapper mb-16">
 						<div class="uppercase text-lg mb-3">Share this article</div>

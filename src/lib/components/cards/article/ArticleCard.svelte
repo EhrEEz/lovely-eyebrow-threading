@@ -3,11 +3,11 @@
 	import { tv, type VariantProps } from "tailwind-variants";
 
 	export const articleCardVariants = tv({
-		base: "flex items-stretch gap-8 md:gap-4 lg:gap-8 hover:border-primary border rounded-md border-transparent transition-['border'] duration-500 group",
+		base: "flex flex-col md:flex-row items-stretch gap-4 lg:gap-8 hover:border-primary border rounded-md border-transparent transition-['border'] duration-500 group",
 		variants: {
 			size: {
 				lg: "lg-card xl:gap-20 lg:gap-10 md:gap-8",
-				sm: "sm-card gap-8 items-start",
+				sm: "sm-card md:gap-8 items-start",
 			},
 		},
 	});
