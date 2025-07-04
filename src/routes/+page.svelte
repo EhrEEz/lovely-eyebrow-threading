@@ -341,26 +341,30 @@
 				<div class="grid grid-cols-12 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4">
 					{#each articles as article, index}
 						{#if index == 0}
-							<Article.Card size="lg" href={`/blogs/` + articles[0].slug} class="md:col-span-10 col-span-12 !flex-row">
-								<Article.Image img={articles[0].cover} class="w-1/2" />
+							<Article.Card
+								size="lg"
+								href={`/blogs/` + article.slug}
+								class="md:col-span-10 col-span-12 !flex-row md:col-start-2"
+							>
+								<Article.Image img={article.cover} class="w-1/2" />
 								<Article.Content class="w-1/2">
 									<Article.Head>
-										<Article.Tag>{articles[0]?.article_tag.title}</Article.Tag>
-										<Article.Title>{articles[0].title}</Article.Title>
+										<Article.Tag>{article?.article_tag.title}</Article.Tag>
+										<Article.Title>{article.title}</Article.Title>
 										<div class="font-medium text-text-light uppercase">
-											{articles[0].date}
+											{article.date}
 										</div>
 									</Article.Head>
 									<Article.Body>
-										<p class="leading-6">
-											{articles[0].description}
+										<p class="md:text-lg leading-6 hidden md:block">
+											{article.description}
 										</p>
 									</Article.Body>
-									<Article.Link href={`/blogs/` + articles[0].slug}>Read Article</Article.Link>
+									<Article.Link href={`/blogs/` + article.slug}>Read Article</Article.Link>
 								</Article.Content>
 							</Article.Card>
 						{:else}
-							<Article.Card href={`/blogs/` + articles[0].slug} class="col-span-6">
+							<Article.Card href={`/blogs/` + article.slug} class="col-span-6">
 								<Article.Image img={article.cover} />
 								<Article.Content>
 									<Article.Head>
@@ -371,7 +375,7 @@
 										</div>
 									</Article.Head>
 									<Article.Body>
-										<p class="leading-6">
+										<p class="leading-6 md:text-lg hidden md:block">
 											{article.description}
 										</p>
 									</Article.Body>
