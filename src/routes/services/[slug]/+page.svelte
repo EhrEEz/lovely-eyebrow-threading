@@ -52,11 +52,11 @@
 		page_title: service.name,
 	}}
 />
-<main class="mt-56">
-	<section class="main__section my-48">
+<main class="mt-32 lg:mt-56">
+	<section class="main__section my-24 lg:my-36 xl:my-48">
 		<div class="container">
-			<div class="grid grid-cols-12 items-center">
-				<div class="col-span-6 px-24">
+			<div class="grid grid-cols-12 items-center md:gap-12">
+				<div class="col-span-12 md:col-span-6 lg:pe-16 xl:pe-24 xl:px-24 mb-12 lg:mb-0">
 					<div class="overflow-hidden oval-image rotate-12">
 						<img
 							loading="lazy"
@@ -71,9 +71,9 @@
 						/>
 					</div>
 				</div>
-				<div class="col-span-6">
-					<h1 class="text-8xl mb-4">{service.name}</h1>
-					<p class="text-md pe-24 leading-8">
+				<div class="col-span-12 md:col-span-6">
+					<h1 class="text-6xl break-words lg:text-8xl mb-4">{service.name}</h1>
+					<p class="lg:pe-24 leading-8">
 						{service.description}
 					</p>
 					{#if service.booking_link}
@@ -84,12 +84,12 @@
 		</div>
 	</section>
 	{#if gallery && gallery.length > 0}
-		<section class="gallery__section my-48">
+		<section class="gallery__section my-24 lg:my-36 xl:my-48">
 			<div class="container">
-				<h2 class="text-6xl mb-8">
+				<h2 class="text-4xl lg:text-6xl mb-8 break-words">
 					Transformations Including {service?.name}
 				</h2>
-				<div class="grid grid-cols-2 gap-12">
+				<div class="grid md:grid-cols-2 gap-6 lg:gap-12">
 					{#each gallery as item (item.id)}
 						<Compare
 							config={{
@@ -105,35 +105,35 @@
 		</section>
 	{/if}
 
-	<section class="my-48">
+	<section class="my-24 md:my-36 lg:my-36 xl:my-48">
 		<Marquee
 			class="gap-[3rem] [--duration:30s] [--gap:3rem] "
 			innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
 		>
-			<h3 class="text-9xl !leading-none">{service.tagline}</h3>
-			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-9xl !leading-none">{service.tagline}</h3>
-			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-9xl !leading-none">{service.tagline}</h3>
-			<div class="text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-7xl md:text-9xl !leading-none">{service.tagline}</h3>
+			<div class="text-7xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-7xl md:text-9xl !leading-none">{service.tagline}</h3>
+			<div class="text-7xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+			<h3 class="text-7xl md:text-9xl !leading-none">{service.tagline}</h3>
+			<div class="text-7xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
 		</Marquee>
 	</section>
 	{#if service_inners && service_inners.length > 0}
-		<section class="mt-48 mb-64 service__inners relative">
+		<section class="mt-24 lg:mt-36 xl:mt-48 mb-36 lg:mb-48 xl:mb-64 service__inners relative">
 			<div class="container">
 				<div class="swiper" bind:this={serviceInnerSlider}>
 					<div class="swiper-wrapper">
 						{#each service_inners as service_inner, ind}
 							<div class="swiper-slide" id="service-inner-{ind}">
-								<div class="inner__slide flex items-center gap-12">
-									<div class="w-1/2 pe-20">
+								<div class="inner__slide flex flex-col md:flex-row items-center gap-8 md:gap-12">
+									<div class="md:w-1/2 lg:pe-20">
 										<h2 class="font-sans font-normal text-2xl mb-6 uppercase">{service_inner.name}</h2>
-										<p class="text-lg leading-9">
+										<p class="lg:text-lg leading-7 lg:leading-9">
 											{service_inner.description}
 										</p>
 									</div>
-									<div class="w-1/2">
-										<div class="rounded-xxl overflow-hidden relative">
+									<div class="md:w-1/2">
+										<div class="rounded-md md:rounded-lg lg:rounded-xxl overflow-hidden relative">
 											<img
 												loading="lazy"
 												class="aspect-[3/2] w-full object-cover"
@@ -186,10 +186,10 @@
 		</section>
 	{/if}
 	{#if service.pictures && service.pictures.length > 0}
-		<section class="mb-48">
+		<section class="mb-24 lg:mb-36 xl:mb-48">
 			<div class="container">
-				<h2 class="text-6xl text-center mb-16">Some more Samples</h2>
-				<div class="grid grid-cols-4 gap-8">
+				<h2 class="break-words text-4xl md:text-6xl text-center mb-8 md:mb-16">Some more Samples</h2>
+				<div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
 					{#each service.pictures as picture, ind}
 						<div class="zoom__wrapper relative group/link overflow-hidden rounded-md bg-black">
 							<Zoom>

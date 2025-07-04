@@ -45,36 +45,37 @@
 				<div class="text-5xl text-center text-text-light font-serif">No Content Yet</div>
 			</section>
 		{:else}
-			<section class="articles__section pt-64 pb-48">
+			<section class="articles__section pt-40 md:pt-48 lg:pt-64 pb-24 md:pb-48">
 				<div class="container">
-					<h2 class="text-8xl text-center mb-24">Latest articles</h2>
-					<div class="lg:w-10/12 lg:mx-auto">
-						<Article.Card size="lg" href={`/blogs/` + articles[0].slug}>
-							<Article.Image img={articles[0].cover} />
-							<Article.Content>
-								<Article.Head>
-									<Article.Tag>{articles[0]?.article_tag.title}</Article.Tag>
-									<Article.Title>{articles[0].title}</Article.Title>
-									<div class="font-medium text-text-light uppercase">
-										{articles[0].date}
-									</div>
-								</Article.Head>
-								<Article.Body>
-									<p class="leading-6">
-										{articles[0].description}
-									</p>
-								</Article.Body>
-								<Article.Link href={`/blogs/` + articles[0].slug}>Read Full Article</Article.Link>
-							</Article.Content>
-						</Article.Card>
-					</div>
+					<h2 class="text-6xl md:text-8xl break-words text-center mb-8 md:mb-24">Latest articles</h2>
 					{#if articles.length > 1}
-						<div
-							class="grid md:grid-cols-2 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4"
-						>
+						<div class="grid grid-cols-12 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4">
 							{#each articles as article, index}
-								{#if index !== 0}
-									<Article.Card href={`/blogs/` + articles[0].slug}>
+								{#if index === 0}
+									<Article.Card
+										size="lg"
+										href={`/blogs/` + articles[0].slug}
+										class="md:col-span-10 col-span-12 !flex-row"
+									>
+										<Article.Image img={articles[0].cover} class="w-1/2" />
+										<Article.Content class="w-1/2">
+											<Article.Head>
+												<Article.Tag>{articles[0]?.article_tag.title}</Article.Tag>
+												<Article.Title>{articles[0].title}</Article.Title>
+												<div class="font-medium text-text-light uppercase">
+													{articles[0].date}
+												</div>
+											</Article.Head>
+											<Article.Body>
+												<p class="leading-6">
+													{articles[0].description}
+												</p>
+											</Article.Body>
+											<Article.Link href={`/blogs/` + articles[0].slug}>Read Article</Article.Link>
+										</Article.Content>
+									</Article.Card>
+								{:else}
+									<Article.Card href={`/blogs/` + articles[0].slug} class="col-span-6">
 										<Article.Image img={article.cover} />
 										<Article.Content>
 											<Article.Head>
@@ -89,7 +90,7 @@
 													{article.description}
 												</p>
 											</Article.Body>
-											<Article.Link href={"/blogs/" + article.slug}>Read Full Article</Article.Link>
+											<Article.Link href={"/blogs/" + article.slug}>Read Article</Article.Link>
 										</Article.Content>
 									</Article.Card>
 								{/if}

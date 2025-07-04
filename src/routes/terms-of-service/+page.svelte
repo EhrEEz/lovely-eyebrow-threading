@@ -12,8 +12,8 @@
 <main class="mt-56">
 	<div class="container">
 		<article>
-			<h1 class="text-7xl text-center mb-16">{tocContent.title}</h1>
-			<div class="grid grid-cols-12 my-24">
+			<h1 class="text-5xl md:text-7xl text-center mb-8">{tocContent.title}</h1>
+			<div class="grid grid-cols-12 my-8 md:my-24">
 				<div
 					class="content-wrapper col-span-12 lg:col-span-10 lg:col-start-2 xl:col-span-7 xl:col-start-3"
 					id="contentTop"

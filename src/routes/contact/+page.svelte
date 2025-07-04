@@ -116,7 +116,7 @@
 		<div class="container">
 			<div class="lg:grid lg:grid-cols-12 lg:gap-16 2xl:gap-32">
 				<div class="message__section lg:col-span-6 mb-24 lg:mb-0">
-					<h2 class="text-7xl mb-16">
+					<h2 class="text-6xl md:text-7xl mb-8 md:mb-16">
 						{page_data.greeting_text}
 					</h2>
 

@@ -13,7 +13,7 @@
 	const { children, class: className, ...restProps }: ArticleBody = $props();
 </script>
 
-<div class={cn("mb-4 article-card__body", className)} {...restProps}>
+<div class={cn("text-sm md:text-md mb-2 md:mb-4 article-card__body", className)} {...restProps}>
 	{@render children?.()}
 </div>
 

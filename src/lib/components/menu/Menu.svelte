@@ -28,7 +28,7 @@
 			class="flex flex-col md:flex-row flex-grow items-start md:justify-stretch md:items-center w-full h-full h-100 order-1 md:order-0"
 		>
 			<div
-				class="flex flex-wrap md:flex-col items-stretch md:items-stretch flex-grow basis-0 md:gap-16 gap-x-8 mb-16 md:mb-4"
+				class="hidden md:flex md:flex-wrap md:flex-col items-stretch md:items-stretch flex-grow basis-0 md:gap-16 gap-x-8 mb-16 md:mb-4"
 			>
 				{#if addresses && addresses.length > 0}
 					<div class="group nav__contacts flex-1" style="--delay:{0.4}s;">

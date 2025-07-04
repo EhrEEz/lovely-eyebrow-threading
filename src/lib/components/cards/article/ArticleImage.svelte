@@ -18,7 +18,12 @@
 	const { children, class: className = "", img, ...restProps }: ArticleImage = $props();
 </script>
 
-<div class="bg-black image_wrapper shrink-0 w-2/5 md:group-[.lg-card]:w-1/2 rounded-md overflow-hidden aspect-square">
+<div
+	class={cn(
+		"bg-black image_wrapper shrink-0 w-full md:w-2/5 md:group-[.lg-card]:w-1/2 rounded-md overflow-hidden aspect-square",
+		className
+	)}
+>
 	<img
 		loading="lazy"
 		src={PUBLIC_MEDIA_URL + img.media.formats.thumbnail.url}
@@ -28,7 +33,7 @@
 			{img.media.formats.small ? `${PUBLIC_MEDIA_URL + img.media.formats.small.url} 500w,` : ''}
 			{img.media.formats.medium ? `${PUBLIC_MEDIA_URL + img.media.formats.medium.url} 750w,` : ''}
 			{img.media.formats.large ? `${PUBLIC_MEDIA_URL + img.media.formats.large.url} 1000w,` : ''}"
-		class={cn("w-full h-full object-cover group-hover:opacity-80 transition", className)}
+		class="w-full h-full object-cover group-hover:opacity-80 transition"
 		{...restProps}
 		alt="Cover of {img.alt ?? img.media.alternativeText}"
 	/>

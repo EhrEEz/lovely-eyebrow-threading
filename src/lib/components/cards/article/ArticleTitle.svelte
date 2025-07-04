@@ -15,7 +15,7 @@
 
 <h3
 	class={cn(
-		"xl:text-3xl lg:text-2xl text-xl uppercase md:group-[.lg-card]:text-3xl lg:group-[.lg-card]:text-4xl xl:group-[.lg-card]:text-5xl leading-tight xl:leading-none article-card__title",
+		"xl:text-3xl lg:text-2xl text-lg md:text-xl uppercase md:group-[.lg-card]:text-3xl lg:group-[.lg-card]:text-4xl xl:group-[.lg-card]:text-5xl leading-snug md:leading-tight xl:leading-none article-card__title group-[.lg-card]:leading-snug md:group-[.lg-card]:leading-tight group-[.lg-card]:text-lg",
 		className
 	)}
 	{...restProps}
@@ -29,5 +29,9 @@
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+
+		@media screen and (max-width: 768px) {
+			-webkit-line-clamp: 3;
+		}
 	}
 </style>

@@ -22,7 +22,10 @@
 		line-height: 1.2;
 	}
 	* {
-		font-size: 1.25rem;
+		font-size: 1.2rem;
+		@media screen and (min-width: 768px) {
+			font-size: 1.25rem;
+		}
 	}
 
 	img {
@@ -38,6 +41,11 @@
 	h6 {
 		font-weight: 300;
 		margin-block: 2em 1em;
+		line-height: 1.2em;
+
+		@media screen and (max-width: 768px) {
+			margin-block: 1em 0.5em;
+		}
 	}
 	h2 {
 		font-size: 2rem;
@@ -60,6 +68,9 @@
 	ol,
 	blockquote {
 		margin-block: 2rem;
+		@media screen and (max-width: 768px) {
+			margin-block: 1em;
+		}
 	}
 
 	blockquote {
@@ -92,7 +103,11 @@
 	}
 
 	hr {
-		margin-block: 3rem;
+		margin-block: 2rem;
+
+		@media screen and (min-width: 992px) {
+			margin-block: 3rem;
+		}
 	}
 
 	ol,
