@@ -58,6 +58,15 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 					fields: ["name", "slug"],
 				},
 			},
+			pagination: {
+				page: 1,
+				pageSize: 20,
+			},
+			sort: [
+				{
+					publishedAt: "desc",
+				},
+			],
 		});
 
 		const galleryResponse = await fetch(`/api/galleries?${galleryQuery}`);
@@ -65,10 +74,11 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 		if (!galleryResponse.ok) {
 			error(galleryResponse.status, `${galleryResponse.statusText}`);
 		}
-		const { data: galleryData } = await galleryResponse.json();
+		const { data: galleryData, meta } = await galleryResponse.json();
 		return {
 			page_info: galleryPageData,
 			gallery: galleryData,
+			meta: meta,
 			media_url,
 		};
 	} catch (err: any) {

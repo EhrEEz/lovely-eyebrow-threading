@@ -161,7 +161,10 @@
 			</ul>
 		</div>
 		<div class="sr-only">Beauty services that define you and Results that make you smile</div>
-		<div class="legal__links flex items-center justify-center gap-8 mt-8 lg:mt-32" aria-label="Legal Items">
+		<div
+			class="legal__links flex items-center justify-center gap-8 mt-32 md:mt-24 lg:mt-48 xl:mt-64"
+			aria-label="Legal Items"
+		>
 			<a
 				href="/privacy-policy"
 				class="uppercase text-text-light hover:text-text underline transition flex-shrink-0"
@@ -182,8 +185,31 @@
 <style>
 	footer {
 		background-image: url("./footer-slogan.svg");
-		background-size: 80%;
+		background-size: auto;
 		background-repeat: no-repeat;
-		background-position: 60% bottom;
+		background-position: 60% 110%;
+
+		@media screen and (max-width: 1440px) {
+			background-size: 100%;
+			background-position: 60% 130%;
+		}
+
+		@media screen and (max-width: 1200px) {
+			background-size: 100%;
+			background-position: 60% 135%;
+		}
+		@media screen and (max-width: 1024px) {
+			background-size: 120%;
+			background-position: 60% 140%;
+		}
+
+		@media screen and (max-width: 768px) {
+			background-size: 160%;
+			background-position: 30% 130%;
+		}
+		@media screen and (max-width: 640px) {
+			background-size: 180%;
+			background-position: 30% 120%;
+		}
 	}
 </style>
