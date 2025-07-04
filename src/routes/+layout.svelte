@@ -39,14 +39,16 @@
 			autoRaf: true,
 		});
 		setContext("lenis", lenis);
-		lenis.on("scroll", (e) => {
+		function lenisSetScroll(): void {
 			const top = window.scrollY;
 			if (top >= 100) {
 				navScroll = true;
 			} else {
 				navScroll = false;
 			}
-		});
+		}
+		lenis.on("scroll", lenisSetScroll);
+		window.addEventListener("load", lenisSetScroll);
 
 		if ($navigating) {
 			lenis.scrollTo(0);

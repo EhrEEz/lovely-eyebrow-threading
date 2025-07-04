@@ -3,7 +3,7 @@ import { error } from "@sveltejs/kit";
 import qs from "qs";
 import type { PageServerLoad } from "./$types.js";
 
-export const load: PageServerLoad = async ({ fetch, params }) => {
+export const load: PageServerLoad = async ({ fetch }) => {
 	const query = qs.stringify({
 		populate: {
 			page_info: {
@@ -29,33 +29,17 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 	});
 
 	try {
-		const response = await fetch(`/api/gallery-page?${query}`);
+		const response = await fetch(`/api/announcement-page?${query}`);
 		if (!response.ok) {
 			error(response.status, `${response.statusText}`);
 		}
-		const { data: galleryPageData } = await response.json();
-		const galleryQuery = qs.stringify({
+		const { data: announcementPageData } = await response.json();
+		const announcementsQuery = qs.stringify({
+			fields: ["announcement_text"],
 			populate: {
-				before: {
-					fields: ["alt"],
-					populate: {
-						media: {
-							fields: ["url", "alternativeText", "formats", "caption"],
-							populate: "*",
-						},
-					},
-				},
-				after: {
-					fields: ["alt"],
-					populate: {
-						media: {
-							fields: ["url", "alternativeText", "formats", "caption"],
-							populate: "*",
-						},
-					},
-				},
-				services: {
-					fields: ["name", "slug"],
+				announcement_media: {
+					fields: ["url", "alternativeText", "formats", "caption"],
+					populate: "*",
 				},
 			},
 			pagination: {
@@ -69,16 +53,16 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 			],
 		});
 
-		const galleryResponse = await fetch(`/api/galleries?${galleryQuery}`);
+		const announcementResponse = await fetch(`/api/announcements?${announcementsQuery}`);
 
-		if (!galleryResponse.ok) {
-			error(galleryResponse.status, `${galleryResponse.statusText}`);
+		if (!announcementResponse.ok) {
+			error(announcementResponse.status, `${announcementResponse.statusText}`);
 		}
-		const { data: galleryData, meta } = await galleryResponse.json();
+		const { data: announcement_data, meta } = await announcementResponse.json();
 		return {
-			page_info: galleryPageData,
-			gallery: galleryData,
-			meta: meta,
+			page_info: announcementPageData,
+			announcements: announcement_data,
+			meta,
 			media_url,
 		};
 	} catch (err: any) {
