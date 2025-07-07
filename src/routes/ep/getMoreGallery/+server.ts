@@ -39,7 +39,7 @@ export async function GET({ url, fetch }) {
 				pageSize: pagination.pageSize,
 			},
 		});
-		const res = await fetch(`/api/galleries?${query}`);
+		const res = await fetch(`/api/	?${query}`);
 
 		const data = await res.json();
 		return new Response(JSON.stringify(data));

@@ -139,7 +139,7 @@
 							{#each services as service}
 								<div class="swiper-slide cursor-pointer group grow-0 !w-fit">
 									<div
-										class="service__tab decoration-primary underline-offset-4 decoration-4 opacity-50 group-hover:opacity-100 group-[.swiper-slide-thumb-active]:underline group-[.swiper-slide-thumb-active]:opacity-100 !w-fit uppercase text-sm md:text-md"
+										class="service__tab decoration-primary underline-offset-4 decoration-4 opacity-50 group-hover:opacity-100 group-[.swiper-slide-thumb-active]:underline group-[.swiper-slide-thumb-active]:opacity-100 !w-fit uppercase text-sm md:text-md lg:text-lg"
 									>
 										{service.name}
 									</div>
@@ -191,7 +191,7 @@
 					<div class="swiper-wrapper">
 						{#each services as service}
 							<div class="swiper-slide">
-								<p class="md:text-lg leading-loose">
+								<p class="md:text-lg leading-loose md:leading-loose lg:leading-loose">
 									{service.description}
 								</p>
 								<div class="flex row gap-4 items-center mt-8">

@@ -90,7 +90,6 @@
 			</div>
 			<div class="floating__image image--1" in:fly={{ y: 25, x: -25, duration: 1000, delay: 400 }}>
 				<img
-					loading="lazy"
 					src={media_url + header_section.left_image.formats.thumbnail.url}
 					title={header_section.left_image.name}
 					srcset="
@@ -106,16 +105,13 @@
 
 			<div class="floating__image image--2" in:fly={{ y: 25, x: 25, duration: 1000, delay: 450 }}>
 				<img
-					loading="lazy"
 					src={media_url + header_section.right_image.formats.thumbnail.url}
 					title={header_section.right_image.name}
 					srcset="
 			{header_section.right_image.formats.thumbnail
 						? `${media_url + header_section.right_image.formats.thumbnail.url} 234w,`
 						: ''}
-			{header_section.right_image.formats.small ? `${media_url + header_section.right_image.formats.small.url} 500w,` : ''}
-			{header_section.right_image.formats.medium ? `${media_url + header_section.right_image.formats.medium.url} 750w,` : ''}
-			{header_section.right_image.formats.large ? `${media_url + header_section.right_image.formats.large.url} 1000w,` : ''}"
+			{header_section.right_image.formats.small ? `${media_url + header_section.right_image.formats.small.url} 500w,` : ''}"
 					alt={header_section.right_image.alternativeText ?? "Header Image 1"}
 				/>
 			</div>
@@ -154,11 +150,9 @@
 			{about_section.cover.media.formats.thumbnail
 								? `${media_url + about_section.cover.media.formats.thumbnail.url} 234w,`
 								: ''}
-			{about_section.cover.media.formats.small ? `${media_url + about_section.cover.media.formats.small.url} 500w,` : ''}
-			{about_section.cover.media.formats.medium ? `${media_url + about_section.cover.media.formats.medium.url} 750w,` : ''}
-			{about_section.cover.media.formats.large ? `${media_url + about_section.cover.media.formats.large.url} 1000w,` : ''}"
+			{about_section.cover.media.formats.small ? `${media_url + about_section.cover.media.formats.small.url} 500w,` : ''}"
 							style="width: 100%; height: auto;"
-							class="object-cover aspect-[5/6]"
+							class="object-cover aspect-[5/6] lg:aspect-[4/3]"
 							alt={about_section.cover.alt ?? about_section.cover.media.alternativeText ?? `About Section`}
 						/>
 					</div>
@@ -209,12 +203,6 @@
 							: ''}
 			{gallery_section.image_bottom_right.formats.small
 							? `${media_url + gallery_section.image_bottom_right.formats.small.url} 500w,`
-							: ''}
-			{gallery_section.image_bottom_right.formats.medium
-							? `${media_url + gallery_section.image_bottom_right.formats.medium.url} 750w,`
-							: ''}
-			{gallery_section.image_bottom_right.formats.large
-							? `${media_url + gallery_section.image_bottom_right.formats.large.url} 1000w,`
 							: ''}"
 						alt={gallery_section.image_bottom_right.alternativeText ?? `Example of Service 1`}
 					/>
@@ -231,12 +219,6 @@
 							: ''}
 			{gallery_section.image_top_left.formats.small
 							? `${media_url + gallery_section.image_top_left.formats.small.url} 500w,`
-							: ''}
-			{gallery_section.image_top_left.formats.medium
-							? `${media_url + gallery_section.image_top_left.formats.medium.url} 750w,`
-							: ''}
-			{gallery_section.image_top_left.formats.large
-							? `${media_url + gallery_section.image_top_left.formats.large.url} 1000w,`
 							: ''}"
 						alt={gallery_section.image_top_left.alternativeText ?? `Example of Service 1`}
 					/>
@@ -253,12 +235,6 @@
 							: ''}
 			{gallery_section.image_bottom_left.formats.small
 							? `${media_url + gallery_section.image_bottom_left.formats.small.url} 500w,`
-							: ''}
-			{gallery_section.image_bottom_left.formats.medium
-							? `${media_url + gallery_section.image_bottom_left.formats.medium.url} 750w,`
-							: ''}
-			{gallery_section.image_bottom_left.formats.large
-							? `${media_url + gallery_section.image_bottom_left.formats.large.url} 1000w,`
 							: ''}"
 						alt={gallery_section.image_bottom_left.alternativeText ?? `Example of Service 1`}
 					/>
@@ -275,12 +251,6 @@
 							: ''}
 			{gallery_section.image_top_right.formats.small
 							? `${media_url + gallery_section.image_top_right.formats.small.url} 500w,`
-							: ''}
-			{gallery_section.image_top_right.formats.medium
-							? `${media_url + gallery_section.image_top_right.formats.medium.url} 750w,`
-							: ''}
-			{gallery_section.image_top_right.formats.large
-							? `${media_url + gallery_section.image_top_right.formats.large.url} 1000w,`
 							: ''}"
 						alt={gallery_section.image_top_right.alternativeText ?? `Example of Service 1`}
 					/>
