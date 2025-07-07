@@ -6,7 +6,7 @@
 </script>
 
 <div class="hidden md:flex md:items-center">
-	<Button variant="ghost" size="icon" onclick={onClick}>
+	<Button variant="ghost" size="icon" onclick={onClick} aria-label="Menu">
 		<svg
 			width="36"
 			height="36"
@@ -22,7 +22,7 @@
 	</Button>
 </div>
 <div class="block md:hidden">
-	<Button size="icon" onclick={onClick} class="w-12 h-12">
+	<Button size="icon" onclick={onClick} class="w-12 h-12" aria-label="Menu">
 		<svg
 			width="24"
 			height="24"

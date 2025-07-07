@@ -30,9 +30,7 @@
 		title={img.media.name}
 		srcset="
 			{img.media.formats.thumbnail ? `${PUBLIC_MEDIA_URL + img.media.formats.thumbnail.url} 234w,` : ''}
-			{img.media.formats.small ? `${PUBLIC_MEDIA_URL + img.media.formats.small.url} 500w,` : ''}
-			{img.media.formats.medium ? `${PUBLIC_MEDIA_URL + img.media.formats.medium.url} 750w,` : ''}
-			{img.media.formats.large ? `${PUBLIC_MEDIA_URL + img.media.formats.large.url} 1000w,` : ''}"
+			{img.media.formats.small ? `${PUBLIC_MEDIA_URL + img.media.formats.small.url} 500w,` : ''}"
 		class="w-full h-full object-cover group-hover:opacity-80 transition"
 		{...restProps}
 		alt="Cover of {img.alt ?? img.media.alternativeText}"

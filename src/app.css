@@ -35,6 +35,7 @@
 	@font-face {
 		font-family: "Perandory";
 		src: url($lib/assets/fonts/Perandory-Regular.woff) format("woff");
+		font-display: swap;
 	}
 	.arrow_button {
 		--width: 8rem;

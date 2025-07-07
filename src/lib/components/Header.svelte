@@ -183,10 +183,10 @@
 						{/each}
 					</ul>
 				{/if}
-				<a href="/" title="Home">
+				<a href="/" title="Home" aria-label="Lovely Eyebrow Threading Home">
 					<h1 class="flex logo-modifier">
 						<span class="sr-only">Lovely Eyebrow Threading</span>
-						<img src={navScroll && !menuView ? LogoDark : Logo} alt="Lovely Eyebrow Threading" />
+						<img src={navScroll && !menuView ? LogoDark : Logo} alt="Lovely Eyebrow Threading Logo" />
 					</h1>
 				</a>
 				{#if !mini}
@@ -207,10 +207,10 @@
 				{/if}
 			</nav>
 			<div class="right-section flex gap-4 md:gap-6 items-center md:items-end justify-end flex-grow basis-0">
-				<Button variant="default" size="lg" href={cta.href} class="hidden md:flex">
+				<Button variant="default" size="lg" href={cta.href} class="hidden md:flex" aria-label={cta.name}>
 					<span class="btn__text">{cta.name} </span>
 				</Button>
-				<Button variant="default" size="icon" href={cta.href} class="flex md:hidden w-12 h-12">
+				<Button variant="default" size="icon" href={cta.href} class="flex md:hidden w-12 h-12" aria-label={cta.name}>
 					<span class="btn__icon"
 						><svg fill="none" viewBox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg" id="fi_9446889"
 							><g fill="rgb(0,0,0)"
