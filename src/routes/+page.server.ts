@@ -137,7 +137,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 	const response = await fetch(`/api/home-page?${query}`);
 	if (response.ok) {
 		const { data } = await response.json();
-
+		console.log(data);
 		const article_response = await fetch(`/api/articles?${articleQuery}`);
 
 		if (article_response.ok) {

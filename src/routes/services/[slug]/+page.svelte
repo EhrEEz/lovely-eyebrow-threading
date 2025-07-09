@@ -57,7 +57,7 @@
 		<div class="container">
 			<div class="grid grid-cols-12 items-center md:gap-12">
 				<div class="col-span-12 md:col-span-6 lg:pe-16 xl:pe-24 xl:px-24 mb-12 lg:mb-0">
-					<div class="overflow-hidden oval-image rotate-12">
+					<div class="overflow-hidden ellipse-image rotate-12">
 						<img
 							loading="lazy"
 							class="w-full"
@@ -224,11 +224,11 @@
 </main>
 
 <style>
-	.oval-image {
+	.ellipse-image {
 		border-radius: 100%;
 	}
 
-	.oval-image img {
+	.ellipse-image img {
 		aspect-ratio: 4 / 3;
 		inline-size: 100%;
 		object-fit: cover;

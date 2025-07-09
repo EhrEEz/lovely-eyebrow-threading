@@ -45,3 +45,16 @@ export interface Role {
 	description: string;
 	type: string;
 }
+
+export type AnnouncementSizeType = {
+	name: string;
+	aspect_ratio: string;
+	width: number;
+	height: number;
+	pointer: string;
+};
+export type AnnouncementErrorType = {
+	announcement_text?: string;
+	announcement_media?: string;
+	announcement_template?: string;
+};

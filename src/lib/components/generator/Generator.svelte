@@ -7,6 +7,7 @@
 	import moment from "moment";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import "$lib/scss/components/_input.scss";
+	import { custom } from "zod";
 	type SizeType = {
 		name: string;
 		aspect_ratio: string;
@@ -50,8 +51,9 @@
 		},
 	];
 	let errors: ErrorType = $state({});
+	const textMaxLength = 200;
 	const { templates, media_url } = $props();
-	const lineHeight = $state(1.15);
+	const lineHeight = $state(1.25);
 	let size = $state(tabs[0]);
 	let currentTemplate = $state(templates[0]);
 	let paddingX = $state(100);
@@ -61,7 +63,7 @@
 	let token = $state("");
 	let custom_text = $state<string>("");
 	let textErrorMessage = $state<string>("");
-	let canvases = $state<HTMLCanvasElement[]>([]);
+	let canvas = $state<HTMLCanvasElement>()!;
 	let showSuccessModal = $state(false);
 	let showErrorModal = $state(false);
 	let token_error = $state(false);
@@ -80,9 +82,13 @@
 	);
 	const currentActiveBackground = $derived(media_url + currentTemplate[`${currentActiveSizePointer}`].url);
 	const currentActiveIndex = $derived(tabs.findIndex((tab) => tab === currentActiveSize));
+	const maxWidth = $state(1000);
+
 	let fontSize = $derived.by(() => {
-		const minSize = 32;
-		const maxSize = 200;
+		const maxActiveSide = Math.max(preview_width, preview_height);
+		const minActiveSide = Math.min(preview_height, preview_width);
+		const minSize = minActiveSide / 18;
+		const maxSize = maxActiveSide / 12;
 		const effectiveHeight = preview_height - paddingY;
 		const effectiveWidth = preview_width - paddingX;
 		if (effectiveWidth > 0 && effectiveHeight > 0) {
@@ -100,11 +106,15 @@
 		custom_text.length <= 0 || textErrorMessage.length > 0 || token.length <= 0
 	);
 
-	function handleTextChange() {
+	function handleTextChange(e: Event) {
 		if (!custom_text) {
 			textErrorMessage = "Text cannot be empty";
 		} else {
 			textErrorMessage = "";
+		}
+
+		if (custom_text.length > textMaxLength) {
+			e.stopPropagation();
 		}
 	}
 	function extractFirstTwoWordsKebab(input: string) {
@@ -150,11 +160,11 @@
 	function drawImage(ctx: CanvasRenderingContext2D) {
 		let background = new Image();
 		background.crossOrigin = "anonymous";
-		background.width = size.width;
+		background.width = preview_width;
 		background.id = currentActiveSize?.pointer ?? "asdf";
 
 		background.onload = function () {
-			ctx?.drawImage(background, 0, 0);
+			ctx?.drawImage(background, 0, 0, preview_width, preview_height);
 			drawText(ctx);
 		};
 		return background;
@@ -179,7 +189,7 @@
 		const effectiveWidth = preview_width - paddingX;
 		const totalLines = Math.ceil(context.measureText(text).width / effectiveWidth);
 		const totalHeight = (totalLines * lineHeight) / 2;
-		const translateY = totalHeight / 2;
+		const translateY = totalHeight;
 		while (words.length > 0 && idx <= words.length) {
 			let str = words.slice(0, idx).join(" ");
 			let w = context.measureText(str).width;
@@ -206,9 +216,9 @@
 			ctx,
 			custom_text,
 			preview_width / 2,
-			preview_height / 2,
+			Math.max(preview_height / 2 + (fontSize * lineHeight) / 2, paddingY),
 			fontSize * lineHeight,
-			preview_width - paddingX
+			Math.min(preview_width - paddingX, maxWidth)
 		);
 	}
 
@@ -255,12 +265,11 @@
 
 			const background = new Image();
 			background.crossOrigin = "anonymous";
-			background.width = size.width;
+			background.width = preview_width;
 
 			background.onload = function () {
 				// Draw the background image
-				ctx.drawImage(background, 0, 0);
-
+				ctx.drawImage(background, 0, 0, preview_width, preview_height);
 				// Draw the text on top
 				ctx.font = `${fontSize}px Perandory`;
 				ctx.textAlign = "center";
@@ -270,9 +279,9 @@
 					ctx,
 					custom_text,
 					preview_width / 2,
-					preview_height / 2,
+					Math.max(preview_height / 2 + (fontSize * lineHeight) / 2, paddingY),
 					fontSize * lineHeight,
-					preview_width - paddingX
+					Math.min(preview_width - paddingX, maxWidth)
 				);
 
 				resolve();
@@ -287,7 +296,7 @@
 	}
 
 	async function download() {
-		const currentCanvas = canvases[currentActiveIndex];
+		const currentCanvas = canvas;
 		if (currentActiveSize) {
 			const blob = await getImage({
 				canvas: currentCanvas,
@@ -295,7 +304,7 @@
 				height: currentActiveSize.height,
 			});
 			if (blob) {
-				const fileName = getFileName("image/png", custom_text);
+				const fileName = getFileName("image/webp", custom_text);
 				saveAs(blob as Blob, fileName);
 			}
 		}
@@ -317,7 +326,7 @@
 				return;
 			}
 
-			const currentCanvas = canvases[currentActiveIndex];
+			const currentCanvas = canvas;
 			const currentActiveBackground = media_url + currentTemplate[size.pointer].url;
 
 			await waitForImageLoad(currentCanvas, currentActiveBackground);
@@ -351,7 +360,6 @@
 			}
 
 			const json = await res.json();
-			console.log(json);
 
 			if (json.token_error) {
 				token_error = true;
@@ -375,7 +383,7 @@
 	$effect(() => {
 		// currentTemplate = templates[0];
 		// size = tabs[0];
-		const currentCanvas = canvases[currentActiveIndex];
+		const currentCanvas = canvas;
 		const ctx = currentCanvas.getContext("2d");
 		const previewBlock = document.querySelector("#canvasPreviewWrapper");
 		const renderedWidth = previewBlock?.getBoundingClientRect().width;
@@ -392,12 +400,12 @@
 			preview_width = Math.min(testWidth, renderedWidth);
 			preview_height = preview_width / ASPECT_RATIO;
 			paddingX = preview_width / 12;
-			paddingY = preview_height / (Math.pow(ASPECT_RATIO, 2) * 12);
+			paddingY = ASPECT_RATIO > 1.1 ? preview_height / (3.25 / ASPECT_RATIO) : (paddingY = preview_height / 2.25);
 		}
 		if (ctx) {
 			const background = drawImage(ctx);
-			drawText(ctx);
 			background.src = currentActiveBackground;
+			drawText(ctx);
 		}
 	});
 </script>
@@ -421,7 +429,7 @@
 	</div>
 	<div class="flex justify-end items-center gap-2 justify-self-end">
 		<!-- <Button variant="secondary">Download All Sizes</Button> -->
-		<Button variant="secondary" class="gap-2" onclick={download} disabled={disabledActions}>
+		<Button variant="secondary" class="gap-2" onclick={download} disabled={disabledActions || formLoading}>
 			<span class="btn__icon">
 				<svg
 					id="fi_7268609"
@@ -445,7 +453,7 @@
 			</span>
 			<span class="btn__text"> Download </span>
 		</Button>
-		<Button onclick={saveAnnouncement} disabled={disabledActions}>Save</Button>
+		<Button onclick={saveAnnouncement} disabled={disabledActions || formLoading}>Save</Button>
 	</div>
 </div>
 <div class="grid grid-cols-12 gap-24 items-start content-center">
@@ -500,18 +508,15 @@
 	<div class="col-span-9 flex justify-center items-start p-8 bg-stone-100 rounded-md relative">
 		<div class="preview w-full h-[60dvh]" id="canvasPreviewWrapper">
 			<div class="flex w-full h-full justify-center mb-2">
-				{#each tabs as tab, ind}
-					<canvas
-						width={preview_width}
-						bind:this={canvases[ind]}
-						height={preview_height}
-						class="preview_canvas rounded-sm bg-white"
-						class:active={currentActiveSize == tab}
-						style="max-height:{preview_height}px;"
-					>
-						Your browser does not support the canvas element.
-					</canvas>
-				{/each}
+				<canvas
+					width={preview_width}
+					bind:this={canvas}
+					height={preview_height}
+					class="preview_canvas rounded-sm bg-white"
+					style="max-height:{preview_height}px;"
+				>
+					Your browser does not support the canvas element.
+				</canvas>
 			</div>
 
 			<div class="absolute top-full left-0">
@@ -562,14 +567,10 @@
 
 <style>
 	.preview_canvas {
-		display: none;
 		max-width: 100%;
 		max-height: 100%;
 	}
 
-	.preview_canvas.active {
-		display: block;
-	}
 	.tab--active {
 		border-color: var(--primary-color);
 		will-change: border-color;

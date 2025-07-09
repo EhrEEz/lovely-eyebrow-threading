@@ -330,7 +330,7 @@
 											{article.description}
 										</p>
 									</Article.Body>
-									<Article.Link href={`/blogs/` + article.slug}>Read Article</Article.Link>
+									<Article.Link>Read Article</Article.Link>
 								</Article.Content>
 							</Article.Card>
 						{:else}
@@ -349,7 +349,7 @@
 											{article.description}
 										</p>
 									</Article.Body>
-									<Article.Link href={"/blogs/" + article.slug}>Read Article</Article.Link>
+									<Article.Link>Read Article</Article.Link>
 								</Article.Content>
 							</Article.Card>
 						{/if}
