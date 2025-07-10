@@ -197,7 +197,7 @@
 						{/each}
 					</ul>
 				{/if}
-				<a href="/" title="Home" aria-label="Lovely Eyebrow Threading Home" aria-label="Lovely Eyebrow Threading Home">
+				<a href="/" title="Home" aria-label="Lovely Eyebrow Threading Home">
 					<h1 class="flex logo-modifier">
 						<span class="sr-only">Lovely Eyebrow Threading</span>
 						<img src={navScroll && !menuView ? LogoDark : Logo} alt="Lovely Eyebrow Threading Logo Logo" />
