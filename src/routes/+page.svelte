@@ -111,7 +111,9 @@
 			{header_section.right_image.formats.thumbnail
 						? `${media_url + header_section.right_image.formats.thumbnail.url} 234w,`
 						: ''}
-			{header_section.right_image.formats.small ? `${media_url + header_section.right_image.formats.small.url} 500w,` : ''}"
+			{header_section.right_image.formats.small ? `${media_url + header_section.right_image.formats.small.url} 500w,` : ''}
+			{header_section.right_image.formats.medium ? `${media_url + header_section.right_image.formats.medium.url} 750w,` : ''}
+			{header_section.right_image.formats.large ? `${media_url + header_section.right_image.formats.large.url} 1000w,` : ''}"
 					alt={header_section.right_image.alternativeText ?? "Header Image 1"}
 				/>
 			</div>
