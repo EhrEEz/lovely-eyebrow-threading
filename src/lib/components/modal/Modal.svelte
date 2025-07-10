@@ -1,12 +1,21 @@
 <script>
 	import Button from "../buttons/Button.svelte";
 	// biome-ignore lint/style/useConst: bindable items present
-	let { showModal = $bindable(), header, children, footer = null } = $props();
+	let { showModal = $bindable(), header, children, footer = null, dismiss = null } = $props();
 
 	// biome-ignore lint/style/useConst: Svelte Requires let to bind
 	let dialog = $state(); // HTMLDialogElement
+	let isShown = $state(false);
 	$effect(() => {
-		if (showModal) dialog.showModal();
+		if (showModal) {
+			dialog.showModal();
+			isShown = true;
+		}
+
+		if (!showModal && isShown) {
+			dialog.close();
+			isShown = false;
+		}
 	});
 </script>
 
@@ -42,13 +51,18 @@
 			</div>
 		{/if}
 		<div class="dialog__footer">
-			<div class="flex justify-end items-center">
+			<div class="flex justify-end items-center gap-2">
 				{@render footer?.()}
+
 				<Button variant="secondary" onclick={() => dialog.close()} class="gap-2 items-center flex">
-					<span class="btn__text"> Close </span>
-					<svg width="12" viewBox="0 0 110 85" fill="none" xmlns="http://www.w3.org/2000/svg" class="-mt-[2px]">
-						<path d="M2 3L108 82M108 3L2 82" stroke="black" stroke-width="10" />
-					</svg>
+					{#if !dismiss}
+						<span class="btn__text"> Close </span>
+						<svg width="12" viewBox="0 0 110 85" fill="none" xmlns="http://www.w3.org/2000/svg" class="-mt-[2px]">
+							<path d="M2 3L108 82M108 3L2 82" stroke="black" stroke-width="10" />
+						</svg>
+					{:else}
+						{@render dismiss?.()}
+					{/if}
 				</Button>
 			</div>
 		</div>

@@ -1,13 +1,18 @@
 <script lang="ts">
+	import type { User } from "$lib/types/variables";
+	import { userState } from "$lib/user/user.svelte.js";
 	import Button from "./buttons/Button.svelte";
 	import Logo from "$lib/assets/svg/logo.svg";
 	import LogoDark from "$lib/assets/svg/logo-dark.svg";
 	import MenuSlide from "$lib/components/menu/Menu.svelte";
+	import Modal from "$lib/components/modal/Modal.svelte";
 	import Social from "./social/Social.svelte";
 	import type { CTAItem, LinkType } from "$lib/types/variables";
 	import { CTA_ITEMS, PRIMARY_LINK_ITEMS } from "$lib/types/constants";
 	import MenuToggle from "./menu/MenuToggle.svelte";
 	import { getContext } from "svelte";
+	let showLogoutModal = $state(false);
+
 	import { navigating } from "$app/stores";
 	// biome-ignore lint/suspicious/noExplicitAny: will only change at the end of project completion taking into account every changes later made
 	const data: any = getContext("site-settings");
@@ -48,11 +53,20 @@
 		menuView = !menuView;
 	}
 
+	function openLogout() {
+		showLogoutModal = true;
+	}
+
 	$effect(() => {
 		if ($navigating) {
 			menuView = false;
 		}
 	});
+
+	function handleLogout() {
+		showLogoutModal = false;
+		userState.logout();
+	}
 </script>
 
 <header
@@ -206,27 +220,45 @@
 					</ul>
 				{/if}
 			</nav>
-			<div class="right-section flex gap-4 md:gap-6 items-center md:items-end justify-end flex-grow basis-0">
-				<Button variant="default" size="lg" href={cta.href} class="hidden md:flex" aria-label={cta.name}>
-					<span class="btn__text">{cta.name} </span>
-				</Button>
-				<Button variant="default" size="icon" href={cta.href} class="flex md:hidden w-12 h-12" aria-label={cta.name}>
-					<span class="btn__icon"
-						><svg fill="none" viewBox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg" id="fi_9446889"
-							><g fill="rgb(0,0,0)"
-								><path
-									d="m7.25 8c0-.41421.33579-.75.75-.75h4c.4142 0 .75.33579.75.75s-.3358.75-.75.75h-4c-.41421 0-.75-.33579-.75-.75z"
-								></path><path
-									d="m7.25 12c0-.4142.33579-.75.75-.75h8c.4142 0 .75.3358.75.75s-.3358.75-.75.75h-8c-.41421 0-.75-.3358-.75-.75z"
-								></path><path
-									clip-rule="evenodd"
-									d="m9.96644 1.25h4.06716c1.3717 0 2.4471-.00001 3.3115.07061.8801.07191 1.6072.22077 2.2653.5561 1.082.55127 1.9616 1.43091 2.5129 2.51284.3353.65814.4842 1.38524.5561 2.26539.0706.86434.0706 1.93977.0706 3.31148v1.21778.1469c.0002 1.5486.0004 2.4933-.2323 3.2868-.551 1.8792-2.0206 3.3488-3.8998 3.8998-.7935.2327-1.7382.2325-3.2868.2323-.0484 0-.0973 0-.1469 0h-.5488l-.0603.0001c-.8672.0055-1.7119.2763-2.4208.7758l-.0492.035-2.61069 1.8648c-1.50451 1.0746-3.48153-.4773-2.79487-2.194.09229-.2307-.07763-.4817-.32613-.4817h-.60175c-2.49725 0-4.52166-2.0244-4.52166-4.5217v-4.26186c0-1.37172-.00001-2.44715.07061-3.3115.07191-.88015.22077-1.60725.5561-2.26539.55127-1.08193 1.43091-1.96157 2.51284-2.51284.65814-.33533 1.38524-.48419 2.26539-.5561.86435-.07062 1.93978-.07061 3.3115-.07061zm-3.18936 1.56563c-.78738.06433-1.29511.18796-1.70654.39759-.79969.40746-1.44986 1.05763-1.85732 1.85732-.20963.41143-.33326.91916-.39759 1.70654-.06505.79614-.06563 1.81041-.06563 3.22292v4.2283c0 1.6689 1.35284 3.0217 3.02166 3.0217h.60175c1.3097 0 2.20526 1.3228 1.71885 2.5388-.13029.3257.24483.6202.53029.4163l2.66765-1.9054c.9591-.6758 2.102-1.0421 3.2753-1.0496l.0699-.0001h.5488c1.7419 0 2.4521-.0076 3.0116-.1717 1.389-.4073 2.4752-1.4935 2.8825-2.8825.1641-.5595.1717-1.2697.1717-3.0116v-1.1842c0-1.41251-.0006-2.42678-.0656-3.22292-.0644-.78738-.188-1.29511-.3976-1.70654-.4075-.79969-1.0577-1.44986-1.8573-1.85732-.4115-.20963-.9192-.33326-1.7066-.39759-.7961-.06505-1.8104-.06563-3.2229-.06563h-4c-1.41251 0-2.42678.00058-3.22292.06563z"
-									fill-rule="evenodd"
-								></path></g
-							></svg
-						></span
-					>
-				</Button>
+			<div
+				class="right-section flex gap-4 md:gap-6 items-center {userState.user
+					? 'md-items-center'
+					: 'md:items-end'} justify-end flex-grow basis-0"
+			>
+				{#if userState.user}
+					<div class="flex items-center gap-4 w-fit rounded-sm p-1">
+						<div class="user_info">
+							<div class="uppercase text-{navScroll ? 'white' : 'text'} text-right">
+								{userState.user.email}
+								<span class="text-green-500">
+									[{userState.user.username}]
+								</span>
+							</div>
+						</div>
+						<Button onclick={openLogout}>Logout</Button>
+					</div>
+				{:else}
+					<Button variant="default" size="lg" href={cta.href} class="hidden md:flex" aria-label={cta.name}>
+						<span class="btn__text">{cta.name} </span>
+					</Button>
+					<Button variant="default" size="icon" href={cta.href} class="flex md:hidden w-12 h-12" aria-label={cta.name}>
+						<span class="btn__icon"
+							><svg fill="none" viewBox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg" id="fi_9446889"
+								><g fill="rgb(0,0,0)"
+									><path
+										d="m7.25 8c0-.41421.33579-.75.75-.75h4c.4142 0 .75.33579.75.75s-.3358.75-.75.75h-4c-.41421 0-.75-.33579-.75-.75z"
+									></path><path
+										d="m7.25 12c0-.4142.33579-.75.75-.75h8c.4142 0 .75.3358.75.75s-.3358.75-.75.75h-8c-.41421 0-.75-.3358-.75-.75z"
+									></path><path
+										clip-rule="evenodd"
+										d="m9.96644 1.25h4.06716c1.3717 0 2.4471-.00001 3.3115.07061.8801.07191 1.6072.22077 2.2653.5561 1.082.55127 1.9616 1.43091 2.5129 2.51284.3353.65814.4842 1.38524.5561 2.26539.0706.86434.0706 1.93977.0706 3.31148v1.21778.1469c.0002 1.5486.0004 2.4933-.2323 3.2868-.551 1.8792-2.0206 3.3488-3.8998 3.8998-.7935.2327-1.7382.2325-3.2868.2323-.0484 0-.0973 0-.1469 0h-.5488l-.0603.0001c-.8672.0055-1.7119.2763-2.4208.7758l-.0492.035-2.61069 1.8648c-1.50451 1.0746-3.48153-.4773-2.79487-2.194.09229-.2307-.07763-.4817-.32613-.4817h-.60175c-2.49725 0-4.52166-2.0244-4.52166-4.5217v-4.26186c0-1.37172-.00001-2.44715.07061-3.3115.07191-.88015.22077-1.60725.5561-2.26539.55127-1.08193 1.43091-1.96157 2.51284-2.51284.65814-.33533 1.38524-.48419 2.26539-.5561.86435-.07062 1.93978-.07061 3.3115-.07061zm-3.18936 1.56563c-.78738.06433-1.29511.18796-1.70654.39759-.79969.40746-1.44986 1.05763-1.85732 1.85732-.20963.41143-.33326.91916-.39759 1.70654-.06505.79614-.06563 1.81041-.06563 3.22292v4.2283c0 1.6689 1.35284 3.0217 3.02166 3.0217h.60175c1.3097 0 2.20526 1.3228 1.71885 2.5388-.13029.3257.24483.6202.53029.4163l2.66765-1.9054c.9591-.6758 2.102-1.0421 3.2753-1.0496l.0699-.0001h.5488c1.7419 0 2.4521-.0076 3.0116-.1717 1.389-.4073 2.4752-1.4935 2.8825-2.8825.1641-.5595.1717-1.2697.1717-3.0116v-1.1842c0-1.41251-.0006-2.42678-.0656-3.22292-.0644-.78738-.188-1.29511-.3976-1.70654-.4075-.79969-1.0577-1.44986-1.8573-1.85732-.4115-.20963-.9192-.33326-1.7066-.39759-.7961-.06505-1.8104-.06563-3.2229-.06563h-4c-1.41251 0-2.42678.00058-3.22292.06563z"
+										fill-rule="evenodd"
+									></path></g
+								></svg
+							></span
+						>
+					</Button>
+				{/if}
 				{#if mini}
 					<MenuToggle onClick={toggleMenu} {menuView} color={navScroll && !menuView ? "#FFFFFF" : "#000000"} />
 				{/if}
@@ -237,6 +269,23 @@
 {#if mini}
 	<MenuSlide view={menuView} />
 {/if}
+
+<Modal bind:showModal={showLogoutModal}>
+	{#snippet header()}
+		<h5 class="heading-4 pe-lg-4 font-sans text-2xl">Logout</h5>
+	{/snippet}
+	{#snippet children()}
+		<div class="text-xl text-text-light">
+			<p>Are you sure you want to logout?</p>
+		</div>
+	{/snippet}
+	{#snippet footer()}
+		<Button variant="destructive" onclick={handleLogout}>Yes, Logout</Button>
+	{/snippet}
+	{#snippet dismiss()}
+		No, Stay logged in
+	{/snippet}
+</Modal>
 
 <style>
 	header {

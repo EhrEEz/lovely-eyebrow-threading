@@ -51,15 +51,23 @@ export const actions = {
 
 		if (!email) {
 			console.log("Email is missing");
-			return fail(400, { email, missing: true });
+			return {
+				status: 400,
+				error: "Email is missing",
+			};
 		}
 		if (!password) {
 			console.log("Password is missing");
-			return fail(400, { password, missing: true });
+			return {
+				status: 400,
+				error: "Password is missing",
+			};
 		}
 		if (!success) {
-			console.log("Invalid Captcha");
-			return fail(400, { error: error || "Invalid Captcha", token_error: true });
+			return {
+				status: 400,
+				error: "Invalid Captcha",
+			};
 		}
 
 		const res = await fetch("/api/auth/local", {
@@ -88,7 +96,10 @@ export const actions = {
 		} else {
 			const errorData = await res.json();
 			console.log("Failed", errorData);
-			return fail(res.status, { error: errorData.error.message });
+			return {
+				status: res.status,
+				error: errorData.error.message,
+			};
 		}
 	},
 };
