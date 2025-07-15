@@ -78,8 +78,8 @@
 				".floating__image.image--1",
 				{
 					opacity: 0,
-					translateY: 25,
 					translateX: -25,
+					translateY: -25,
 					duration: 1,
 				},
 				"start+=0.4"
@@ -131,29 +131,26 @@
 			let aboutTimeline = gsap.timeline({
 				scrollTrigger: {
 					trigger: ".featured-service__section",
-					start: "top 90%",
+					start: "top bottom",
 					toggleActions: "play none none none",
 				},
 			});
 
 			let hookSplit = SplitText.create(".about__section-hook", { type: "lines" });
-			let animation = aboutTimeline
-				.addLabel("titleSpin", 0.1)
-
-				.from(
-					hookSplit.lines,
-					{
-						rotationX: -100,
-						skewY: -12,
-						translateY: "1em",
-						// transformOrigin: "50% 50% -0.5rem",
-						opacity: 0,
-						duration: 1.2,
-						ease: "power4.inOut",
-						stagger: 0.05,
-					},
-					"titleSpin+=0.3"
-				);
+			let animation = aboutTimeline.addLabel("titleSpin", 0.1).from(
+				hookSplit.lines,
+				{
+					rotationX: -100,
+					skewY: -12,
+					translateY: "1em",
+					// transformOrigin: "50% 50% -0.5rem",
+					opacity: 0,
+					duration: 1.2,
+					ease: "power4.inOut",
+					stagger: 0.05,
+				},
+				"titleSpin+=0.3"
+			);
 		}
 		if (gallery_section) {
 			const gallerySectionTimeline = gsap.timeline({
@@ -171,7 +168,7 @@
 						opacity: 0,
 						translateY: "0.15em",
 						duration: 1,
-						ease: "sine.inOut",
+						ease: "power4.inOut",
 					},
 					"start"
 				)
@@ -180,6 +177,7 @@
 					{
 						opacity: 0,
 						translateY: "-0.15em",
+						ease: "power4.inOut",
 						duration: 0.9,
 					},
 					"start+=0.4"
@@ -188,6 +186,7 @@
 					".gallery__section-description",
 					{
 						opacity: 0,
+						ease: "power4.inOut",
 						duration: 1,
 					},
 					"start+=1"
@@ -199,16 +198,33 @@
 				scrollTrigger: {
 					trigger: ".contact__section",
 					start: "top 60%",
-					toggleActions: "play none none none",
+					toggleActions: "play none reverse none",
+					end: "top top",
+					scrub: 2,
 				},
 			});
 			contactTimeline.addLabel("start").from(contactSplit.words, {
 				opacity: 0,
 				translateY: "0.4em",
 				skewY: 3,
-				duration: 0.4,
+				duration: 0.8,
 				stagger: 0.07,
 			});
+
+			gsap
+				.timeline({
+					scrollTrigger: {
+						trigger: ".contact__section",
+						start: "top bottom",
+						toggleActions: "play none none none",
+						end: "top top",
+						scrub: 2,
+					},
+				})
+				.from(".contact__image", {
+					opacity: 0.5,
+					scale: 0.8,
+				});
 		}
 		if (articles) {
 			const articleSplit = SplitText.create(".article__section-title", { type: "chars" });
@@ -489,7 +505,6 @@
 								size="lg"
 								href={`/blogs/` + article.slug}
 								class="md:col-span-10 col-span-12 !flex-row md:col-start-2"
-								data-lag={0.1 * index + 1}
 							>
 								<Article.Image img={article.cover} class="w-1/2" />
 								<Article.Content class="w-1/2">
