@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { SplitText } from "gsap/SplitText";
 	import Swiper from "swiper";
 	import "swiper/swiper-bundle.css";
-	import { Navigation, Autoplay, Thumbs, EffectCreative, Controller } from "swiper/modules";
+	import "$lib/scss/components/_slider.scss";
+	import { Navigation, Autoplay, Thumbs, EffectCreative, Controller, EffectFade } from "swiper/modules";
 	import ServiceImage from "./ServiceImage.svelte";
 	import Button from "$lib/components/buttons/Button.svelte";
 	const { services, media_url } = $props();
+	import gsap from "gsap";
 
 	let serviceRefs: ServiceImage[] = $state([]);
 	let currentSlideIndex = $state(0);
@@ -21,6 +24,8 @@
 	let prevNavSlide: HTMLButtonElement;
 
 	$effect(() => {
+		gsap.registerPlugin(SplitText);
+
 		swiper_nav = new Swiper(navSlider, {
 			modules: [Navigation],
 			slidesPerView: "auto",
@@ -41,13 +46,18 @@
 					spaceBetween: 40,
 				},
 			},
+			on: {
+				slideChange: (swp) => {
+					const currentSlide = swp.slides[swp.activeIndex];
+					currentSlide.querySelector(".service__tab")?.classList.add("active");
+				},
+			},
 		});
 		swiper_picture = new Swiper(pictureSlider, {
 			modules: [Navigation, Thumbs, EffectCreative, Controller],
 			watchSlidesProgress: true,
 			slidesPerView: 1,
 			effect: "creative",
-
 			creativeEffect: {
 				next: {
 					translate: [0, 10, 10],
@@ -82,11 +92,15 @@
 			grabCursor: true,
 		});
 		swiper_text = new Swiper(textSlider, {
-			modules: [Navigation, Autoplay, Thumbs, Controller],
+			modules: [Navigation, Autoplay, Thumbs, Controller, EffectFade],
 			slidesPerView: 1,
 			watchSlidesProgress: true,
 			autoplay: {
 				delay: 5000,
+			},
+			effect: "fade",
+			fadeEffect: {
+				crossFade: true,
 			},
 			navigation: {
 				nextEl: nextSlide,
@@ -97,6 +111,22 @@
 				swiper: swiper_nav,
 			},
 			on: {
+				slideChange: (swp) => {
+					const currentSlide = swp.slides[swp.activeIndex];
+					let split = SplitText.create(currentSlide.querySelector(".split"), { type: "lines" });
+					let animation = gsap.from(split.lines, {
+						// rotationX: -100,
+						translateY: "1em",
+						// transformOrigin: "50% 50% -0.5rem",
+						opacity: 0,
+						duration: 1,
+						ease: "power4.inOut",
+						stagger: 0.035,
+					});
+					animation.then(() => {
+						animation.kill();
+					});
+				},
 				afterInit: (swp) => {
 					serviceRefs[swp.activeIndex].animateText();
 					serviceRefs[swp.slides.length - 1].reset();
@@ -139,9 +169,12 @@
 							{#each services as service}
 								<div class="swiper-slide cursor-pointer group grow-0 !w-fit">
 									<div
-										class="service__tab decoration-primary underline-offset-4 decoration-4 opacity-50 group-hover:opacity-100 group-[.swiper-slide-thumb-active]:underline group-[.swiper-slide-thumb-active]:opacity-100 !w-fit uppercase text-sm md:text-md lg:text-lg"
+										class="service__tab decoration-primary underline-offset-4 decoration-4 opacity-40 group-hover:opacity-100 group-[.swiper-slide-thumb-active]:opacity-100 !w-fit uppercase text-sm md:text-md lg:text-lg"
+										data-text={service.name}
 									>
-										{service.name}
+										<span class="service__tab-text">
+											{service.name}
+										</span>
 									</div>
 								</div>
 							{/each}
@@ -191,10 +224,10 @@
 					<div class="swiper-wrapper">
 						{#each services as service}
 							<div class="swiper-slide">
-								<p class="md:text-lg leading-loose md:leading-loose lg:leading-loose">
+								<p class="md:text-lg leading-loose md:leading-loose lg:leading-loose split">
 									{service.description}
 								</p>
-								<div class="flex row gap-4 items-center mt-8">
+								<div class="flex row gap-4 items-center mt-8 service__actions-wrapper">
 									<Button variant="link" data-sveltekit-reload href="/services/{service.slug}">Check out More</Button>
 									{#if service.cta_link}
 										<Button href={service.cta_link}>Book Now</Button>

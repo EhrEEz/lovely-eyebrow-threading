@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { fade, fly } from "svelte/transition";
 	import * as Article from "$lib/components/cards/article";
+	import { Marquee } from "$lib/components/mq";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import Generator from "$lib/components/canvas/Generator.svelte";
 	import { ServiceSlider } from "$lib/components/slider";
-	import { Marquee } from "@selemondev/svelte-marquee";
 	import Swiper from "swiper";
 	import { Pagination, Autoplay, EffectCreative } from "swiper/modules";
 	import Seo from "$lib/components/seo/SEO.svelte";
@@ -27,7 +27,6 @@
 	let _testimonial_swiper: Swiper;
 
 	const cta = $state<CTAItem>(getContext("cta"));
-
 	$effect(() => {
 		if (testimonialSlider) {
 			_testimonial_swiper = new Swiper(testimonialSlider, {
@@ -35,13 +34,19 @@
 				spaceBetween: 30,
 				modules: [Pagination, Autoplay, EffectCreative],
 				effect: "creative",
+				speed: 500,
+				grabCursor: true,
 				creativeEffect: {
 					prev: {
 						shadow: false,
+						rotate: [20, 0, 0],
 						translate: [0, 0, -400],
+						opacity: 0.4,
 					},
 					next: {
-						translate: ["100%", 0, 0],
+						rotate: [-20, 0, 0],
+						opacity: 1,
+						translate: [0, "100%", 0],
 					},
 				},
 				loop: true,
@@ -59,7 +64,6 @@
 </script>
 
 <Seo pageSettings={home_data.page_info} {siteSettings} {media_url} />
-
 <main>
 	<section class="relative header__section overflow-x-clip">
 		<div class="container">
@@ -84,8 +88,14 @@
 					{header_section.small_text}
 				</h2>
 				<div class="flex items-center justify-center gap-6 mt-8" in:fade={{ duration: 300, delay: 600 }}>
-					<Button variant="default" size="lg"><span class="btn__text">Book Now</span></Button>
-					<Button variant="link" size="lg"><span class="btn__text">Contact Us</span></Button>
+					{#if siteSettings.bookingLink}
+						<Button variant="default" size="lg" href={siteSettings.booking_link}
+							><span class="btn__text">Book Now</span></Button
+						>
+					{/if}
+					<Button variant={siteSettings.bookingLink ? "link" : "default"} size="lg" href={cta.href}
+						><span class="btn__text">{cta.name}</span></Button
+					>
 				</div>
 			</div>
 			<div class="floating__image image--1" in:fly={{ y: 25, x: -25, duration: 1000, delay: 400 }}>
@@ -121,18 +131,8 @@
 	</section>
 	<ServiceSlider {services} {media_url} />
 	<section class="mb-24 mt-36 md:my-36">
-		<Marquee
-			class="gap-[3rem] [--duration:20s] [--gap:3rem] "
-			innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
-		>
-			<h3 class="text-8xl md:text-9xl !leading-none">{siteSettings.tagline}</h3>
-			<div class="text-8xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-8xl md:text-9xl !leading-none">{siteSettings.tagline}</h3>
-			<div class="text-8xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-8xl md:text-9xl !leading-none">{siteSettings.tagline}</h3>
-			<div class="text-8xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-8xl md:text-9xl !leading-none">{siteSettings.tagline}</h3>
-			<div class="text-8xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+		<Marquee separator="-">
+			{siteSettings.tagline}
 		</Marquee>
 	</section>
 	{#if about_section}
@@ -179,15 +179,15 @@
 	{#if gallery_section}
 		<section class="gallery__section relative w-full flex justify-center lg:py-96 py-48 md:py-72 overflow-x-clip">
 			<div class="gallery__text-wrapper w-fit relative flex flex-col items-center">
-				<h3 class="text-center">
+				<h3 class="text-center" data-lag="clamp(0.1)">
 					<div class="text-5xl lg:text-8xl">Your Eyebrows</div>
 					<div class="text-[4.5rem] md:text-[8rem] lg:text-[14rem]">Your Way</div>
 				</h3>
-				<p class="text-center px-16 lg:px-0 lg:max-w-[50%] my-4 md:text-xl mx-auto">
+				<p class="text-center px-16 lg:px-0 lg:max-w-[50%] my-4 md:text-xl mx-auto" data-lag="clamp(0.1)">
 					View a collection of our best work, we’ve ever done at our eyebrow threading shop and compare the before &
 					after pictures of our work.
 				</p>
-				<div class="flex row justify-center my-6">
+				<div class="flex row justify-center my-6" data-lag="clamp(0.125)">
 					<Button variant="link" href="/gallery">
 						<span class="btn__wrappepr"><span class="btn__text"> View Gallery </span></span>
 					</Button>
@@ -195,7 +195,7 @@
 				<Generator />
 			</div>
 			{#if gallery_section.image_bottom_right}
-				<div class="gen__image-wrapper">
+				<div class="gen__image-wrapper" data-lag="clamp(0.5)" data-speed="clamp(1.2)">
 					<img
 						loading="lazy"
 						src={media_url + gallery_section.image_bottom_right.url}
@@ -211,7 +211,7 @@
 				</div>
 			{/if}
 			{#if gallery_section.image_top_left}
-				<div class="gen__image-wrapper">
+				<div class="gen__image-wrapper" data-lag="clamp(0.135)" data-speed="clamp(1.1)">
 					<img
 						loading="lazy"
 						src={media_url + gallery_section.image_top_left.url}
@@ -227,7 +227,7 @@
 				</div>
 			{/if}
 			{#if gallery_section.image_bottom_left}
-				<div class="gen__image-wrapper">
+				<div class="gen__image-wrapper" data-lag="clamp(0.325)" data-speed="clamp(0.9)">
 					<img
 						loading="lazy"
 						src={media_url + gallery_section.image_bottom_left.url}
@@ -243,7 +243,7 @@
 				</div>
 			{/if}
 			{#if gallery_section.image_top_right}
-				<div class="gen__image-wrapper">
+				<div class="gen__image-wrapper" data-lag="clamp(0.235)" data-speed="clamp(1.3)">
 					<img
 						loading="lazy"
 						src={media_url + gallery_section.image_top_right.url}
@@ -268,8 +268,8 @@
 					<div class="swiper rounded-md md:rounded-lg" bind:this={testimonialSlider}>
 						<div class="swiper-wrapper items-stretch">
 							{#each testimonials as testimonial}
-								<div class="swiper-slide !h-auto">
-									<div class="wrapper !h-full bg-white rounded-md md:rounded-lg p-8 md:p-12 lg:p-16 shadow-sm">
+								<div class="swiper-slide !h-auto p-8">
+									<div class="wrapper !h-full bg-white rounded-md md:rounded-lg p-8 md:p-12 lg:p-16 drop-shadow-xl">
 										<p class="text-lg md:text-2xl leading-loose lg:pe-64">
 											{testimonial.testimonial_content}
 										</p>
@@ -306,6 +306,7 @@
 			</div>
 		</section>
 	{/if}
+
 	{#if articles && articles.length > 0}
 		<section class="articles__section pt-36 md:pt-48">
 			<div class="container">
@@ -388,6 +389,7 @@
 						</div>
 						<div
 							class="flex flex-col justify-center items-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+							data-speed="1.1"
 						>
 							<h2 class="text-5xl md:text-7xl xl:text-8xl text-primary text-center">
 								{contact_section.main_text}

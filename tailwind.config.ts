@@ -6,7 +6,7 @@ import animate from "tailwindcss-animate";
 import type { Config } from "tailwindcss";
 
 export default {
-	content: ["./src/**/*.{html,js,svelte,ts}", "./node_modules/@selemondev/svelte-marquee/dist/*.svelte"],
+	content: ["./src/**/*.{html,js,svelte,ts}"],
 
 	theme: {
 		container: {
@@ -57,20 +57,6 @@ export default {
 			fontFamily: {
 				sans: ["Akshar", ...fontFamily.sans],
 				serif: ["Perandory", ...fontFamily.sans],
-			},
-			keyframes: {
-				"marquee-left": {
-					from: { transform: "translateX(0)" },
-					to: { transform: "translateX(calc(-100% - var(--gap)))" },
-				},
-				"marquee-up": {
-					from: { transform: "translateY(0)" },
-					to: { transform: "translateY(calc(-100% - var(--gap)))" },
-				},
-			},
-			animation: {
-				"marquee-left": "marquee-left var(--duration, 40s) linear infinite",
-				"marquee-up": "marquee-up var(--duration, 40s) linear infinite",
 			},
 		},
 	},

@@ -1,4 +1,5 @@
 import { SECRET_API_TOKEN, SECRET_API_URL } from "$env/static/private";
+import { PUBLIC_MEDIA_URL } from "$env/static/public";
 export const handleFetch = async ({ request, event, fetch }) => {
 	const token = SECRET_API_TOKEN;
 	let url = request.url;
@@ -32,6 +33,7 @@ export const handleFetch = async ({ request, event, fetch }) => {
 			headers: new Headers({
 				...Object.fromEntries(request.headers),
 				Authorization: `Bearer ${userToken}`,
+				"Access-Control-Allow-Origin": PUBLIC_MEDIA_URL,
 			}),
 			body: request.body,
 			signal: request.signal,

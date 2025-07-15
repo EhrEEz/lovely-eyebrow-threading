@@ -17,7 +17,7 @@
 					"bg-[#ffffff22] backdrop-blur-sm normal-case font-normal rounded-xs text-white hover:bg-[#ffffff40] duration-300 transition",
 			},
 			size: {
-				default: "h-9 px-4 py-2 md:py-3 rounded-xl adjust-padding",
+				default: "h-9 px-4 py-2 md:py-3 rounded-xl adjust-padding ",
 				sm: "h-8 rounded-xl px-3 text-xs negative-padding",
 				lg: "h-10 rounded-xl px-6 md:px-8 negative-padding",
 				overlay: "h-9 px-4 py-1 rounded-xs small-padding",
@@ -41,6 +41,7 @@
 </script>
 
 <script lang="ts">
+	import "$lib/scss/components/_button.css";
 	import { cn } from "$lib/utils/utils.js";
 
 	let {

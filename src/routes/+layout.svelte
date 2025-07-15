@@ -3,7 +3,10 @@
 	import Header from "$lib/components/Header.svelte";
 	import { setContext } from "svelte";
 	import "../app.css";
-	import Lenis from "lenis";
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { ScrollSmoother } from "gsap/ScrollSmoother";
+	import { TextPlugin } from "gsap/TextPlugin";
 	import Footer from "$lib/components/footer/Footer.svelte";
 	const { children, data } = $props();
 
@@ -33,26 +36,41 @@
 	});
 	setContext("cta", cta);
 	setContext("site-settings", main);
-	let lenis: Lenis;
+	let smoother: ScrollSmoother;
+
+	let loaded = $state(false);
 	$effect(() => {
-		lenis = new Lenis({
-			autoRaf: true,
-		});
-		setContext("lenis", lenis);
-		function lenisSetScroll(): void {
-			const top = window.scrollY;
-			if (top >= 100) {
-				navScroll = true;
-			} else {
-				navScroll = false;
+		console.clear();
+		loaded = true;
+
+		if (loaded) {
+			gsap.registerPlugin(ScrollTrigger, ScrollSmoother, TextPlugin);
+			smoother = ScrollSmoother.create({
+				wrapper: "#smooth-wrapper",
+				content: "#smooth-content",
+				smooth: 1.2,
+				effects: true,
+				smoothTouch: 0.1,
+				onUpdate: (self) => {
+					const top = self.scrollTop();
+					if (top >= 100) {
+						navScroll = true;
+					} else {
+						navScroll = false;
+					}
+				},
+			});
+			smoother.effects("[data-speed], [data-lag]");
+
+			setContext("smoother", smoother);
+
+			if ($navigating) {
+				smoother.scrollTo(0);
 			}
 		}
-		lenis.on("scroll", lenisSetScroll);
-		window.addEventListener("load", lenisSetScroll);
-
-		if ($navigating) {
-			lenis.scrollTo(0);
-		}
+		return () => {
+			smoother?.kill();
+		};
 	});
 </script>
 
@@ -61,6 +79,12 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 	<link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300..700&display=swap" rel="stylesheet" />
 </svelte:head>
-<Header {navScroll} />
-{@render children()}
-<Footer />
+{#if loaded}
+	<div id="smooth-wrapper">
+		<Header {navScroll} />
+		<div id="smooth-content">
+			{@render children()}
+			<Footer />
+		</div>
+	</div>
+{/if}

@@ -4,8 +4,7 @@
 	import { getContext } from "svelte";
 	import Social from "../social/Social.svelte";
 	import Button from "../buttons/Button.svelte";
-	import type Lenis from "lenis";
-	import { Body } from "../cards/article";
+	import type { ScrollSmoother } from "gsap/ScrollSmoother";
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const data: any = getContext("site-settings");
 	const links: LinkType[] = $derived(PRIMARY_LINK_ITEMS);
@@ -16,7 +15,7 @@
 	const addresses = $derived(data.contact.address);
 	const phoneNumbers = $derived(data.contact.phone_numbers);
 	const emails = $derived(data.contact.emails);
-	const lenis: Lenis = $derived(getContext("lenis"));
+	const smoother: ScrollSmoother = $derived(getContext("smoother"));
 	$effect(() => {
 		document.body.style.overflow = view ? "hidden" : "auto";
 	});

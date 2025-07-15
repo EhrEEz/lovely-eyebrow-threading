@@ -50,14 +50,12 @@ export const actions = {
 		const { success, error } = await validateToken(token, secret_key);
 
 		if (!email) {
-			console.log("Email is missing");
 			return {
 				status: 400,
 				error: "Email is missing",
 			};
 		}
 		if (!password) {
-			console.log("Password is missing");
 			return {
 				status: 400,
 				error: "Password is missing",
@@ -95,7 +93,6 @@ export const actions = {
 			}
 		} else {
 			const errorData = await res.json();
-			console.log("Failed", errorData);
 			return {
 				status: res.status,
 				error: errorData.error.message,

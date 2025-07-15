@@ -6,7 +6,6 @@ import type { PageServerLoad } from "./$types.js";
 export const load: PageServerLoad = async ({ fetch, params }) => {
 	const slug = params.slug;
 
-	console.log(slug);
 	const query = qs.stringify({
 		filters: {
 			slug: {

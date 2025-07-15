@@ -88,7 +88,7 @@
 	}
 
 	.swiper-pagination {
-		--swiper-pagination-bullet-width: 2rem;
+		--swiper-pagination-bullet-width: 1rem;
 		--swiper-pagination-bullet-border-radius: 100vmax;
 		--swiper-pagination-bullet-inactive-color: var(--secondary-color);
 		--swiper-pagination-bullet-inactive-opacity: 1;
@@ -97,6 +97,13 @@
 		left: unset;
 		text-align: right;
 		inline-size: fit-content;
+
+		.swiper-pagination-bullet {
+			transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+		}
+		.swiper-pagination-bullet-active {
+			--swiper-pagination-bullet-width: 2rem;
+		}
 	}
 }
 
