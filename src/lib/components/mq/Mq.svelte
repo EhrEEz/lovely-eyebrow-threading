@@ -26,6 +26,7 @@
 			trigger: ".mq__wrapper",
 			start: "top bottom",
 			end: "bottom top",
+
 			onEnter: () => {
 				marqueeTimeline.play();
 			},

@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { SplitText } from "gsap/SplitText";
 	import { fade, fly } from "svelte/transition";
 	import * as Article from "$lib/components/cards/article";
 	import { Marquee } from "$lib/components/mq";
@@ -25,9 +28,73 @@
 	let testimonialSlider = $state<HTMLElement>();
 	let testimonialPagination = $state<HTMLElement>();
 	let _testimonial_swiper: Swiper;
-
 	const cta = $state<CTAItem>(getContext("cta"));
 	$effect(() => {
+		gsap.registerPlugin(ScrollTrigger, SplitText);
+
+		let headerTimeline = gsap.timeline({
+			scrollTrigger: {
+				trigger: ".header__section",
+				start: "top bottom",
+			},
+		});
+		headerTimeline
+			.addLabel("start")
+			.from(
+				".header__address",
+				{
+					duration: 0.7,
+					opacity: 0,
+				},
+				"start+=0.4"
+			)
+			.from(
+				"#title-1",
+				{
+					opacity: 0,
+					translateY: "0.2em",
+					duration: 1,
+				},
+				"start+=0.1"
+			)
+			.from(
+				"#title-2",
+				{
+					opacity: 0,
+					translateY: "-0.15em",
+					duration: 1,
+				},
+				"start+=0.2"
+			)
+			.from(
+				".header__links",
+				{
+					duration: 0.3,
+					opacity: 0,
+				},
+				"start+=0.6"
+			)
+			.from(
+				".floating__image.image--1",
+				{
+					opacity: 0,
+					translateY: 25,
+					translateX: -25,
+					duration: 1,
+				},
+				"start+=0.4"
+			)
+			.from(
+				".floating__image.image--2",
+				{
+					opacity: 0,
+					translateY: 25,
+					translateX: 25,
+					duration: 1,
+				},
+				"start+=0.45"
+			);
+
 		if (testimonialSlider) {
 			_testimonial_swiper = new Swiper(testimonialSlider, {
 				slidesPerView: 1,
@@ -60,6 +127,106 @@
 				},
 			});
 		}
+		if (about_section) {
+			let aboutTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: ".featured-service__section",
+					start: "top 90%",
+					toggleActions: "play none none none",
+				},
+			});
+
+			let hookSplit = SplitText.create(".about__section-hook", { type: "lines" });
+			let animation = aboutTimeline
+				.addLabel("titleSpin", 0.1)
+
+				.from(
+					hookSplit.lines,
+					{
+						rotationX: -100,
+						skewY: -12,
+						translateY: "1em",
+						// transformOrigin: "50% 50% -0.5rem",
+						opacity: 0,
+						duration: 1.2,
+						ease: "power4.inOut",
+						stagger: 0.05,
+					},
+					"titleSpin+=0.3"
+				);
+		}
+		if (gallery_section) {
+			const gallerySectionTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: ".gallery__section",
+					start: "top 70%",
+					toggleActions: "play none none none",
+				},
+			});
+			gallerySectionTimeline
+				.addLabel("start")
+				.from(
+					".gallery__section-pre_title",
+					{
+						opacity: 0,
+						translateY: "0.15em",
+						duration: 1,
+						ease: "sine.inOut",
+					},
+					"start"
+				)
+				.from(
+					".gallery__section-title",
+					{
+						opacity: 0,
+						translateY: "-0.15em",
+						duration: 0.9,
+					},
+					"start+=0.4"
+				)
+				.from(
+					".gallery__section-description",
+					{
+						opacity: 0,
+						duration: 1,
+					},
+					"start+=1"
+				);
+		}
+		if (contact_section) {
+			const contactSplit = SplitText.create(".contact__text", { type: "words" });
+			const contactTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: ".contact__section",
+					start: "top 60%",
+					toggleActions: "play none none none",
+				},
+			});
+			contactTimeline.addLabel("start").from(contactSplit.words, {
+				opacity: 0,
+				translateY: "0.4em",
+				skewY: 3,
+				duration: 0.4,
+				stagger: 0.07,
+			});
+		}
+		if (articles) {
+			const articleSplit = SplitText.create(".article__section-title", { type: "chars" });
+			const articleTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: ".articles__section",
+					start: "top 80%",
+					toggleActions: "play none none none",
+				},
+			});
+			articleTimeline.addLabel("start").from(articleSplit.chars, {
+				opacity: 0,
+				translateY: "0.4em",
+				skewY: 3,
+				duration: 0.8,
+				stagger: 0.015,
+			});
+		}
 	});
 </script>
 
@@ -71,23 +238,20 @@
 				{#if header_section.display_address && siteSettings.contact.address && siteSettings.contact.address.length > 0}
 					<div class="flex justify-center gap-4">
 						{#each siteSettings.contact.address as address}
-							<address
-								class="flex items-center justify-center gap-4 not-italic mb-5"
-								in:fade={{ duration: 700, delay: 400 }}
-							>
+							<address class="flex items-center justify-center gap-4 not-italic mb-5 header__address">
 								<span class="uppercase">{address.street} </span>
 								<span class="uppercase">{address.city}, {address.state_code} {address.zip_code}</span>
 							</address>
 						{/each}
 					</div>
 				{/if}
-				<h2 class="text-7xl md:text-9xl text-center" id="title-1" in:fly={{ y: 20, duration: 1000, delay: 100 }}>
+				<h2 class="text-7xl md:text-9xl text-center" id="title-1">
 					{header_section.large_text}
 				</h2>
-				<h2 class="text-4xl md:text-7xl text-center" id="title-2" in:fly={{ y: -15, duration: 1000, delay: 200 }}>
+				<h2 class="text-4xl md:text-7xl text-center" id="title-2">
 					{header_section.small_text}
 				</h2>
-				<div class="flex items-center justify-center gap-6 mt-8" in:fade={{ duration: 300, delay: 600 }}>
+				<div class="flex items-center justify-center gap-6 mt-8 header__links">
 					{#if siteSettings.bookingLink}
 						<Button variant="default" size="lg" href={siteSettings.booking_link}
 							><span class="btn__text">Book Now</span></Button
@@ -98,7 +262,7 @@
 					>
 				</div>
 			</div>
-			<div class="floating__image image--1" in:fly={{ y: 25, x: -25, duration: 1000, delay: 400 }}>
+			<div class="floating__image image--1">
 				<img
 					src={media_url + header_section.left_image.formats.thumbnail.url}
 					title={header_section.left_image.name}
@@ -113,7 +277,7 @@
 				/>
 			</div>
 
-			<div class="floating__image image--2" in:fly={{ y: 25, x: 25, duration: 1000, delay: 450 }}>
+			<div class="floating__image image--2">
 				<img
 					src={media_url + header_section.right_image.formats.thumbnail.url}
 					title={header_section.right_image.name}
@@ -129,7 +293,9 @@
 			</div>
 		</div>
 	</section>
+
 	<ServiceSlider {services} {media_url} />
+
 	<section class="mb-24 mt-36 md:my-36">
 		<Marquee separator="-">
 			{siteSettings.tagline}
@@ -138,10 +304,10 @@
 	{#if about_section}
 		<section class="featured-service__section my-24">
 			<div class="container lg:flex gap-8 items-center">
-				<div class="lg:w-1/2 order-1 mb-10">
+				<div class="lg:w-1/2 order-1 mb-10" data-speed={0.9}>
 					<div class="rounded-lg md:rounded-xxl overflow-hidden relative">
 						<h4
-							class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white md:px-3 md:py-3 w-full text-4xl md:text-5xl !leading-[1em] px-8"
+							class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white md:px-3 md:py-3 w-full text-4xl md:text-5xl !leading-[1em] px-8 about__section-hook z-10"
 						>
 							{about_section.hook}
 						</h4>
@@ -154,17 +320,17 @@
 								: ''}
 			{about_section.cover.media.formats.small ? `${media_url + about_section.cover.media.formats.small.url} 500w,` : ''}"
 							style="width: 100%; height: auto;"
-							class="object-cover aspect-[5/6] lg:aspect-[4/3]"
+							class="object-cover aspect-[5/6] lg:aspect-[4/3] about__section-image"
 							alt={about_section.cover.alt ?? about_section.cover.media.alternativeText ?? `About Section`}
 						/>
 					</div>
 				</div>
 				<div class="lg:w-1/2 lg:pe-20 order-0">
 					{#if about_section.title}
-						<h2 class="font-sans font-normal text-2xl mb-6 uppercase">{about_section?.title}</h2>
+						<h2 class="font-sans font-normal text-2xl mb-6 uppercase about__section-title">{about_section?.title}</h2>
 					{/if}
 					{#if about_section.description}
-						<p class="text-lg leading-9">
+						<p class="text-lg leading-9 about__section-paragraph">
 							Thanks to modern innovation, achieving full, beautiful brows—even if you weren’t genetically blessed with
 							them—is now very attainable: From high-performance brow pencils to brow-growing serums that yield
 							impressive results, there are plenty of options for getting thicker brows in just a few swipes or strokes.
@@ -180,12 +346,16 @@
 		<section class="gallery__section relative w-full flex justify-center lg:py-96 py-48 md:py-72 overflow-x-clip">
 			<div class="gallery__text-wrapper w-fit relative flex flex-col items-center">
 				<h3 class="text-center" data-lag="clamp(0.1)">
-					<div class="text-5xl lg:text-8xl">Your Eyebrows</div>
-					<div class="text-[4.5rem] md:text-[8rem] lg:text-[14rem]">Your Way</div>
+					<div class="text-5xl lg:text-8xl gallery__section-pre_title">{gallery_section.pre_title}</div>
+					<div class="text-[4.5rem] md:text-[8rem] lg:text-[14rem] gallery__section-title">
+						{gallery_section.title}
+					</div>
 				</h3>
-				<p class="text-center px-16 lg:px-0 lg:max-w-[50%] my-4 md:text-xl mx-auto" data-lag="clamp(0.1)">
-					View a collection of our best work, we’ve ever done at our eyebrow threading shop and compare the before &
-					after pictures of our work.
+				<p
+					class="text-center px-16 lg:px-0 lg:max-w-[50%] my-4 md:text-xl mx-auto gallery__section-description"
+					data-lag="clamp(0.1)"
+				>
+					{gallery_section.description}
 				</p>
 				<div class="flex row justify-center my-6" data-lag="clamp(0.125)">
 					<Button variant="link" href="/gallery">
@@ -306,11 +476,12 @@
 			</div>
 		</section>
 	{/if}
-
 	{#if articles && articles.length > 0}
 		<section class="articles__section pt-36 md:pt-48">
 			<div class="container">
-				<h2 class="text-6xl md:text-8xl break-words text-center mb-8 md:mb-24">Latest articles</h2>
+				<h2 class="text-6xl md:text-8xl break-words text-center mb-8 md:mb-24 article__section-title">
+					Latest articles
+				</h2>
 				<div class="grid grid-cols-12 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4">
 					{#each articles as article, index}
 						{#if index == 0}
@@ -318,6 +489,7 @@
 								size="lg"
 								href={`/blogs/` + article.slug}
 								class="md:col-span-10 col-span-12 !flex-row md:col-start-2"
+								data-lag={0.1 * index + 1}
 							>
 								<Article.Image img={article.cover} class="w-1/2" />
 								<Article.Content class="w-1/2">
@@ -389,9 +561,9 @@
 						</div>
 						<div
 							class="flex flex-col justify-center items-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
-							data-speed="1.1"
+							data-speed="1.25"
 						>
-							<h2 class="text-5xl md:text-7xl xl:text-8xl text-primary text-center">
+							<h2 class="text-5xl md:text-7xl xl:text-8xl text-primary text-center contact__text">
 								{contact_section.main_text}
 							</h2>
 							{#await cta then}

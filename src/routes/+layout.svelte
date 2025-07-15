@@ -40,34 +40,32 @@
 
 	let loaded = $state(false);
 	$effect(() => {
-		console.clear();
-		loaded = true;
+		// console.clear();
 
-		if (loaded) {
-			gsap.registerPlugin(ScrollTrigger, ScrollSmoother, TextPlugin);
-			smoother = ScrollSmoother.create({
-				wrapper: "#smooth-wrapper",
-				content: "#smooth-content",
-				smooth: 1.2,
-				effects: true,
-				smoothTouch: 0.1,
-				onUpdate: (self) => {
-					const top = self.scrollTop();
-					if (top >= 100) {
-						navScroll = true;
-					} else {
-						navScroll = false;
-					}
-				},
-			});
-			smoother.effects("[data-speed], [data-lag]");
+		gsap.registerPlugin(ScrollTrigger, ScrollSmoother, TextPlugin);
+		smoother = ScrollSmoother.create({
+			wrapper: "#smooth-wrapper",
+			content: "#smooth-content",
+			smooth: 1.2,
+			effects: true,
+			smoothTouch: 0.1,
+			onUpdate: (self) => {
+				const top = self.scrollTop();
+				if (top >= 100) {
+					navScroll = true;
+				} else {
+					navScroll = false;
+				}
+			},
+		});
+		smoother.effects("[data-speed], [data-lag]");
 
-			setContext("smoother", smoother);
+		setContext("smoother", smoother);
 
-			if ($navigating) {
-				smoother.scrollTo(0);
-			}
+		if ($navigating) {
+			smoother.scrollTo(0);
 		}
+
 		return () => {
 			smoother?.kill();
 		};
@@ -79,12 +77,10 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
 	<link href="https://fonts.googleapis.com/css2?family=Akshar:wght@300..700&display=swap" rel="stylesheet" />
 </svelte:head>
-{#if loaded}
-	<div id="smooth-wrapper">
-		<Header {navScroll} />
-		<div id="smooth-content">
-			{@render children()}
-			<Footer />
-		</div>
+<div id="smooth-wrapper">
+	<Header {navScroll} />
+	<div id="smooth-content">
+		{@render children()}
+		<Footer />
 	</div>
-{/if}
+</div>

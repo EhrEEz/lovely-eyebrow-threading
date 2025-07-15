@@ -138,12 +138,12 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 	if (response.ok) {
 		const { data } = await response.json();
 		const article_response = await fetch(`/api/articles?${articleQuery}`);
-
 		if (article_response.ok) {
 			const { data: articleData } = await article_response.json();
+
 			return {
 				media_url: PUBLIC_MEDIA_URL,
-				home_data: { ...data, streamed: { articles: articleData ?? [] } },
+				home_data: { ...data, articles: articleData ?? [] },
 			};
 		} else {
 			return {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Marquee } from "@selemondev/svelte-marquee";
+	import { Marquee } from "$lib/components/mq";
 	import Zoom from "svelte-medium-image-zoom";
 	import "svelte-medium-image-zoom/dist/styles.css";
 	import Button from "$lib/components/buttons/Button.svelte";
@@ -106,16 +106,8 @@
 	{/if}
 
 	<section class="my-24 md:my-36 lg:my-36 xl:my-48">
-		<Marquee
-			class="gap-[3rem] [--duration:30s] [--gap:3rem] "
-			innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
-		>
-			<h3 class="text-7xl md:text-9xl !leading-none">{service.tagline}</h3>
-			<div class="text-7xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-7xl md:text-9xl !leading-none">{service.tagline}</h3>
-			<div class="text-7xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-7xl md:text-9xl !leading-none">{service.tagline}</h3>
-			<div class="text-7xl md:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+		<Marquee separator="-">
+			{service.tagline}
 		</Marquee>
 	</section>
 	{#if service_inners && service_inners.length > 0}

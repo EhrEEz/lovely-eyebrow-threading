@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { SplitText } from "gsap/SplitText";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import Swiper from "swiper";
 	import "swiper/swiper-bundle.css";
 	import "$lib/scss/components/_slider.scss";
@@ -24,7 +25,7 @@
 	let prevNavSlide: HTMLButtonElement;
 
 	$effect(() => {
-		gsap.registerPlugin(SplitText);
+		gsap.registerPlugin(SplitText, ScrollTrigger);
 
 		swiper_nav = new Swiper(navSlider, {
 			modules: [Navigation],
@@ -136,16 +137,40 @@
 				control: swiper_picture,
 			},
 		});
+
 		swiper_picture.controller.control = [swiper_text];
 		swiper_text.controller.control = [swiper_picture];
+
+		let tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: ".homepage-service__slider",
+				start: "top 90%",
+				toggleActions: "play none none none",
+			},
+		});
+		tl.fromTo(
+			".homepage-service__slider",
+			{
+				opacity: 0,
+				translateY: 100,
+			},
+			{
+				opacity: 1,
+				translateY: 0,
+				onUpdate: () => {
+					swiper_text.slideTo(0, 600, true);
+					// serviceRefs[currentSlideIndex].animateText();
+				},
+			}
+		);
 	});
 </script>
 
-<section>
+<section class="homepage__service">
 	<div class="container">
-		<div class="grid grid-cols-12 content-center items-center gap-8">
-			<div class="service__image-wrapper col-span-12 lg:col-span-6 content-start content-xl-end">
-				<div class="swiper" bind:this={pictureSlider}>
+		<div class="homepage-service__slider grid grid-cols-12 content-center items-center gap-8">
+			<div class="service__image-wrapper col-span-12 lg:col-span-6 content-start content-xl-end" data-speed={0.9}>
+				<div class="swiper" id="pictureSlider" bind:this={pictureSlider}>
 					<div class="swiper-wrapper">
 						{#each services as service, ind}
 							<div class="swiper-slide">
@@ -164,7 +189,7 @@
 				class="service__text-wrapper col-span-12 justify-self-center md:col-span-11 lg:col-span-6 xl:col-span-5 xl:col-start-8 grid content-end lg:justify-self-end md:pb-24 relative"
 			>
 				<div class="flex gap-2 items-center mb-4 md:mb-8">
-					<div class="swiper w-full" bind:this={navSlider}>
+					<div class="swiper w-full" id="navSlider" bind:this={navSlider}>
 						<div class="swiper-wrapper">
 							{#each services as service}
 								<div class="swiper-slide cursor-pointer group grow-0 !w-fit">
@@ -220,7 +245,7 @@
 						</button>
 					</div>
 				</div>
-				<div class="swiper w-full" bind:this={textSlider}>
+				<div class="swiper w-full" bind:this={textSlider} id="textSlider">
 					<div class="swiper-wrapper">
 						{#each services as service}
 							<div class="swiper-slide">
@@ -238,7 +263,7 @@
 					</div>
 				</div>
 				<div class="button__wrapper absolute right-2 bottom-0 translate-y-1/2 z-10">
-					<button class="arrow_button prev__button" bind:this={prevSlide} aria-label="Previous Slide">
+					<button class="arrow_button prev__button" bind:this={prevSlide} aria-label="Previous Slide" data-speed={1.05}>
 						<svg fill="none" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg"
 							><g clip-rule="evenodd" fill="rgb(255,255,255)" fill-rule="evenodd"
 								><path d="m3.24951 11.25h17.49979v1.5h-17.49979z"></path><path

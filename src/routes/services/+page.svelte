@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Marquee } from "@selemondev/svelte-marquee";
+	import { Marquee } from "$lib/components/mq";
 	import ServiceImage from "$lib/components/slider/service/ServiceImage.svelte";
 	import Seo from "$lib/components/seo/SEO.svelte";
 	const { data } = $props();
@@ -27,18 +27,8 @@
 <Seo {media_url} siteSettings={data.siteSettings} pageSettings={page_info.page_info} />
 <main>
 	<section class="mt-24 lg:mt-48 py-16 lg:py-24">
-		<Marquee
-			class="gap-[3rem] [--duration:20s] [--gap:3rem] "
-			innerClassName="gap-[3rem] motion-reduce:animate-none motion-reduce:first:hidden"
-		>
-			<h3 class="text-7xl lg:text-9xl !leading-none">{page_info.page_info.page_title}</h3>
-			<div class="text-7xl lg:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-7xl lg:text-9xl !leading-none">{page_info.page_info.page_title}</h3>
-			<div class="text-7xl lg:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-7xl lg:text-9xl !leading-none">{page_info.page_info.page_title}</h3>
-			<div class="text-7xl lg:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
-			<h3 class="text-7xl lg:text-9xl !leading-none">{page_info.page_info.page_title}</h3>
-			<div class="text-7xl lg:text-9xl font-serif !leading-[0.5] mt-[0.25em]">-</div>
+		<Marquee separator="-">
+			{page_info.page_info.page_title}
 		</Marquee>
 	</section>
 	<section class="service__section pb-24 lg:pb-64">
