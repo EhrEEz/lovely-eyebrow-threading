@@ -1,9 +1,7 @@
 <script>
 	import Button from "../buttons/Button.svelte";
-	// biome-ignore lint/style/useConst: bindable items present
 	let { showModal = $bindable(), header, children, footer = null, dismiss = null } = $props();
 
-	// biome-ignore lint/style/useConst: Svelte Requires let to bind
 	let dialog = $state(); // HTMLDialogElement
 	let isShown = $state(false);
 	$effect(() => {

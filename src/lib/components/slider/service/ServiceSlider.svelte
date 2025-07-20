@@ -122,7 +122,7 @@
 						opacity: 0,
 						duration: 1,
 						ease: "power4.inOut",
-						stagger: 0.035,
+						stagger: 0.045,
 					});
 					animation.then(() => {
 						animation.kill();
@@ -144,7 +144,7 @@
 		let tl = gsap.timeline({
 			scrollTrigger: {
 				trigger: ".homepage-service__slider",
-				start: "top 90%",
+				start: "top 70%",
 				toggleActions: "play none none none",
 			},
 		});

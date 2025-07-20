@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { page } from "$app/stores";
+	import { page } from "$app/state";
 	const { pageSettings, siteSettings, media_url } = $props();
 	const global = siteSettings.global_seo;
 
-	const pageURL = $derived($page.url.href);
-	const homepageURL = $derived($page.url.origin);
+	const pageURL = $derived(page.url.href);
+	const homepageURL = $derived(page.url.origin);
 
 	const title = $derived.by(() => {
 		if (pageSettings && pageSettings.page_title) {

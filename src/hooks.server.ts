@@ -34,7 +34,7 @@ export const handleFetch = async ({ request, event, fetch }) => {
 			headers: new Headers({
 				...Object.fromEntries(request.headers),
 				Authorization: `Bearer ${userToken}`,
-				"Access-Control-Allow-Origin": PUBLIC_MEDIA_URL,
+				"Access-Control-Allow-Origin": "*",
 			}),
 			body: request.body,
 			signal: request.signal,

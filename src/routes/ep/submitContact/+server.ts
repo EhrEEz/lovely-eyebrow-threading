@@ -53,7 +53,8 @@ export async function POST({ request, fetch }) {
 
 	if (!res.ok) {
 		console.error(res);
-		return res;
+		const error = await res.json();
+		return new Response(JSON.stringify({ error: error }));
 	}
 	const json = await res.json();
 	return new Response(JSON.stringify(json));

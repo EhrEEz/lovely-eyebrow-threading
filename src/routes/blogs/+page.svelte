@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { SplitText } from "gsap/SplitText";
+	import { afterNavigate } from "$app/navigation";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import * as Article from "$lib/components/cards/article";
 	import Seo from "$lib/components/seo/SEO.svelte";
@@ -35,19 +39,60 @@
 		}
 		return false;
 	});
+
+	$effect(() => {
+		gsap.registerPlugin(ScrollTrigger, SplitText);
+	});
+	afterNavigate(() => {
+		{
+			const titleSplit = SplitText.create(".blog__title", { type: "words, chars" });
+			const articleTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: ".blog__section",
+					start: "top 70%",
+					toggleActions: "play none none none",
+				},
+				delay: 0.6,
+			});
+			articleTimeline.addLabel("start").from(titleSplit.chars, {
+				opacity: 0,
+				translateY: "-0.4em",
+				skewY: 3,
+				duration: 0.6,
+				stagger: 0.015,
+				ease: "power4.inOut",
+			});
+			let emtCount = 0;
+			gsap.utils.toArray(".article__card").forEach((emt) => {
+				emtCount++;
+				gsap.from(emt as HTMLElement, {
+					scrollTrigger: {
+						trigger: emt as HTMLElement,
+						start: "top 90%",
+						toggleActions: "play none none none",
+					},
+					y: 30,
+					opacity: 0,
+					duration: 1,
+					delay: 0.15 * emtCount,
+					ease: "power4.in",
+				});
+			});
+		}
+	});
 </script>
 
 <Seo {media_url} siteSettings={data.siteSettings} pageSettings={page_info.page_info} />
 <main>
 	{#await articles then}
 		{#if articles.length === 0}
-			<section class="pt-64 pb-48">
-				<div class="text-5xl text-center text-text-light font-serif">No Content Yet</div>
+			<section class="pt-64 pb-48 blog__section">
+				<div class="text-5xl text-center text-text-light font-serif blog__title">No Content Yet</div>
 			</section>
 		{:else}
-			<section class="articles__section pt-40 md:pt-48 lg:pt-64 pb-24 md:pb-48">
+			<section class="articles__section pt-40 md:pt-48 lg:pt-64 pb-24 md:pb-48 blog__section">
 				<div class="container">
-					<h2 class="text-6xl md:text-8xl break-words text-center mb-8 md:mb-24">Latest articles</h2>
+					<h2 class="text-6xl md:text-8xl break-words text-center mb-8 md:mb-24 blog__title">Latest articles</h2>
 					{#if articles.length > 1}
 						<div class="grid grid-cols-12 xl:mt-16 mt-4 md:mt-8 lg:mt-16 justify-center items-stretch xl:gap-16 gap-4">
 							{#each articles as article, index}
@@ -55,7 +100,7 @@
 									<Article.Card
 										size="lg"
 										href={`/blogs/` + article.slug}
-										class="md:col-span-10 col-span-12 !flex-row md:col-start-2"
+										class="md:col-span-10 col-span-12 !flex-row md:col-start-2 article__card"
 									>
 										<Article.Image img={article.cover} class="w-1/2" />
 										<Article.Content class="w-1/2">
@@ -75,7 +120,7 @@
 										</Article.Content>
 									</Article.Card>
 								{:else}
-									<Article.Card href={`/blogs/` + article.slug} class="col-span-6">
+									<Article.Card href={`/blogs/` + article.slug} class="col-span-6 article__card">
 										<Article.Image img={article.cover} />
 										<Article.Content>
 											<Article.Head>

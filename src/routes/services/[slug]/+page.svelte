@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { gsap } from "gsap";
 	import { Marquee } from "$lib/components/mq";
 	import Zoom from "svelte-medium-image-zoom";
 	import "svelte-medium-image-zoom/dist/styles.css";
@@ -6,6 +7,9 @@
 	import Compare from "$lib/components/compare/Compare.svelte";
 	import Swiper from "swiper";
 	import { Navigation, Autoplay, EffectCoverflow } from "swiper/modules";
+	import { afterNavigate } from "$app/navigation";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	import { SplitText } from "gsap/SplitText";
 
 	import "swiper/swiper-bundle.css";
 	import Seo from "$lib/components/seo/SEO.svelte";
@@ -14,12 +18,13 @@
 	const gallery = $derived(service.transformations);
 	const service_inners = $derived(service.service_inners);
 	const media_url = $derived<string>(data.media_url ?? "/");
-	let swiper_service_inners: Swiper;
+	let _swiper_service_inners: Swiper;
 	let serviceInnerSlider: HTMLElement;
 	let nextServiceInnerSlide: HTMLButtonElement;
 	let prevServiceInnerSlide: HTMLButtonElement;
 	$effect(() => {
-		swiper_service_inners = new Swiper(serviceInnerSlider, {
+		gsap.registerPlugin(ScrollTrigger, SplitText);
+		_swiper_service_inners = new Swiper(serviceInnerSlider, {
 			modules: [Navigation, Autoplay, EffectCoverflow],
 			autoplay: {
 				delay: 5000,
@@ -41,6 +46,110 @@
 				slideShadows: false,
 			},
 		});
+		_swiper_service_inners;
+		if (service.pictures && service.pictures.length > 0) {
+			const servicePicturesTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: ".sevice__pictures-section",
+					toggleActions: "play none none none",
+					start: "top 75%",
+				},
+			});
+			const serviceTitleSplit = SplitText.create(".service__pictures-title", { type: "chars" });
+			servicePicturesTimeline
+				.addLabel("start")
+				.from(
+					serviceTitleSplit.chars,
+					{
+						opacity: 0,
+						translateY: "1em",
+						duration: 0.8,
+						stagger: 0.015,
+					},
+					"start"
+				)
+				.from(
+					".service__picture",
+					{
+						opacity: 0,
+						translateY: -20,
+						duration: 0.8,
+						stagger: 0.15,
+					},
+					"start+=0.2"
+				);
+		}
+	});
+
+	afterNavigate(() => {
+		const titleSplit = SplitText.create(".service__title", { type: "words" });
+		const articleTimeline = gsap.timeline({
+			scrollTrigger: {
+				trigger: ".main__section",
+				start: "top 80%",
+				toggleActions: "play none none none",
+			},
+			delay: 0.6,
+		});
+		articleTimeline
+			.addLabel("start")
+			.from(titleSplit.words, {
+				opacity: 0,
+				translateY: "0.4em",
+				skewY: 3,
+				duration: 0.8,
+				stagger: 0.15,
+			})
+			.from(
+				".service__image",
+				{
+					opacity: 0,
+					duration: 1,
+					stagger: 0.015,
+				},
+				"start"
+			)
+			.from(
+				".service__description",
+				{
+					opacity: 0,
+					duration: 0.8,
+					stagger: 0.015,
+				},
+				"start+=0.4"
+			);
+		if (gallery && gallery.length > 0) {
+			const transformationsTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: ".gallery__section",
+					start: "top 90%",
+					toggleActions: "play none none none",
+				},
+				delay: 1.2,
+			});
+			transformationsTimeline
+				.addLabel("start")
+				.from(
+					".transformation__title",
+					{
+						opacity: 0,
+						translateY: "0.4em",
+						duration: 0.6,
+						stagger: 0.07,
+					},
+					"start"
+				)
+				.from(
+					".compare__wrapper",
+					{
+						opacity: 0,
+						translateY: -20,
+						duration: 0.4,
+						stagger: 0.2,
+					},
+					"start+=0.2"
+				);
+		}
 	});
 </script>
 
@@ -57,7 +166,7 @@
 		<div class="container">
 			<div class="grid grid-cols-12 items-center md:gap-12">
 				<div class="col-span-12 md:col-span-6 lg:pe-16 xl:pe-24 xl:px-24 mb-12 lg:mb-0">
-					<div class="overflow-hidden ellipse-image rotate-12">
+					<div class="overflow-hidden ellipse-image rotate-12 service__image" data-lag="0.15">
 						<img
 							loading="lazy"
 							class="w-full"
@@ -71,13 +180,13 @@
 						/>
 					</div>
 				</div>
-				<div class="col-span-12 md:col-span-6">
-					<h1 class="text-6xl break-words lg:text-8xl mb-4">{service.name}</h1>
-					<p class="lg:pe-24 leading-8">
+				<div class="col-span-12 md:col-span-6" data-lag="0.2">
+					<h1 class="text-6xl break-words md:break-normal lg:text-8xl mb-4 service__title">{service.name}</h1>
+					<p class="lg:pe-24 leading-8 service__description">
 						{service.description}
 					</p>
 					{#if service.booking_link}
-						<Button href={service.booking_link}>Book Now</Button>
+						<Button href={service.booking_link} class="service__link">Book Now</Button>
 					{/if}
 				</div>
 			</div>
@@ -86,19 +195,21 @@
 	{#if gallery && gallery.length > 0}
 		<section class="gallery__section my-24 lg:my-36 xl:my-48">
 			<div class="container">
-				<h2 class="text-4xl lg:text-6xl mb-8 break-words">
+				<h2 class="text-4xl lg:text-6xl mb-8 break-words transformation__title">
 					Transformations Including {service?.name}
 				</h2>
 				<div class="grid md:grid-cols-2 gap-6 lg:gap-12">
 					{#each gallery as item (item.id)}
-						<Compare
-							config={{
-								before: item.before,
-								after: item.after,
-							}}
-							{media_url}
-							tags={item.services}
-						/>
+						<div class="compare__wrapper">
+							<Compare
+								config={{
+									before: item.before,
+									after: item.after,
+								}}
+								{media_url}
+								tags={item.services}
+							/>
+						</div>
 					{/each}
 				</div>
 			</div>
@@ -178,12 +289,14 @@
 		</section>
 	{/if}
 	{#if service.pictures && service.pictures.length > 0}
-		<section class="mb-24 lg:mb-36 xl:mb-48">
+		<section class="mb-24 lg:mb-36 xl:mb-48 sevice__pictures-section">
 			<div class="container">
-				<h2 class="break-words text-4xl md:text-6xl text-center mb-8 md:mb-16">Some more Samples</h2>
+				<h2 class="break-words text-4xl md:text-6xl text-center mb-8 md:mb-16 service__pictures-title">
+					Some more Samples
+				</h2>
 				<div class="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-8">
 					{#each service.pictures as picture, ind}
-						<div class="zoom__wrapper relative group/link overflow-hidden rounded-md bg-black">
+						<div class="zoom__wrapper relative group/link overflow-hidden rounded-md bg-black service__picture">
 							<Zoom>
 								<img
 									loading="lazy"

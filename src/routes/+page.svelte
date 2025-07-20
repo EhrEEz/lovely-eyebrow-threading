@@ -2,7 +2,6 @@
 	import { gsap } from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { SplitText } from "gsap/SplitText";
-	import { fade, fly } from "svelte/transition";
 	import * as Article from "$lib/components/cards/article";
 	import { Marquee } from "$lib/components/mq";
 	import Button from "$lib/components/buttons/Button.svelte";
@@ -13,6 +12,7 @@
 	import Seo from "$lib/components/seo/SEO.svelte";
 	import { getContext } from "svelte";
 	import type { CTAItem } from "$lib/types/variables.js";
+	import { afterNavigate } from "$app/navigation";
 	const { data } = $props();
 	const home_data = $state(data.home_data);
 	const siteSettings = $state(data.siteSettings);
@@ -31,7 +31,9 @@
 	const cta = $state<CTAItem>(getContext("cta"));
 	$effect(() => {
 		gsap.registerPlugin(ScrollTrigger, SplitText);
+	});
 
+	afterNavigate(() => {
 		let headerTimeline = gsap.timeline({
 			scrollTrigger: {
 				trigger: ".header__section",
@@ -39,7 +41,7 @@
 			},
 		});
 		headerTimeline
-			.addLabel("start")
+			.addLabel("start", 1)
 			.from(
 				".header__address",
 				{
@@ -75,21 +77,23 @@
 				"start+=0.6"
 			)
 			.from(
-				".floating__image.image--1",
+				".image--1",
 				{
 					opacity: 0,
-					translateX: -25,
-					translateY: -25,
+					translateX: -250,
+					translateY: -75,
+					rotate: 5,
 					duration: 1,
 				},
 				"start+=0.4"
 			)
 			.from(
-				".floating__image.image--2",
+				".image--2",
 				{
 					opacity: 0,
-					translateY: 25,
+					translateY: 75,
 					translateX: 25,
+					rotate: -5,
 					duration: 1,
 				},
 				"start+=0.45"
@@ -242,6 +246,22 @@
 				duration: 0.8,
 				stagger: 0.015,
 			});
+			let emtCount = 0;
+			gsap.utils.toArray(".article__card").forEach((emt) => {
+				emtCount++;
+				gsap.from(emt as HTMLElement, {
+					scrollTrigger: {
+						trigger: emt as HTMLElement,
+						start: "top 90%",
+						toggleActions: "play none none none",
+					},
+					y: 30,
+					opacity: 0,
+					duration: 1,
+					delay: 0.15 * emtCount,
+					ease: "power4.in",
+				});
+			});
 		}
 	});
 </script>
@@ -381,7 +401,7 @@
 				<Generator />
 			</div>
 			{#if gallery_section.image_bottom_right}
-				<div class="gen__image-wrapper" data-lag="clamp(0.5)" data-speed="clamp(1.2)">
+				<div class="gen__image-wrapper" data-lag="clamp(0.235)" data-speed="clamp(1.123)">
 					<img
 						loading="lazy"
 						src={media_url + gallery_section.image_bottom_right.url}
@@ -397,7 +417,7 @@
 				</div>
 			{/if}
 			{#if gallery_section.image_top_left}
-				<div class="gen__image-wrapper" data-lag="clamp(0.135)" data-speed="clamp(1.1)">
+				<div class="gen__image-wrapper" data-lag="clamp(0.135)" data-speed="clamp(1.113)">
 					<img
 						loading="lazy"
 						src={media_url + gallery_section.image_top_left.url}
@@ -429,7 +449,7 @@
 				</div>
 			{/if}
 			{#if gallery_section.image_top_right}
-				<div class="gen__image-wrapper" data-lag="clamp(0.235)" data-speed="clamp(1.3)">
+				<div class="gen__image-wrapper" data-lag="clamp(0.135)" data-speed="clamp(1.191)">
 					<img
 						loading="lazy"
 						src={media_url + gallery_section.image_top_right.url}
@@ -504,7 +524,7 @@
 							<Article.Card
 								size="lg"
 								href={`/blogs/` + article.slug}
-								class="md:col-span-10 col-span-12 !flex-row md:col-start-2"
+								class="md:col-span-10 col-span-12 !flex-row md:col-start-2 article__card"
 							>
 								<Article.Image img={article.cover} class="w-1/2" />
 								<Article.Content class="w-1/2">
@@ -524,7 +544,7 @@
 								</Article.Content>
 							</Article.Card>
 						{:else}
-							<Article.Card href={`/blogs/` + article.slug} class="col-span-6">
+							<Article.Card href={`/blogs/` + article.slug} class="col-span-6 article__card">
 								<Article.Image img={article.cover} />
 								<Article.Content>
 									<Article.Head>

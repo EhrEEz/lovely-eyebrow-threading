@@ -291,7 +291,7 @@
 				reject(new Error("Failed to load background image"));
 			};
 
-			background.src = imageUrl;
+			background.src = imageUrl + "#" + new Date().getTime();
 		});
 	}
 
@@ -404,7 +404,7 @@
 		}
 		if (ctx) {
 			const background = drawImage(ctx);
-			background.src = currentActiveBackground;
+			background.src = currentActiveBackground + "#" + new Date().getTime();
 			drawText(ctx);
 		}
 	});

@@ -8,6 +8,7 @@
 	import Button from "$lib/components/buttons/Button.svelte";
 	import Social from "$lib/components/social/Social.svelte";
 	import Seo from "$lib/components/seo/SEO.svelte";
+	import { error } from "@sveltejs/kit";
 	const { data } = $props();
 	const siteSettings = $state(data.siteSettings);
 	const page_data = $state(data.page_data);
@@ -15,7 +16,13 @@
 	const addresses = $derived(siteSettings.contact.address);
 	const phoneNumbers = $derived(siteSettings.contact.phone_numbers);
 	const emails = $derived(siteSettings.contact.emails);
-
+	let backendErrors = $state<
+		{
+			message: string;
+			path: [];
+			name: string;
+		}[]
+	>([]);
 	type ErrorType = {
 		name?: string;
 		email?: string;
@@ -24,9 +31,7 @@
 		request_phonecall?: string;
 		message?: string;
 	};
-
 	let formLoading = $state(false);
-
 	let fullName = $state("");
 	let phone = $state("");
 	let message = $state("");
@@ -46,20 +51,22 @@
 	let showErrorModal = $state(false);
 	let token_error = $state(false);
 	let token_error_details = $state("");
-
 	const stripHTML = (str: string) => str.replace(/<[^>]*>?/gm, "").trim();
 	const schema = z.object({
-		name: z.string().min(1, "Full Name is required"),
-		title: z.string().min(1, "Title is required"),
-		email: z.string().min(1, "Email is required").email("Invalid Email"),
-		phone: z
-			.string()
-			.regex(/^9[78]\d{8}$/, {
-				message: "Invalid Phone Number",
-			})
-			.optional(),
+		name: z.string().trim().min(1, "Full Name is required"),
+		title: z.string().trim().min(1, "Title is required"),
+		email: z.string().trim().min(1, "Email is required").email("Invalid Email"),
+		phone: z.optional(
+			z
+				.string()
+				.trim()
+				.regex(/^[\+]?([0-9][\s]?|[0-9]?)([(][0-9]{3}[)][\s]?|[0-9]{3}[-\s\.]?)[0-9]{3}[-\s\.]?[0-9]{4,6}$/ig, {
+					message: "Invalid Phone Number",
+				})
+		),
 		message: z
 			.string()
+			.trim()
 			.min(1, "Message is required")
 			.max(1000, {
 				message: "Please keep your message shorter than 1000 characters",
@@ -71,7 +78,6 @@
 		const form = event.target as HTMLFormElement | null;
 		const token = form ? (form.elements.namedItem("cf-turnstile-response") as HTMLInputElement)?.value : "";
 		const result = schema.safeParse(formData);
-
 		if (!result.success) {
 			errors = result.error.flatten().fieldErrors as ErrorType;
 		} else {
@@ -85,7 +91,6 @@
 					"Content-type": "application/json",
 				},
 			});
-
 			const json = await res.json();
 
 			if (json.token_error) {
@@ -94,9 +99,11 @@
 				showErrorModal = true;
 				formLoading = false;
 			} else {
+				console.log(json.error);
 				if (json.error) {
-					errors = json.error.details as ErrorType;
+					backendErrors = json.error.error.details.errors;
 					formLoading = false;
+					showErrorModal = true;
 				}
 				if (json.data) {
 					showSuccessModal = true;
@@ -105,6 +112,7 @@
 			}
 		}
 	};
+	$inspect(backendErrors);
 </script>
 
 <Seo pageSettings={page_data.page_info} {siteSettings} {media_url} />
@@ -119,7 +127,6 @@
 					<h2 class="text-6xl md:text-7xl mb-8 md:mb-16">
 						{page_data.greeting_text}
 					</h2>
-
 					<form method="post" onsubmit={handleSubmit}>
 						<div class="form-group xl:my-10" class:error={errors.name}>
 							<label for="fullName">
@@ -397,28 +404,22 @@
 	{#snippet header()}
 		<h5 class="heading-5 pe-16 error-300 font-sans text-2xl">Error Sending Message</h5>
 	{/snippet}
-	{#if Object.values(errors).length > 0}
-		{#snippet children()}
-			<div class="text-lg mb-4">
-				<p>Please Try again</p>
-			</div>
-			<div class="regular-16 error-300 bg-error-100 py-2 px-3 mt-lg-1 rounded-1">
-				<p>Error details:</p>
-				{#each Object.values(errors) as error}
-					<p>{error}</p>
-				{/each}
-			</div>
-		{/snippet}
-	{/if}
-
-	{#if token_error}
-		{#snippet children()}
-			<div class="regular-20 mb-4">
-				<p>Please Try again</p>
-			</div>
+	{#snippet children()}
+		<div class="text-lg mb-4">
+			<p>Please Try again</p>
+		</div>
+		{#if token_error}
 			<div class="regular-16 error-300 bg-error-100 py-2 px-3 mt-lg-1 rounded-1">
 				<p>Error detail: {token_error_details ? token_error_details : "Token Error"}</p>
 			</div>
-		{/snippet}
-	{/if}
+		{:else if backendErrors.length > 0}
+			<div class="text-md text-red-950 bg-red-100 py-2 px-3 mt-lg-1 rounded-1">
+				<p>Error details:</p>
+				{#each backendErrors as error}
+					<p>{error.message}</p>
+					<p>{error.path.toString()}</p>
+				{/each}
+			</div>
+		{/if}
+	{/snippet}
 </Modal>

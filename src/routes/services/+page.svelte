@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { gsap } from "gsap";
 	import { Marquee } from "$lib/components/mq";
 	import ServiceImage from "$lib/components/slider/service/ServiceImage.svelte";
 	import Seo from "$lib/components/seo/SEO.svelte";
+	import { afterNavigate } from "$app/navigation";
 	const { data } = $props();
 	const services = $state(data.services);
 	const page_info = $state(data.page_info);
@@ -9,17 +11,29 @@
 	const media_url = $state(data.media_url);
 
 	let serviceRefs: ServiceImage[] = $state([]);
-
-	$effect(() => {
-		serviceRefs.map((serviceRef, index) => {
-			setTimeout(
-				() => {
-					if (serviceRef) {
-						serviceRef.animateText();
-					}
-				},
-				+((index + 1) * 0.15 * 1000).toFixed(2)
-			);
+	afterNavigate(() => {
+		gsap.utils.toArray(".service__item").forEach((emt) => {
+			gsap
+				.timeline()
+				.addLabel("start")
+				.from(emt as HTMLElement, {
+					scrollTrigger: {
+						trigger: emt as HTMLElement,
+						start: "top 90%",
+						toggleActions: "play none none none",
+						onEnter: (sct) => {
+							setTimeout(() => {
+								const ind = [...sct.trigger!.parentNode!.children].indexOf(sct.trigger!);
+								serviceRefs[ind].animateText();
+							}, 400);
+						},
+					},
+					y: 20,
+					opacity: 0,
+					duration: 0.4,
+					ease: "power1.out",
+					stagger: 0.5,
+				});
 		});
 	});
 </script>

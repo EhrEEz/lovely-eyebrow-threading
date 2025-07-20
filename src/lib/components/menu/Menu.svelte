@@ -21,7 +21,7 @@
 	});
 </script>
 
-<nav class="nav__card pt-36" class:active={view} data-lenis-prevent="true">
+<nav class="nav__card pt-36" class:active={view}>
 	<div class="container h-full">
 		<div
 			class="flex flex-col md:flex-row flex-grow items-start md:justify-stretch md:items-center w-full h-full h-100 order-1 md:order-0"

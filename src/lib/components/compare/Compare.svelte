@@ -108,7 +108,7 @@
 </script>
 
 <div
-	class="relative overflow-hidden"
+	class="relative overflow-hidden rounded-md"
 	data-ref-id={id}
 	onmousemove={handleMouseMove}
 	onmouseleave={resetPositions}
@@ -132,7 +132,7 @@
 		class="after-wrapper absolute left-0 top-0 overflow-hidden z-20"
 		style="width:var(--position-x);height:{height}px"
 	>
-		<div class="label__button absolute left-2 top-2 pointer-events-none z-30">
+		<div class="label__button absolute left-4 top-4 pointer-events-none z-30">
 			<span class="btn__text">After</span>
 		</div>
 		<img
@@ -158,13 +158,13 @@
 		aria-label="Drag to compare images"
 		tabindex="0"
 	></div>
-	<div class="label__button absolute right-2 top-2 pointer-events-none z-10">
+	<div class="label__button absolute right-4 top-4 pointer-events-none z-10">
 		<span class="btn__text">Before</span>
 	</div>
 
 	{#if tags.length > 0}
 		<div
-			class="tags__wrapper absolute bottom-2 inset-x-0 gap-2 flex items-center px-3 z-50"
+			class="tags__wrapper absolute bottom-4 inset-x-0 gap-2 flex items-center px-3 z-50"
 			onmouseover={pauseMovement}
 			onfocus={pauseMovement}
 			onmouseout={resumeMovement}

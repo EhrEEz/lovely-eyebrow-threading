@@ -39,16 +39,16 @@
 	}
 	.arrow_button {
 		--width: 8rem;
-		width: var(--width);
-		height: calc(3 * var(--width) / 4);
+		inline-size: var(--width);
+		block-size: calc(3 * var(--width) / 4);
 		border-radius: 100%;
 		backdrop-filter: blur(1rem);
 		background-color: hsl(316, 72%, 76%, 50%);
 		rotate: -45deg;
 		color: white;
 		position: relative;
-		will-change: scale;
-		transition: scale 0.2s ease-out;
+		will-change: scale, opacity, transform;
+		transition: all 0.2s ease-out;
 		@media screen and (max-width: 640px) {
 			--width: 5rem;
 		}
@@ -61,7 +61,7 @@
 		rotate: 45deg;
 
 		@media screen and (max-width: 640px) {
-			width: 2rem;
+			inline-size: 2rem;
 		}
 	}
 
