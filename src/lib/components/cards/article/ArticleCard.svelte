@@ -27,7 +27,7 @@
 </script>
 
 {#if href}
-	<a {href} class={cn(articleCardVariants({ size }), "flex", className)} {...restProps}>
+	<a {href} class={cn(articleCardVariants({ size }), "flex", className)} {...restProps} data-sveltekit-reload>
 		{@render children?.()}
 	</a>
 {:else}

@@ -2,6 +2,7 @@
 	import { gsap } from "gsap";
 	import { ScrollTrigger } from "gsap/ScrollTrigger";
 	import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+	import { ScrollSmoother } from "gsap/ScrollSmoother";
 	import { SplitText } from "gsap/SplitText";
 	import Button from "$lib/components/buttons/Button.svelte";
 	import * as Article from "$lib/components/cards/article";
@@ -16,6 +17,7 @@
 	import "swiper/swiper-bundle.css";
 	import Seo from "$lib/components/seo/SEO.svelte";
 	import { afterNavigate } from "$app/navigation";
+	import { getContext } from "svelte";
 	const { data } = $props();
 	const article = $derived(data.article);
 	const relatedArticles = $derived(article.related_articles.articles);
@@ -69,7 +71,7 @@
 	marked.use({ renderer: customRenderer });
 
 	$effect(() => {
-		gsap.registerPlugin(ScrollToPlugin, ScrollTrigger, SplitText);
+		gsap.registerPlugin(ScrollToPlugin, ScrollTrigger, SplitText, ScrollSmoother);
 		if (relatedArticlesEmt) {
 			_relatedArticlesSlider = new Swiper(relatedArticlesEmt, {
 				modules: [Navigation, Pagination, Autoplay],
@@ -83,6 +85,11 @@
 				},
 			});
 		}
+		const smoother: ScrollSmoother = getContext("smoother");
+		if (smoother) {
+			smoother.scrollTo(0);
+			smoother.scrollTrigger.refresh();
+		}
 	});
 
 	afterNavigate(() => {
@@ -94,13 +101,10 @@
 					toggleActions: "play none reverse none",
 					pin: ".stick-top",
 					end: "bottom top",
-					onToggle: () => {
-						ScrollTrigger.refresh();
-					},
 				},
 			});
 		}
-
+		const titleSplit = SplitText.create(".article__title", { type: "words, chars" });
 		const articleTimeline = gsap.timeline({
 			delay: 1,
 			scrollTrigger: {
@@ -112,12 +116,14 @@
 		articleTimeline
 			.addLabel("start")
 			.from(
-				".article__title",
+				titleSplit.chars,
 				{
-					opacity: 0,
 					translateY: "0.4em",
-					skewY: 3,
+					// transformOrigin: "50% 50% -0.5rem",
+					opacity: 0,
 					duration: 0.8,
+					ease: "power4.inOut",
+					stagger: 0.015,
 				},
 				"start"
 			)
@@ -212,6 +218,7 @@
 		page_title: article.title,
 	}}
 />
+
 <main>
 	<section class="pt-36 lg:pt-64 xl:py-72 articles__section">
 		<div class="container">
@@ -309,15 +316,16 @@
 						<p class="my-4 text-lg md:pe-16 appear-bottom">
 							{article.description}
 						</p>
-						<Button
-							class="appear-bottom"
-							onclick={() => {
-								gsap.to(window, {
-									duration: 0.6,
-									scrollTo: { y: "#contentTop", offsetY: 50 },
-								});
-							}}><span class="btn__text"> Jump to Content </span></Button
-						>
+						<div class="appear-bottom">
+							<Button
+								onclick={() => {
+									gsap.to(window, {
+										duration: 0.6,
+										scrollTo: { y: "#contentTop", offsetY: 50 },
+									});
+								}}><span class="btn__text"> Jump to Content </span></Button
+							>
+						</div>
 					</div>
 				</div>
 				<div class="blog__image overflow-hidden aspect-[4/3] rounded-lg mt-8 appear-top--delayed-xl">
@@ -442,9 +450,7 @@
 																{relatedArticle.description}
 															</p>
 														</Article.Body>
-														<Article.Link data-sveltekit-reload href={"/articles/" + relatedArticle.slug}
-															>Read Full Article</Article.Link
-														>
+														<Article.Link>Read Full Article</Article.Link>
 													</Article.Content>
 												</Article.Card>
 											</div>

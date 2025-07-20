@@ -76,7 +76,6 @@
 		};
 	});
 	async function handleLoadingComplete() {
-		console.log("here");
 		if (pendingNavigation) {
 			const target = pendingNavigation;
 			pendingNavigation = null;

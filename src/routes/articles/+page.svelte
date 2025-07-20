@@ -62,19 +62,18 @@
 				stagger: 0.015,
 				ease: "power4.inOut",
 			});
-			let emtCount = 0;
+			let emtCount = -1;
 			gsap.utils.toArray(".article__card").forEach((emt) => {
 				emtCount++;
 				gsap.from(emt as HTMLElement, {
 					scrollTrigger: {
 						trigger: emt as HTMLElement,
-						start: "top 90%",
+						start: "top bottom",
 						toggleActions: "play none none none",
 					},
 					y: 30,
 					opacity: 0,
 					duration: 1,
-					delay: 0.15 * emtCount,
 					ease: "power4.in",
 				});
 			});
