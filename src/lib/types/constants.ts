@@ -17,9 +17,9 @@ export const PRIMARY_LINK_ITEMS: LinkType[] = [
 		slug: "about-us",
 	},
 	{
-		name: "Blogs",
-		href: "/blogs",
-		slug: "blogs",
+		name: "Articles",
+		href: "/articles",
+		slug: "articles",
 	},
 	{
 		name: "Announcements",

@@ -99,7 +99,7 @@
 								{#if index === 0}
 									<Article.Card
 										size="lg"
-										href={`/blogs/` + article.slug}
+										href={`/articles/` + article.slug}
 										class="md:col-span-10 col-span-12 !flex-row md:col-start-2 article__card"
 									>
 										<Article.Image img={article.cover} class="w-1/2" />
@@ -116,11 +116,11 @@
 													{article.description}
 												</p>
 											</Article.Body>
-											<Article.Link href={`/blogs/` + article.slug}>Read Article</Article.Link>
+											<Article.Link href={`/articles/` + article.slug}>Read Article</Article.Link>
 										</Article.Content>
 									</Article.Card>
 								{:else}
-									<Article.Card href={`/blogs/` + article.slug} class="col-span-6 article__card">
+									<Article.Card href={`/articles/` + article.slug} class="col-span-6 article__card">
 										<Article.Image img={article.cover} />
 										<Article.Content>
 											<Article.Head>
@@ -135,7 +135,7 @@
 													{article.description}
 												</p>
 											</Article.Body>
-											<Article.Link href={"/blogs/" + article.slug}>Read Article</Article.Link>
+											<Article.Link href={"/articles/" + article.slug}>Read Article</Article.Link>
 										</Article.Content>
 									</Article.Card>
 								{/if}

@@ -427,7 +427,7 @@
 									<div class="swiper-wrapper">
 										{#each relatedArticles as relatedArticle}
 											<div class="swiper-slide">
-												<Article.Card size="sm" href={"/blogs/" + relatedArticle.slug}>
+												<Article.Card size="sm" href={"/articles/" + relatedArticle.slug}>
 													<Article.Image img={relatedArticle.cover} />
 													<Article.Content>
 														<Article.Head>
@@ -442,7 +442,7 @@
 																{relatedArticle.description}
 															</p>
 														</Article.Body>
-														<Article.Link data-sveltekit-reload href={"/blogs/" + relatedArticle.slug}
+														<Article.Link data-sveltekit-reload href={"/articles/" + relatedArticle.slug}
 															>Read Full Article</Article.Link
 														>
 													</Article.Content>

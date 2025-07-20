@@ -523,7 +523,7 @@
 						{#if index == 0}
 							<Article.Card
 								size="lg"
-								href={`/blogs/` + article.slug}
+								href={`/articles/` + article.slug}
 								class="md:col-span-10 col-span-12 !flex-row md:col-start-2 article__card"
 							>
 								<Article.Image img={article.cover} class="w-1/2" />
@@ -544,7 +544,7 @@
 								</Article.Content>
 							</Article.Card>
 						{:else}
-							<Article.Card href={`/blogs/` + article.slug} class="col-span-6 article__card">
+							<Article.Card href={`/articles/` + article.slug} class="col-span-6 article__card">
 								<Article.Image img={article.cover} />
 								<Article.Content>
 									<Article.Head>
@@ -566,7 +566,7 @@
 					{/each}
 				</div>
 				<div class="flex justify-center mt-16 md:mt-24">
-					<Button variant="link" href="/blogs">View All BLogs</Button>
+					<Button variant="link" href="/articles">View All Articles</Button>
 				</div>
 			</div>
 		</section>
